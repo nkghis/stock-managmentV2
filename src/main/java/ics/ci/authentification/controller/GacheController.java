@@ -39,6 +39,12 @@ public class GacheController {
     @Autowired
     private StockRepository stockRepository;
 
+    @Autowired
+    private EntreposageRepository entreposageRepository;
+
+    @Autowired
+    private EnlevementController enlevementController;
+
     //Affiche un formulaire de Gache.
     @RequestMapping(value = "/admin/gaches/{id}", method = RequestMethod.GET)
     public String newGache(@PathVariable Long id, Model model) {
@@ -84,32 +90,66 @@ public class GacheController {
         gache.setUser(user);
         gacheRepository.save(gache);
 
-        /*//Mise à jour de la table stock.
 
-        Produit produit = enlevement.getProduit();
-        Projet projet = enlevement.getProjet();
-        Entrepot entrepot = enlevement.getEntreposage().getEntrepot();
+        Entreposage entreposage = enlevement.getEntreposage();
 
-        //Recherche dans la table stock en fonction de produit, projet, entrepot
-        Stock stock = stockRepository.findByProduitAndAndProjetAndEntrepot(produit, projet, entrepot);
+        int qteVerseFrom = gache.getGacheQte().intValue();
+        int qteRestanteForm = entreposage.getQteRestante();
 
-        //Get quantite restante stock
-        int quantite = stock.getStockQuantite() - gache.getGacheQte();
 
-        //Persistence de la table stock
+        int qteR = qteRestanteForm - qteVerseFrom;
+
+        if (qteR == 0) {
+            entreposage.setEstLivrable(Boolean.valueOf(false));
+        } else {
+            entreposage.setEstLivrable(Boolean.valueOf(true));
+        }
+
+        entreposage.setQteRestante(qteR);
+        entreposageRepository.save(entreposage);
+
+        /* Creation d'un nouvel enlevement du au gache */
+
+        Enlevement en = new Enlevement();
+        en.setOperationReference(enlevementController.getReference());
+        en.setOperationQte(gache.getGacheQte().intValue());
+        en.setEnlevementDispo(gache.getGacheQte());
+        en.setOperation_date(date);
+        en.setUser(user);
+        en.setEntreposage(entreposage);
+        en.setEstGache(Boolean.valueOf(false));
+        en.setEstRetour(Boolean.valueOf(false));
+        en.setGache(Integer.valueOf(0));
+        en.setEstDisponible(true);
+        en.setRessource(enlevement.getRessource());
+        en.setMotif(enlevement.getMotif());
+        //en.setProduit(enlevement.getProduit());
+        en.setProjet(enlevement.getProjet());
+        enlevementRepository.save(en);
+
+
+        /*Mise à jour de la gache*/
+
+        Projet projet = entreposage.getReception().getProjet();
+        Entrepot entrepot = entreposage.getEntrepot();
+
+
+        Stock stock = stockRepository.findByProjetAndEntrepot(projet, entrepot);
+        int quantite = stock.getStockQuantite() - gache.getGacheQte().intValue();
         stock.setUser(user);
         stock.setStockDate(date);
         stock.setStockQuantite(quantite);
-        stockRepository.save(stock);*/
-
-        //Mise a jour du champs "est_gache" de la table "enlevement" qui hertite de la table "operation".
-
-        enlevement.setEstGache(true);
+        this.stockRepository.save(stock);
+        enlevement.setEstGache(Boolean.valueOf(true));
         enlevementRepository.save(enlevement);
 
+        String mes = "Attribution de gache éffectée avec succès & Creation de l'enlevement N° : " + en.getOperationReference();
+
+
+
         //Notification et redirection
-        redirectAttributes.addFlashAttribute("messagegache","Attribution de gache éffectée avec succès");
-        return "redirect:/admin/receptions/new";
+        redirectAttributes.addFlashAttribute("messagegache", mes);
+        return "redirect:/admin/livraisons";
     }
 
     //Liste des stock livrer en Json
@@ -119,4 +159,16 @@ public class GacheController {
 
         return venlevementGacheRepository.findAll();
     }
+
+
+
+    @RequestMapping(value = {"/admin/gaches/pas/{id}"}, method = {RequestMethod.GET})
+      public String pasGache(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
+            Enlevement enlevement = (Enlevement)this.enlevementRepository.getOne(id);
+            enlevement.setEstGache(Boolean.valueOf(true));
+            this.enlevementRepository.save(enlevement);
+            redirectAttributes.addFlashAttribute("messagegache", "Pas de gache éffectée avec succès");
+            return "redirect:/admin/livraisons";
+
+          }
 }

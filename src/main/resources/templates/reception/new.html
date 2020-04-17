@@ -124,7 +124,7 @@
 
                     <div class="col-md-6">
 
-                        <input id="quantite" type="number" min="1" class="form-control" th:field="${mareception.operation_qte}" required  autofocus>
+                        <input id="quantite" type="number" min="1" class="form-control" th:field="${mareception.operation_qte}" required onkeyup="if(this.value<0){this.value= this.value * -1}"  autofocus>
                         <!--<span th:if="${#fields.hasErrors('projet_nom')}" th:errors="*{projet_nom}"  th:class="help-block"></span>-->
                     </div>
                 </div>

@@ -65,7 +65,7 @@ public class RetourController {
         String d = request.getParameter("enlevement");
 
         //Parse String to Long
-        Long enlevementId = Long.parseLong(d);
+        Long enlevementId = Long.valueOf(Long.parseLong(d));
 
         //Get enlevement
         Enlevement enlevement = enlevementRepository.getOne(enlevementId);
@@ -118,4 +118,14 @@ public class RetourController {
 
         return venlevementRetourRepository.findAll();
     }
+
+
+    @RequestMapping(value = {"/admin/retours/pas/{id}"}, method = {RequestMethod.GET})
+    public String pasRetour(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
+        Enlevement enlevement = (Enlevement)this.enlevementRepository.getOne(id);
+        enlevement.setEstRetour(Boolean.valueOf(true));
+        this.enlevementRepository.save(enlevement);
+        redirectAttributes.addFlashAttribute("messageretour", "Pas du retour éffectée avec succès");
+        return "redirect:/admin/livraisons";
+     }
 }

@@ -31,6 +31,18 @@
 
             <input name="enlevement" th:value="${enlevement.operationId}" type="hidden"/>
 
+            <!-- Disponibilité retour Form Input -->
+            <div  class="form-group row">
+                <label for="disponibilite" class="col-sm-4 col-form-label text-md-right"><strong>Disponibilité retour</strong></label>
+
+                <div class="col-md-6">
+
+                    <input id="disponibilite" type="number" min="1" class="form-control" th:field="${enlevement.enlevementDispo}" required readonly>
+                    <!--<span th:if="${#fields.hasErrors('projet_nom')}" th:errors="*{projet_nom}"  th:class="help-block"></span>-->
+
+                </div>
+            </div>
+
 
             <!-- Type de gache  select -->
             <div class="form-group row">
@@ -51,7 +63,7 @@
 
                 <div class="col-md-6">
 
-                    <input id="quantitegache" type="number" min="1" class="form-control" th:field="${magache.gacheQte}" required  autofocus>
+                    <input id="quantitegache" type="number" min="1" class="form-control" th:field="${magache.gacheQte}" required onkeyup="if(this.value<0){this.value= this.value * -1}"  autofocus>
                     <!--<span th:if="${#fields.hasErrors('projet_nom')}" th:errors="*{projet_nom}"  th:class="help-block"></span>-->
                     <div id="msg"></div>
                 </div>
@@ -90,6 +102,43 @@
 
 <!-- Include SCRIPT block -->
 <th:block th:include="/main/layout/block_script"></th:block>
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        //Action Java script lorsque le champ quantité perd le focus.
+        $("#quantitegache").on("blur", function(e) {
+
+            //Initialisation des balise
+            //Cacher le balise
+            $('#btn').hide();
+            $('#msg').hide();
+
+            //Declaration des variable
+            var qte = $('#quantitegache').val();
+            var dispo = $('#disponibilite').val();
+
+            if ($('#quantitegache').val() == null || $('#quantitegache').val() == "" || $('#quantitegache').val() == 0  ) {
+                $('#msg').show();
+                $("#msg").html("Veuillez renseigner le champ. Le champ doit etre supérier à 1").css("color", "red");
+            }
+
+            else{
+                //Conversion en entier puis test
+                if (parseInt(dispo) >= parseInt(qte)) {
+                    //Affichage
+                    $('#btn').show();
+                }
+                else{
+                    //Affichage de message d'erreur & masquage du bouton.
+                    $('#msg').show();
+                    $("#msg").html("Désolé la quantité ne doit pas exceder la disponibilité").css("color", "red");
+                    $('#btn').hide();
+                }
+
+            }
+        });
+    });
+</script>
 
 </body>
 </html>

@@ -26,8 +26,8 @@ public class VentreposageTrueLivrable {
     @Column(name = "entrepot_nom")
     private String entrepotNom;
 
-    @Column(name = "produit_nom")
-    private String produitNom;
+   /* @Column(name = "produit_nom")
+    private String produitNom;*/
 
     @Column(name = "projet_nom")
     private String projetNom;
@@ -85,13 +85,13 @@ public class VentreposageTrueLivrable {
         this.entrepotNom = entrepotNom;
     }
 
-    public String getProduitNom() {
+   /* public String getProduitNom() {
         return produitNom;
     }
 
     public void setProduitNom(String produitNom) {
         this.produitNom = produitNom;
-    }
+    }*/
 
     public String getProjetNom() {
         return projetNom;

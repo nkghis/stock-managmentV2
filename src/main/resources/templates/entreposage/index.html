@@ -12,6 +12,13 @@
     <!-- Include CSS block -->
     <th:block th:include="/main/layout/block_css"></th:block>
 
+    <style>
+        td
+        {
+            text-align: center;
+        }
+    </style>
+
 </head>
 <body>
 
@@ -50,7 +57,7 @@
                         <th class="text-center">Quantité</th>
                         <th class="text-center">Disponibilité</th>
                         <th class="text-center">Projet</th>
-                        <th class="text-center">Produit</th>
+                        <!--<th class="text-center">Produit</th>-->
                         <th class="text-center">Date</th>
                         <th class="text-center">Action</th>
                     </tr>
@@ -63,7 +70,7 @@
                     <th class="text-center">Quantité</th>
                     <th class="text-center">Disponibilité</th>
                     <th class="text-center">Projet</th>
-                    <th class="text-center">Produit</th>
+                    <!--<th class="text-center">Produit</th>-->
                     <th class="text-center">Date</th>
                     <th class="text-center">Action</th>
                     </tfoot>
@@ -136,7 +143,7 @@
                 { "mData": "qteOperation" },
                 { "mData": "disponibilite" },
                 { "mData": "projetNom" },
-                { "mData": "produitNom" },
+              /*  { "mData": "produitNom" },*/
                 {
                     "mData": "operationDate" ,
                     "mRender": function ( data, type, full ) {

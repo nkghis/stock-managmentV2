@@ -21,6 +21,8 @@ public class AuthentificationApplication {
 
 		ApplicationContext ctx = SpringApplication.run(AuthentificationApplication.class, args);
 
+
+
 /*		String p = "123";
 		String password = EncrytedPasswordUtils.encrytePassword(p);
 
@@ -162,6 +164,8 @@ public class AuthentificationApplication {
 		typegacheRepository.findAll().forEach((typegache -> System.out.println(typegache.getTypegacheNom())));
 		System.out.println("Type de gache ajoutés avec succes");
 		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
+
 
 		//</editor-fold>*/
 		//<editor-fold desc = Heritage>

@@ -11,6 +11,13 @@
 
     <!-- Include CSS block -->
     <th:block th:include="/main/layout/block_css"></th:block>
+    <style>
+        td
+        {
+            text-align: center;
+        }
+    </style>
+
 
 </head>
 <body>
@@ -43,24 +50,24 @@
             <thead>
             <tr>
                 <!--<th></th>-->
-                <th>Id</th>
-                <th>Client</th>
-                <th>Projet</th>
-                <th>Produit</th>
-                <th>Entrepot</th>
-                <th>Quantité</th>
+                <th class="text-center">Id</th>
+                <th class="text-center">Client</th>
+                <th class="text-center">Projet</th>
+             <!--   <th>Produit</th>-->
+                <th class="text-center">Entrepot</th>
+                <th class="text-center">Quantité</th>
 
             </tr>
             </thead>
 
             <tfoot>
             <!--<th></th>-->
-            <th>Id</th>
-            <th>Client</th>
-            <th>Projet</th>
-            <th>Produit</th>
-            <th>Entrepot</th>
-            <th >Quantité</th>
+            <th class="text-center">Id</th>
+            <th class="text-center">Client</th>
+            <th class="text-center">Projet</th>
+           <!-- <th>Produit</th>-->
+            <th class="text-center">Entrepot</th>
+            <th class="text-center" >Quantité</th>
             </tfoot>
         </table>
     </div>
@@ -212,7 +219,7 @@
                 { "mData": "stockId"},
                 { "mData": "clientNom" },
                 { "mData": "projetNom" },
-                { "mData": "produitNom" },
+              /*  { "mData": "produitNom" },*/
                 { "mData": "entrepotNom" },
                 { "mData": "stockQuantite" },
 

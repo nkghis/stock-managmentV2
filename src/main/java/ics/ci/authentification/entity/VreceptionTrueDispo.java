@@ -38,8 +38,8 @@ public class VreceptionTrueDispo {
     @Column(name = "fournisseur_nom")
     private String fournisseurNom;
 
-    @Column(name = "produit_nom")
-    private String produitNom;
+   /* @Column(name = "produit_nom")
+    private String produitNom;*/
 
     @Column(name = "ressource_nom")
     private String ressourceNom;
@@ -138,13 +138,13 @@ public class VreceptionTrueDispo {
         this.fournisseurNom = fournisseurNom;
     }
 
-    public String getProduitNom() {
+   /* public String getProduitNom() {
         return produitNom;
     }
 
     public void setProduitNom(String produitNom) {
         this.produitNom = produitNom;
-    }
+    }*/
 
     public String getRessourceNom() {
         return ressourceNom;

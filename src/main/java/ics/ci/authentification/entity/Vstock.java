@@ -22,8 +22,8 @@ public class Vstock {
     @Column(name = "entrepot_nom")
     private String entrepotNom;
 
-    @Column(name = "produit_nom")
-    private String produitNom;
+    /*@Column(name = "produit_nom")
+    private String produitNom;*/
 
     @Column(name = "stock_quantite")
     private  Integer stockQuantite;
@@ -64,13 +64,13 @@ public class Vstock {
         this.entrepotNom = entrepotNom;
     }
 
-    public String getProduitNom() {
+   /* public String getProduitNom() {
         return produitNom;
     }
 
     public void setProduitNom(String produitNom) {
         this.produitNom = produitNom;
-    }
+    }*/
 
     public Integer getStockQuantite() {
         return stockQuantite;

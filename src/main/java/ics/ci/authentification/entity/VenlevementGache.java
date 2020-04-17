@@ -26,8 +26,8 @@ public class VenlevementGache {
     @Column(name = "operation_date")
     private LocalDateTime operationDate;
 
-    @Column(name = "produit_nom")
-    private String produitNom;
+    /*@Column(name = "produit_nom")
+    private String produitNom;*/
 
     @Column(name = "ressource_nom")
     private String ressourceNom;
@@ -82,13 +82,13 @@ public class VenlevementGache {
         this.operationDate = operationDate;
     }
 
-    public String getProduitNom() {
+   /* public String getProduitNom() {
         return produitNom;
     }
 
     public void setProduitNom(String produitNom) {
         this.produitNom = produitNom;
-    }
+    }*/
 
     public String getRessourceNom() {
         return ressourceNom;

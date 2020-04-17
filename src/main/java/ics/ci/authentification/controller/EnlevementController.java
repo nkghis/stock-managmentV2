@@ -179,7 +179,7 @@ public class EnlevementController {
 
 
     //Fonction qui formate et retourne la reference
-    private String getReference(){
+    public String getReference(){
 
         Enlevement lastEnlevement = enlevementRepository.findTopByOrderByOperationIdDesc();
         LocalDate date = LocalDate.now();
