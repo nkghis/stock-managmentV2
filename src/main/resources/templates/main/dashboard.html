@@ -10,14 +10,79 @@
     <title th:utext="${title}"></title>
 
     <!-- Include CSS block -->
-    <th:block th:include="/main/layout/block_css"></th:block>
+   <!-- <th:block th:include="/main/layout/block_css"></th:block>-->
+
+    <!-- Fonts -->
+    <link rel = "stylesheet" type = "text/css" href = "../../static/css/font-google/font.css" th:href="@{/css/font-google/font.css}"/>
+    <link rel = "stylesheet" type = "text/css" href = "../../static/vendor/@fortawesome/fontawesome-free/css/all.min.css" th:href="@{/vendor/@fortawesome/fontawesome-free/css/all.min.css}"/>
+    <!--<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">-->
+
+    <!-- Icons -->
+    <!-- <link href="./assets/vendor/nucleo/css/nucleo.css" rel="stylesheet">-->
+    <link rel = "stylesheet" type = "text/css" href = "../../static/css/nucleo/css/nucleo.css" th:href="@{/css/nucleo/css/nucleo.css}"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- <link href="./assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">-->
+
+    <!-- My CSS -->
+    <!--<link type="text/css" href="./assets/css/argon.css?v=1.0.0" rel="stylesheet">-->
+    <link rel = "stylesheet" type = "text/css" href = "../../static/css/mystyle/my.css" th:href="@{/css/mystyle/my.css}"/>
+
+    <!--Datatable + button-->
+    <!--<link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">-->
+
+    <link rel = "stylesheet" type = "text/css" href = "../../static/vendor/DataTables/DataTables/DataTables-1.10.20/css/jquery.dataTables.min.css" th:href="@{/vendor/DataTables/DataTables/DataTables-1.10.20/css/jquery.dataTables.min.css}"/>
+    <!--<link href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css" rel="stylesheet">-->
+    <link rel = "stylesheet" type = "text/css" href = "../../static/vendor/DataTables/DataTables/Buttons-1.6.1/css/buttons.dataTables.min.css" th:href="@{/vendor/DataTables/DataTables/Buttons-1.6.1/css/buttons.dataTables.min.css}"/>
+
     <style>
+        .nav-tabs {
+            border-bottom:none;
+        }
+
+
+
+        .nav-tabs .nav-link.active {
+            background-color: #3be283;
+            border-bottom:#e2e2e2;
+            font-weight: bold;
+        }
+
+        .tab-pane.active .tab-pane-header {
+            padding:2rem;
+            background-color:#e2e2e2;
+            border-top-right-radius: .5rem;
+            border-top-left-radius: .5rem;
+            margin-bottom:1rem;
+        }
+
+        .tab-pane:first-child .tab-pane-header {
+            border-top-left-radius: 0;
+        }
+
+
         td
         {
             text-align: center;
         }
-    </style>
 
+        /*pour espace ente le form et le panel*/
+        .form-inline > * {
+            margin:10px 10px;
+        }
+
+        /*pour espace ente le form et le panel*/
+        .form-inline > * {
+            padding:10px 10px;
+        }
+
+        /*form
+        {
+            display: inline-block;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }*/
+    </style>
 
 </head>
 <body>
@@ -26,163 +91,234 @@
 <th:block th:include="/main/_menu"></th:block>
 
 <br>
-<!-- page content -->
-<!--<div class="container"><h1>je suis content</h1></div>
-<div class="card container">
-    <div class="card-header">
-        Featured
-    </div>
 
-    &lt;!&ndash;If role = ROLE_ADMIN display div&ndash;&gt;
-    <div sec:authorize="hasRole('ROLE_ADMIN')" class="card-body">
-        <h5 class="card-title">Special title treatment</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <h3>Welcome : <span th:utext="${#request.userPrincipal.name}"></span></h3>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-    </div>
-</div>-->
 
 <div class="card mx-auto" style="width: 78rem">
 
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <nav>
+                    <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="nav-stock-tab" data-toggle="tab" href="#nav-stock" role="tab" aria-controls="nav-stock" aria-selected="true">STOCKS</a>
+                        <a class="nav-item nav-link" id="nav-operation-tab" data-toggle="tab" href="#nav-operation" role="tab" aria-controls="nav-operation" aria-selected="false">OPERATIONS</a>
+                        <a class="nav-item nav-link" id="nav-mouvement-tab" data-toggle="tab" href="#nav-mouvement" role="tab" aria-controls="nav-mouvement" aria-selected="false">MOUVEMENTS</a>
+                    </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-stock" role="tabpanel" aria-labelledby="nav-stock-tab">
+                        <div class="table-responsive">
+                            <table class="table table-sm display" id="index-stock" style="width:100%">
+                               <!-- <thead>
+                                <tr>
 
-    <div class="table-responsive">
-        <table class="table table-sm display" id="index-stock" style="width:100%">
-            <thead>
-            <tr>
-                <!--<th></th>-->
-                <th class="text-center">Id</th>
-                <th class="text-center">Client</th>
-                <th class="text-center">Projet</th>
-             <!--   <th>Produit</th>-->
-                <th class="text-center">Entrepot</th>
-                <th class="text-center">Quantité</th>
+                                    <th class="text-center">Id</th>
+                                    <th class="text-center">Client</th>
+                                    <th class="text-center">Projet</th>
+                                    <th class="text-center">Entrepot</th>
+                                    <th class="text-center">Quantité</th>
 
-            </tr>
-            </thead>
+                                </tr>
+                                </thead>
 
-            <tfoot>
-            <!--<th></th>-->
-            <th class="text-center">Id</th>
-            <th class="text-center">Client</th>
-            <th class="text-center">Projet</th>
-           <!-- <th>Produit</th>-->
-            <th class="text-center">Entrepot</th>
-            <th class="text-center" >Quantité</th>
-            </tfoot>
-        </table>
-    </div>
-    <!--<div class="row">
-    <div class="col-md-12">
-        <nav>
-            <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Stock Livrable</a>
-                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Attribuer Gache</a>
-                &lt;!&ndash;  <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Project Tab 3</a>&ndash;&gt;
+                                <tfoot>
+
+                                <th class="text-center">Id</th>
+                                <th class="text-center">Client</th>
+                                <th class="text-center">Projet</th>
+                                <th class="text-center">Entrepot</th>
+                                <th class="text-center" >Quantité</th>
+                                </tfoot>-->
+
+                                <thead>
+                                <tr>
+
+                                    <th class="text-center">Id</th>
+                                    <th class="text-center">Client</th>
+                                    <th class="text-center">Projet</th>
+                                    <th class="text-center">Entrepot</th>
+                                    <th class="text-center">Quantité</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each = "c:${stocks}">
+                                    <td th:text = "${c.stockId}" class="text-center"></td>
+                                    <td th:text = "${c.clientNom}" class="text-center"></td>
+                                    <td th:text = "${c.projetNom}" class="text-center"></td>
+                                    <td th:text = "${c.entrepotNom}" class="text-center"></td>
+                                    <td th:text = "${c.stockQuantite}" class="text-center"></td>
+
+
+
+                                </tr>
+                                </tbody>
+                                <tfoot>
+
+                                <th class="text-center">Id</th>
+                                <th class="text-center">Client</th>
+                                <th class="text-center">Projet</th>
+                                <th class="text-center">Entrepot</th>
+                                <th class="text-center" >Quantité</th>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="nav-operation" role="tabpanel" aria-labelledby="nav-operation-tab">
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-8">
+                                <form class="form-inline" th:action="@{/admin/dashboard/operation}" th:object="${search}"  method="post">
+                                    <div class="form-group">
+                                        <label th:for="debut"><strong>Date de début :</strong> </label>
+                                        <input type="date" class="form-control-sm" th:field="*{debut}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label th:for="fin"> <strong>Date de fin :</strong>  </label>
+                                        <input type="date" class="form-control-sm" th:field="*{fin}" required>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-sm btn-danger"><strong>Rechercher</strong></button>
+
+                                </form>
+                            </div>
+                            <div class="col-md-2"></div>
+
+                        </div>
+
+                      <!--  <div class="table-responsive">
+                            <table class="table  table-sm display" id="index-gache" style="width:100%">
+                                <thead class="thead-dark">
+                                <tr>
+                                    &lt;!&ndash;<th></th>&ndash;&gt;
+                                    <th class="text-center">Id</th>
+                                    <th class="text-center">Ref</th>
+                                    <th class="text-center">Qte Livrée</th>
+                                    <th class="text-center">Projet</th>
+                                    &lt;!&ndash;   <th class="text-center">Produit</th>&ndash;&gt;
+                                    <th class="text-center">Motif</th>
+                                    <th class="text-center">Ressource</th>
+                                    <th class="text-center">Date</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                                </thead>
+
+                                <tfoot>
+                                &lt;!&ndash;<th></th>&ndash;&gt;
+                                <th class="text-center">Id</th>
+                                <th class="text-center">Ref</th>
+                                <th class="text-center">Qte Livrée</th>
+                                <th class="text-center">Projet</th>
+                                &lt;!&ndash;<th class="text-center">Produit</th>&ndash;&gt;
+                                <th class="text-center">Motif</th>
+                                <th class="text-center">Ressource</th>
+                                <th class="text-center">Date</th>
+                                <th class="text-center">Action</th>
+                                </tfoot>
+                            </table>
+                        </div>-->
+                    </div>
+                    <div class="tab-pane fade" id="nav-mouvement" role="tabpanel" aria-labelledby="nav-mouvement-tab">
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-8">
+                                <form class="form-inline" th:action="@{/admin/dashboard/mouvement}" th:object="${search}"  method="post">
+                                    <div class="form-group">
+                                        <label th:for="debut"><strong>Date de début :</strong> </label>
+                                        <input type="date" class="form-control-sm" th:field="*{debut}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label th:for="fin"> <strong>Date de fin :</strong>  </label>
+                                        <input type="date" class="form-control-sm" th:field="*{fin}" required>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-sm btn-danger"><strong>Rechercher</strong></button>
+
+                                </form>
+                            </div>
+                            <div class="col-md-2"></div>
+
+                        </div>
+                     <!--   <div class="table-responsive">
+                            <table class="table table-sm display" id="index-retour" style="width:100%">
+                                <thead class="thead-light">
+                                <tr>
+
+                                    <th class="text-center">Client</th>
+                                    <th class="text-center">Projet</th>
+                                    <th class="text-center">Produit</th>
+                                    <th class="text-center">Emétteur</th>
+                                    <th class="text-center">Stock initial</th>
+                                    <th class="text-center">Entrée</th>
+                                    <th class="text-center">Production</th>
+                                    <th class="text-center">Rebut</th>
+                                    <th class="text-center">Stock final</th>
+                                    <th class="text-center">Entrepôt</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>UBA CIV</td>
+                                        <td>CREDIT ACCESS</td>
+                                        <td>Carte dual interface</td>
+                                        <td>VISA</td>
+                                        <td>5000</td>
+                                        <td>0</td>
+                                        <td>1000</td>
+                                        <td>500</td>
+                                        <td>3500</td>
+                                        <td>PERSO</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>NNI</td>
+                                        <td>FONCTIONNAIRES</td>
+                                        <td>Carte contact</td>
+                                        <td>GIM</td>
+                                        <td>1000</td>
+                                        <td>0</td>
+                                        <td>500</td>
+                                        <td>50</td>
+                                        <td>450</td>
+                                        <td>PERSO</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                <th class="text-center">Client</th>
+                                <th class="text-center">Projet</th>
+                                <th class="text-center">Produit</th>
+                                <th class="text-center">Emétteur</th>
+                                <th class="text-center">Stock initial</th>
+                                <th class="text-center">Entrée</th>
+                                <th class="text-center">Production</th>
+                                <th class="text-center">Rebut</th>
+                                <th class="text-center">Stock final</th>
+                                <th class="text-center">Entrepôt</th>
+                                </tfoot>
+                            </table>
+                        </div>-->
+                    </div>
+
+                </div>
             </div>
-        </nav>
-        <div class="tab-content" id="nav-tabContent">
-            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                <table class="table" cellspacing="0">
-                    <thead>
-                    <tr>
-                        <th>Project Name</th>
-                        <th>Employer</th>
-                        <th>Awards</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td><a href="#">Work 1</a></td>
-                        <td>Doe</td>
-                        <td>john@example.com</td>
-                    </tr>
-                    <tr>
-                        <td><a href="#">Work 2</a></td>
-                        <td>Moe</td>
-                        <td>mary@example.com</td>
-                    </tr>
-                    <tr>
-                        <td><a href="#">Work 3</a></td>
-                        <td>Dooley</td>
-                        <td>july@example.com</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                <table class="table" cellspacing="0">
-                    <thead>
-                    <tr>
-                        <th>Project Name</th>
-                        <th>Employer</th>
-                        <th>Time</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td><a href="#">Work 1</a></td>
-                        <td>Doe</td>
-                        <td>john@example.com</td>
-                    </tr>
-                    <tr>
-                        <td><a href="#">Work 2</a></td>
-                        <td>Moe</td>
-                        <td>mary@example.com</td>
-                    </tr>
-                    <tr>
-                        <td><a href="#">Work 3</a></td>
-                        <td>GHISLAIN</td>
-                        <td>july@example.com</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            &lt;!&ndash;  <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-                  <table class="table" cellspacing="0">
-                      <thead>
-                      <tr>
-                          <th>Contest Name</th>
-                          <th>Date</th>
-                          <th>Award Position</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      <tr>
-                          <td><a href="#">Work 1</a></td>
-                          <td>Doe</td>
-                          <td>john@example.com</td>
-                      </tr>
-                      <tr>
-                          <td><a href="#">Work 2</a></td>
-                          <td>Moe</td>
-                          <td>mary@example.com</td>
-                      </tr>
-                      <tr>
-                          <td><a href="#">Work 3</a></td>
-                          <td>Dooley</td>
-                          <td>july@example.com</td>
-                      </tr>
-                      </tbody>
-                  </table>
-              </div>&ndash;&gt;
         </div>
     </div>
-</div>-->
+
+
+
+
+
+
+
+    <!-- block content -->
+
+
+
     <!-- block content -->
 
 </div>
 
-<!--<div class="card container">
-    <div class="card-header">
-        Featured
-    </div>
-    <div class="container">
 
-    </div>
-
-    </div>
-</div>
-<section id="tabs" class="project-tab">-->
 
 </section>
 <!-- page content -->
@@ -193,19 +329,48 @@
 
 
 
+
 <br/><br/>
 
 
 
 <!-- Include SCRIPT block -->
-<th:block th:include="/main/layout/block_script"></th:block>
+<!--<th:block th:include="/main/layout/block_script"></th:block>-->
+
+
+
+<!--<script src="https://code.jquery.com/jquery-3.3.1.js"></script>-->
+<script src="../../static/vendor/DataTables/DataTables/jQuery-3.3.1/jquery-3.3.1.js" th:src="@{vendor/DataTables/DataTables/jQuery-3.3.1/jquery-3.3.1.js}"></script>
+
+
+<!-- Script Bootstrap -->
+<script src="../../static/vendor/bootstrap/dist/js/bootstrap.bundle.min.js" th:src="@{/vendor/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
+
+<!--<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>-->
+<script src="../../static/vendor/DataTables/DataTables/DataTables-1.10.20/js/jquery.dataTables.min.js" th:src="@{/vendor/DataTables/DataTables/DataTables-1.10.20/js/jquery.dataTables.min.js}"></script>
+
+<!--<script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>-->
+<script src="../../static/vendor/DataTables/DataTables/Buttons-1.6.1/js/dataTables.buttons.min.js" th:src="@{/vendor/DataTables/DataTables/Buttons-1.6.1/js/dataTables.buttons.min.js}"></script>
+
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>-->
+<script src="../../static/vendor/DataTables/DataTables/JSZip-2.5.0/jszip.min.js" th:src="@{/vendor/DataTables/DataTables/JSZip-2.5.0/jszip.min.js}"></script>
+
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>-->
+<script src="../../static/vendor/DataTables/DataTables/pdfmake-0.1.36/pdfmake.min.js" th:src="@{/vendor/DataTables/DataTables/pdfmake-0.1.36/pdfmake.min.js}"></script>
+
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>-->
+<script src="../../static/vendor/DataTables/DataTables/pdfmake-0.1.36/vfs_fonts.js" th:src="@{/vendor/DataTables/DataTables/pdfmake-0.1.36/vfs_fonts.js}"></script>
+
+<!--<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>-->
+<script src="../../static/vendor/DataTables/DataTables/Buttons-1.6.1/js/buttons.html5.min.js" th:src="@{/vendor/DataTables/DataTables/Buttons-1.6.1/js/buttons.html5.min.js}"></script>
+
 <script>
-    $(document).ready( function () {
+    /*$(document).ready( function () {
         var table = $('#index-stock').DataTable({
 
             "sAjaxSource": "/stocks",
             "sAjaxDataProp": "",
-          /*  "order": [ 0, "desc" ],*/
+          /!*  "order": [ 0, "desc" ],*!/
             "aoColumnDefs": [
                 {
                     "bSearchable": false,
@@ -219,11 +384,51 @@
                 { "mData": "stockId"},
                 { "mData": "clientNom" },
                 { "mData": "projetNom" },
-              /*  { "mData": "produitNom" },*/
+              /!*  { "mData": "produitNom" },*!/
                 { "mData": "entrepotNom" },
                 { "mData": "stockQuantite" },
 
             ],
+
+
+            language: {
+                /!*url: '//cdn.datatables.net/plug-ins/1.10.16/i18n/French.json'*!/
+                sProcessing: "Traitement en cours...",
+                sSearch: "Rechercher&nbsp;:",
+                sLengthMenu: "Afficher _MENU_ &eacute;l&eacute;ments",
+                sInfo: "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                sInfoEmpty: "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+                sInfoFiltered: "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                sInfoPostFix: "",
+                sLoadingRecords: "Chargement en cours...",
+                sZeroRecords: "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                sEmptyTable: "Aucune donn&eacute;e disponible dans le tableau",
+                oPaginate: {
+                    sFirst: "Premier",
+                    sPrevious: "Pr&eacute;c&eacute;dent",
+                    sNext: "Suivant",
+                    sLast: "Dernier"
+                },
+                oAria: {
+                    sSortAscending: ": activer pour trier la colonne par ordre croissant",
+                    sSortDescending: ": activer pour trier la colonne par ordre d&eacute;croissant"
+                }
+            },
+
+            dom: 'Bfrtip',
+            buttons: [
+                'copyHtml5',
+                'excelHtml5',
+                'csvHtml5',
+                'pdfHtml5'
+            ]
+
+
+        })
+    });*/
+
+    $(document).ready( function () {
+        /*var table =*/ $('#index-stock').DataTable({
 
 
             language: {
@@ -249,6 +454,14 @@
                     sSortDescending: ": activer pour trier la colonne par ordre d&eacute;croissant"
                 }
             },
+
+            dom: 'Bfrtip',
+            buttons: [
+               /* 'copyHtml5',*/
+                'excelHtml5',
+               /* 'csvHtml5',
+                'pdfHtml5'*/
+            ]
 
 
         })

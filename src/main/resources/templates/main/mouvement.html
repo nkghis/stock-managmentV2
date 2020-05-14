@@ -1,0 +1,263 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Authentification Bootstrap 4 Spring Boot.">
+    <meta name="author" content="Ghislain Nkagou">
+    <title th:utext="${title}"></title>
+
+    <!-- Include CSS block -->
+    <!-- <th:block th:include="/main/layout/block_css"></th:block>-->
+
+    <!-- Fonts -->
+    <link rel = "stylesheet" type = "text/css" href = "../../static/css/font-google/font.css" th:href="@{/css/font-google/font.css}"/>
+    <link rel = "stylesheet" type = "text/css" href = "../../static/vendor/@fortawesome/fontawesome-free/css/all.min.css" th:href="@{/vendor/@fortawesome/fontawesome-free/css/all.min.css}"/>
+    <!--<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">-->
+
+    <!-- Icons -->
+    <!-- <link href="./assets/vendor/nucleo/css/nucleo.css" rel="stylesheet">-->
+    <link rel = "stylesheet" type = "text/css" href = "../../static/css/nucleo/css/nucleo.css" th:href="@{/css/nucleo/css/nucleo.css}"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- <link href="./assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">-->
+
+    <!-- My CSS -->
+    <!--<link type="text/css" href="./assets/css/argon.css?v=1.0.0" rel="stylesheet">-->
+    <link rel = "stylesheet" type = "text/css" href = "../../static/css/mystyle/my.css" th:href="@{/css/mystyle/my.css}"/>
+
+    <!--Datatable + button-->
+    <!--<link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">-->
+
+    <link rel = "stylesheet" type = "text/css" href = "../../static/vendor/DataTables/DataTables/DataTables-1.10.20/css/jquery.dataTables.min.css" th:href="@{/vendor/DataTables/DataTables/DataTables-1.10.20/css/jquery.dataTables.min.css}"/>
+    <!--<link href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css" rel="stylesheet">-->
+    <link rel = "stylesheet" type = "text/css" href = "../../static/vendor/DataTables/DataTables/Buttons-1.6.1/css/buttons.dataTables.min.css" th:href="@{/vendor/DataTables/DataTables/Buttons-1.6.1/css/buttons.dataTables.min.css}"/>
+
+    <style>
+        .nav-tabs {
+            border-bottom:none;
+        }
+
+
+
+        .nav-tabs .nav-link.active {
+            background-color: #3be283;
+            border-bottom:#e2e2e2;
+            font-weight: bold;
+        }
+
+        .tab-pane.active .tab-pane-header {
+            padding:2rem;
+            background-color:#e2e2e2;
+            border-top-right-radius: .5rem;
+            border-top-left-radius: .5rem;
+            margin-bottom:1rem;
+        }
+
+        .tab-pane:first-child .tab-pane-header {
+            border-top-left-radius: 0;
+        }
+
+
+        td
+        {
+            text-align: center;
+        }
+
+        /*pour espace ente le form et le panel*/
+        .form-inline > * {
+            margin:10px 10px;
+        }
+
+        /*pour espace ente le form et le panel*/
+        .form-inline > * {
+            padding:10px 10px;
+        }
+
+        /*form
+        {
+            display: inline-block;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }*/
+    </style>
+
+</head>
+<body>
+
+<!-- Include MENU block -->
+<th:block th:include="/main/_menu"></th:block>
+
+<br>
+
+
+<div class="card mx-auto" style="width: 78rem">
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                   <div class="table-responsive">
+                            <table class="table table-sm display" id="table-mouvement" style="width:100%">
+                                <thead class="thead-light">
+                                <tr>
+
+                                    <th class="text-center">Client</th>
+                                    <th class="text-center">Projet</th>
+                                    <th class="text-center">Produit</th>
+                                    <th class="text-center">Emétteur</th>
+                                    <th class="text-center">Stock initial</th>
+                                    <th class="text-center">Quantité</th>
+                                    <th class="text-center">Opération</th>
+                                    <th class="text-center">Gâche</th>
+                                    <th class="text-center">Retour</th>
+                                    <th class="text-center">Stock final</th>
+                                    <th class="text-center">Entrepôt</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each = "c:${mouvements}">
+                                        <td th:text = "${c.client}" class="text-center"></td>
+                                        <td th:text = "${c.projet}" class="text-center"></td>
+                                        <td th:text = "${c.produit}" class="text-center"></td>
+                                        <td th:text = "${c.emetteur}" class="text-center"></td>
+                                        <td th:text = "${c.initial}?:'0'" class="text-center"></td>
+                                        <td th:text = "${c.quantite}?:'0'" class="text-center"></td>
+                                        <td th:switch = "${c.operation}" class="text-center">
+                                            <span class="badge badge-pill badge-primary" th:case="'rec'" >Réception</span>
+                                            <span class="badge badge-pill badge-success" th:case="'enl'" >Enlevement</span>
+                                            <span class="badge badge-pill badge-danger" th:case="'dis'" >Entreposage</span>
+
+                                        </td>
+                                        <td th:text = "${c.gache}?:'0'" class="text-center"></td>
+                                        <td th:text = "${c.retour}?:'0'" class="text-center"></td>
+                                        <td th:text = "${c.finale}?:'0'" class="text-center"></td>
+                                        <td th:text = "${c.entrepot}" class="text-center"></td>
+                                    </tr>
+
+
+                                </tbody>
+                                <tfoot>
+                                <th class="text-center">Client</th>
+                                <th class="text-center">Projet</th>
+                                <th class="text-center">Produit</th>
+                                <th class="text-center">Emétteur</th>
+                                <th class="text-center">Stock initial</th>
+                                <th class="text-center">Quantité</th>
+                                <th class="text-center">Opération</th>
+                                <th class="text-center">Gâche</th>
+                                <th class="text-center">Retour</th>
+                                <th class="text-center">Stock final</th>
+                                <th class="text-center">Entrepôt</th>
+                                </tfoot>
+                            </table>
+                        </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <!-- block content -->
+
+
+
+    <!-- block content -->
+
+</div>
+
+
+
+</section>
+<!-- page content -->
+
+
+<!-- Include END MENU block -->
+<th:block th:include="/main/_end_menu"></th:block>
+
+
+
+
+<br/><br/>
+
+
+
+<!-- Include SCRIPT block -->
+<!--<th:block th:include="/main/layout/block_script"></th:block>-->
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<!--<script src="../../static/vendor/DataTables/DataTables/jQuery-3.3.1/jquery-3.3.1.js" th:src="@{vendor/DataTables/DataTables/jQuery-3.3.1/jquery-3.3.1.js}"></script>-->
+
+
+<!-- Script Bootstrap -->
+<script src="../../static/vendor/bootstrap/dist/js/bootstrap.bundle.min.js" th:src="@{/vendor/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
+
+<!--<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>-->
+<script src="../../static/vendor/DataTables/DataTables/DataTables-1.10.20/js/jquery.dataTables.min.js" th:src="@{/vendor/DataTables/DataTables/DataTables-1.10.20/js/jquery.dataTables.min.js}"></script>
+
+<!--<script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>-->
+<script src="../../static/vendor/DataTables/DataTables/Buttons-1.6.1/js/dataTables.buttons.min.js" th:src="@{/vendor/DataTables/DataTables/Buttons-1.6.1/js/dataTables.buttons.min.js}"></script>
+
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>-->
+<script src="../../static/vendor/DataTables/DataTables/JSZip-2.5.0/jszip.min.js" th:src="@{/vendor/DataTables/DataTables/JSZip-2.5.0/jszip.min.js}"></script>
+
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>-->
+<script src="../../static/vendor/DataTables/DataTables/pdfmake-0.1.36/pdfmake.min.js" th:src="@{/vendor/DataTables/DataTables/pdfmake-0.1.36/pdfmake.min.js}"></script>
+
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>-->
+<script src="../../static/vendor/DataTables/DataTables/pdfmake-0.1.36/vfs_fonts.js" th:src="@{/vendor/DataTables/DataTables/pdfmake-0.1.36/vfs_fonts.js}"></script>
+
+<!--<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>-->
+<script src="../../static/vendor/DataTables/DataTables/Buttons-1.6.1/js/buttons.html5.min.js" th:src="@{/vendor/DataTables/DataTables/Buttons-1.6.1/js/buttons.html5.min.js}"></script>
+
+<script>
+
+    $(document).ready( function () {
+        $('#table-mouvement').DataTable({
+
+
+            language: {
+                /*url: '//cdn.datatables.net/plug-ins/1.10.16/i18n/French.json'*/
+                sProcessing: "Traitement en cours...",
+                sSearch: "Rechercher&nbsp;:",
+                sLengthMenu: "Afficher _MENU_ &eacute;l&eacute;ments",
+                sInfo: "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                sInfoEmpty: "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+                sInfoFiltered: "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                sInfoPostFix: "",
+                sLoadingRecords: "Chargement en cours...",
+                sZeroRecords: "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                sEmptyTable: "Aucune donn&eacute;e disponible dans le tableau",
+                oPaginate: {
+                    sFirst: "Premier",
+                    sPrevious: "Pr&eacute;c&eacute;dent",
+                    sNext: "Suivant",
+                    sLast: "Dernier"
+                },
+                oAria: {
+                    sSortAscending: ": activer pour trier la colonne par ordre croissant",
+                    sSortDescending: ": activer pour trier la colonne par ordre d&eacute;croissant"
+                }
+            },
+
+            dom: 'Bfrtip',
+            buttons: [
+                /* 'copyHtml5',*/
+                'excelHtml5',
+                /* 'csvHtml5',
+                 'pdfHtml5'*/
+            ]
+
+
+        })
+    });
+</script>
+</body>
+</html>
