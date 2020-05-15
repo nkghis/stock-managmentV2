@@ -41,6 +41,15 @@ public class VreceptionTrueDispo {
    /* @Column(name = "produit_nom")
     private String produitNom;*/
 
+    @Column(name = "client_nom")
+    private String clientNom;
+
+    @Column(name = "produit_nom")
+    private String produitNom;
+
+    @Column(name = "emetteur_nom")
+    private String emetteurNom;
+
     @Column(name = "ressource_nom")
     private String ressourceNom;
 
@@ -160,5 +169,29 @@ public class VreceptionTrueDispo {
 
     public void setProjetNom(String projetNom) {
         this.projetNom = projetNom;
+    }
+
+    public String getClientNom() {
+        return clientNom;
+    }
+
+    public void setClientNom(String clientNom) {
+        this.clientNom = clientNom;
+    }
+
+    public String getProduitNom() {
+        return produitNom;
+    }
+
+    public void setProduitNom(String produitNom) {
+        this.produitNom = produitNom;
+    }
+
+    public String getEmetteurNom() {
+        return emetteurNom;
+    }
+
+    public void setEmetteurNom(String emetteurNom) {
+        this.emetteurNom = emetteurNom;
     }
 }

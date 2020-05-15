@@ -123,12 +123,14 @@
                             <td th:text = "${c.projet}" class="text-center"></td>
                             <td th:text = "${c.produit}" class="text-center"></td>
                             <td th:text = "${c.emetteur}" class="text-center"></td>
-                            <td th:text = "${c.stockInitial}?:'0'" class="text-center"></td>
-                            <td th:text = "${c.entreposage}?:'0'" class="text-center"></td>
-                            <td th:text = "${c.enlevement}?:'0'" class="text-center"></td>
-                            <td th:text = "${c.retour}?:'0'" class="text-center"></td>
-                            <td th:text = "${c.gache}?:'0'" class="text-center"></td>
-                            <td th:text = "${c.stockFinal}?:'0'" class="text-center"></td>
+                            <td th:text = "${c.stockInitial}?:'0'" class="text-center" style="font-weight: bold; color: green" >
+
+                            </td>
+                            <td th:text = "${c.entreposage}?:'0'" class="text-center" style="font-weight: bold"></td>
+                            <td th:text = "${c.enlevement}?:'0'" class="text-center" style="font-weight: bold"></td>
+                            <td th:text = "${c.retour}?:'0'" class="text-center" style="font-weight: bold"></td>
+                            <td th:text = "${c.gache}?:'0'" class="text-center" style="font-weight: bold"></td>
+                            <td th:text = "${c.stockFinal}?:'0'" class="text-center" style="font-weight: bold; color: red"></td>
                             <!--<td th:text = "${c.entrepot}" class="text-center"></td>-->
                         </tr>
 

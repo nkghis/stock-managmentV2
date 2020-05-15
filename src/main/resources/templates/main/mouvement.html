@@ -122,17 +122,17 @@
                                         <td th:text = "${c.projet}" class="text-center"></td>
                                         <td th:text = "${c.produit}" class="text-center"></td>
                                         <td th:text = "${c.emetteur}" class="text-center"></td>
-                                        <td th:text = "${c.initial}?:'0'" class="text-center"></td>
-                                        <td th:text = "${c.quantite}?:'0'" class="text-center"></td>
+                                        <td th:text = "${c.initial}?:'0'" class="text-center"  style="font-weight: bold; color: green"></td>
+                                        <td th:text = "${c.quantite}?:'0'" class="text-center"  style="font-weight: bold; color: blue"></td>
                                         <td th:switch = "${c.operation}" class="text-center">
                                             <span class="badge badge-pill badge-primary" th:case="'rec'" >Réception</span>
                                             <span class="badge badge-pill badge-success" th:case="'enl'" >Enlevement</span>
                                             <span class="badge badge-pill badge-danger" th:case="'dis'" >Entreposage</span>
 
                                         </td>
-                                        <td th:text = "${c.gache}?:'0'" class="text-center"></td>
-                                        <td th:text = "${c.retour}?:'0'" class="text-center"></td>
-                                        <td th:text = "${c.finale}?:'0'" class="text-center"></td>
+                                        <td th:text = "${c.gache}?:'0'" class="text-center" style="font-weight: bold"></td>
+                                        <td th:text = "${c.retour}?:'0'" class="text-center" style="font-weight: bold"></td>
+                                        <td th:text = "${c.finale}?:'0'" class="text-center"  style="font-weight: bold; color: red"></td>
                                         <td th:text = "${c.entrepot}" class="text-center"></td>
                                     </tr>
 

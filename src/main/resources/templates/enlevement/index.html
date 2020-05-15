@@ -77,33 +77,35 @@
                             <table class="table table-sm display" id="index-enlevement-true" style="width:100%">
                                 <thead>
                                 <tr>
-                                    <!--<th></th>-->
+
                                     <th class="text-center">Id</th>
                                     <th class="text-center">Ref</th>
+                                    <th class="text-center">Client</th>
+                                    <th class="text-center">Projet</th>
+                                    <th class="text-center">Produit</th>
+                                    <th class="text-center">Emetteur</th>
                                     <th class="text-center">Qte Restante</th>
                                     <th class="text-center">Qte Verse</th>
-                                    <th class="text-center">Projet</th>
-                                   <!-- <th class="text-center">Produit</th>-->
                                     <th class="text-center">Entrepôt</th>
-                                    <th class="text-center">Date</th>
-                                    <th class="text-center">Est Livrable</th>
-                                   <!-- <th class="text-center">Operation Id</th>-->
+                                   <!-- <th class="text-center">Date</th>
+                                    <th class="text-center">Est Livrable</th>-->
                                     <th class="text-center">Action</th>
                                 </tr>
                                 </thead>
 
                                 <tfoot>
-                                <!--<th></th>-->
+
                                 <th class="text-center">Id</th>
                                 <th class="text-center">Ref</th>
+                                <th class="text-center">Client</th>
+                                <th class="text-center">Projet</th>
+                                <th class="text-center">Produit</th>
+                                <th class="text-center">Emetteur</th>
                                 <th class="text-center">Qte Restante</th>
                                 <th class="text-center">Qte Verse</th>
-                                <th class="text-center">Projet</th>
-                             <!--   <th class="text-center">Produit</th>-->
                                 <th class="text-center">Entrepôt</th>
-                                <th class="text-center">Date</th>
-                                <th class="text-center">Est Livrable</th>
-                              <!--  <th class="text-center">Operation Id</th>-->
+                               <!-- <th class="text-center">Date</th>
+                                <th class="text-center">Est Livrable</th>-->
                                 <th class="text-center">Action</th>
                                 </tfoot>
                             </table>
@@ -219,32 +221,40 @@
 
                 {
                     "bSearchable": false,
-                    "bVisible": false,
+                    "bVisible": true,
                     "aTargets": [6]
                 },
 
                 {
                     "bSearchable": false,
-                    "bVisible": false,
+                    "bVisible": true,
                     "aTargets": [7]
                 },
 
                 {
                     "bSearchable": false,
-                    "bVisible": false,
-                    "aTargets": [5]
+                    "bVisible": true,
+                    "aTargets": [9]
                 },
+
+                /*{
+                    "bSearchable": false,
+                    "bVisible": true,
+                    "aTargets": [10]
+                }*/
             ],
             "aoColumns": [
 
                 { "mData": "entreposageId"},
                 { "mData": "entreposageReference" },
+                { "mData": "clientNom" },
+                { "mData": "projetNom" },
+                { "mData": "produitNom" },
+                { "mData": "emetteurNom" },
                 { "mData": "quantiteRestante" },
                 { "mData": "quantiteVerse" },
-                { "mData": "projetNom" },
-               /* { "mData": "produitNom" },*/
                 { "mData": "entrepotNom" },
-                {
+               /* {
                     "mData": "entreposageDate" ,
                     "mRender": function ( data, type, full ) {
                         var d = new Date();
@@ -252,8 +262,7 @@
                     }
                 },
 
-                { "mData": "estLivrable" },
-               /* { "mData": "operationId" },*/
+                { "mData": "estLivrable" },*/
 
                 {
                     "mData": null,

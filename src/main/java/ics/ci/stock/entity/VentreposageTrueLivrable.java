@@ -33,6 +33,15 @@ public class VentreposageTrueLivrable {
     @Column(name = "projet_nom")
     private String projetNom;
 
+    @Column(name = "client_nom")
+    private String clientNom;
+
+    @Column(name = "produit_nom")
+    private String produitNom;
+
+    @Column(name = "emetteur_nom")
+    private String emetteurNom;
+
 
 
     @Column(name = "operation_reference")
@@ -131,6 +140,30 @@ public class VentreposageTrueLivrable {
 
     public void setEntreposageId(Long entreposageId) {
         this.entreposageId = entreposageId;
+    }
+
+    public String getClientNom() {
+        return clientNom;
+    }
+
+    public void setClientNom(String clientNom) {
+        this.clientNom = clientNom;
+    }
+
+    public String getProduitNom() {
+        return produitNom;
+    }
+
+    public void setProduitNom(String produitNom) {
+        this.produitNom = produitNom;
+    }
+
+    public String getEmetteurNom() {
+        return emetteurNom;
+    }
+
+    public void setEmetteurNom(String emetteurNom) {
+        this.emetteurNom = emetteurNom;
     }
 }
 

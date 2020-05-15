@@ -47,6 +47,16 @@ public class Vreception {
     @Column(name = "projet_nom")
     private String projetNom;
 
+    @Column(name = "client_nom")
+    private String clientNom;
+
+    @Column(name = "produit_nom")
+    private String produitNom;
+
+    @Column(name = "emetteur_nom")
+    private String emetteurNom;
+
+
     public Vreception() {
         super();
     }
@@ -145,5 +155,29 @@ public class Vreception {
 
     public void setProjetNom(String projetNom) {
         this.projetNom = projetNom;
+    }
+
+    public String getClientNom() {
+        return clientNom;
+    }
+
+    public void setClientNom(String clientNom) {
+        this.clientNom = clientNom;
+    }
+
+    public String getProduitNom() {
+        return produitNom;
+    }
+
+    public void setProduitNom(String produitNom) {
+        this.produitNom = produitNom;
+    }
+
+    public String getEmetteurNom() {
+        return emetteurNom;
+    }
+
+    public void setEmetteurNom(String emetteurNom) {
+        this.emetteurNom = emetteurNom;
     }
 }
