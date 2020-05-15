@@ -185,14 +185,23 @@ public class MainController {
         //List<IStockBeforeCustom> stockBetween = voperationRepository.stockBetween(debut,fin);
         List<IStockBetweenCustom> stockBetween = voperationRepository.stockBetween(debut,fin);
 
+        //Initialisation de la liste des StockBetween.
         List<StockBetween> listStockBetween = new ArrayList<>();;
 
 
+        //Iteration de la liste des StockBetween
         for (IStockBetweenCustom var: stockBetween) {
 
+            //Recuperation du nom du projet
             String nomProjet = var.getProjet();
+
+            //Recherche de l'objet IStockBeforeCustom dans la liste des IStockBeforeCustom ayant pour non de projet "nomProjet".
             IStockBeforeCustom before = getIStockBeforeCustom(stockBefore, nomProjet);
+
+            //initialisation du stock initial
             int stockInitial;
+
+            //Test
             if (before == null)
             {
                 stockInitial = 0;
@@ -204,8 +213,10 @@ public class MainController {
                 stockInitial = before.getStock();
             }
 
+            //Calcul du stock final
             int stockFinal = stockInitial + var.getEntreposage() + var.getRetour() - var.getEnlevement();
 
+            //Creation du Stock between.
             StockBetween a = new StockBetween();
             a.setProjet(var.getProjet());
             a.setClient(var.getClient());
@@ -217,15 +228,24 @@ public class MainController {
             a.setRetour(var.getRetour());
             a.setGache(var.getGache());
             a.setStockFinal(stockFinal);
+
+            //Ajout du stock between dans la list des stock StockBetween.
             listStockBetween.add(a);
 
         }
 
-        List<StockBetween> last = listStockBetween;
-        String aa ="";
+       /* List<StockBetween> last = listStockBetween;
+        String aa ="";*/
 
+       //convertion de la date en chaine de caractere et formatage.
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        String datedebut = formatter.format(ldebut);
+        String datefin = formatter.format(lfin);
 
-        return "";
+        model.addAttribute("title", "etat de stock par projet  - du " +datedebut+ " au " +datefin);
+        model.addAttribute("operations", listStockBetween);
+
+        return "main/operation";
     }
 
     @RequestMapping(value = "/admin/dashboard/mouvement", method = RequestMethod.POST)
@@ -246,13 +266,17 @@ public class MainController {
         Date lfin = new SimpleDateFormat("yyyy-MM-dd").parse(search.getFin());
         LocalDateTime fin = lfin.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        String datedebut = formatter.format(ldebut);
+        String datefin = formatter.format(lfin);
+
 
 
 
         List<Vmouvement> listOperation = vmouvementRepository.findAllByDateBetween(debut,fin);
 
 
-        model.addAttribute("title", "Liste des mouvements");
+        model.addAttribute("title", "Liste des mouvements - du " +datedebut+ " au " +datefin);
         model.addAttribute("mouvements", listOperation);
 
         return "main/mouvement";

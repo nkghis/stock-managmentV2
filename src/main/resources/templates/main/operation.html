@@ -98,7 +98,58 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-12">
-                <!--table place-->
+                <div class="table-responsive">
+                    <table class="table table-sm display" id="table-etat-stock" style="width:100%">
+                        <thead class="thead-light">
+                        <tr>
+
+                            <th class="text-center">Client</th>
+                            <th class="text-center">Projet</th>
+                            <th class="text-center">Produit</th>
+                            <th class="text-center">Emétteur</th>
+                            <th class="text-center">Stock initial</th>
+                            <th class="text-center">Entreposage</th>
+                            <th class="text-center">Enlevement</th>
+
+                            <th class="text-center">Retour</th>
+                            <th class="text-center">Gâche</th>
+                            <th class="text-center">Stock final</th>
+                            <!--<th class="text-center">Entrepôt</th>-->
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each = "c:${operations}">
+                            <td th:text = "${c.client}" class="text-center"></td>
+                            <td th:text = "${c.projet}" class="text-center"></td>
+                            <td th:text = "${c.produit}" class="text-center"></td>
+                            <td th:text = "${c.emetteur}" class="text-center"></td>
+                            <td th:text = "${c.stockInitial}?:'0'" class="text-center"></td>
+                            <td th:text = "${c.entreposage}?:'0'" class="text-center"></td>
+                            <td th:text = "${c.enlevement}?:'0'" class="text-center"></td>
+                            <td th:text = "${c.retour}?:'0'" class="text-center"></td>
+                            <td th:text = "${c.gache}?:'0'" class="text-center"></td>
+                            <td th:text = "${c.stockFinal}?:'0'" class="text-center"></td>
+                            <!--<td th:text = "${c.entrepot}" class="text-center"></td>-->
+                        </tr>
+
+
+                        </tbody>
+                        <tfoot>
+                        <th class="text-center">Client</th>
+                        <th class="text-center">Projet</th>
+                        <th class="text-center">Produit</th>
+                        <th class="text-center">Emétteur</th>
+                        <th class="text-center">Stock initial</th>
+                        <th class="text-center">Entreposage</th>
+                        <th class="text-center">Enlevement</th>
+
+                        <th class="text-center">Retour</th>
+                        <th class="text-center">Gâche</th>
+                        <th class="text-center">Stock final</th>
+                        <!--<th class="text-center">Entrepôt</th>-->
+                        </tfoot>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -138,8 +189,8 @@
 
 
 
-<!--<script src="https://code.jquery.com/jquery-3.3.1.js"></script>-->
-<script src="../../static/vendor/DataTables/DataTables/jQuery-3.3.1/jquery-3.3.1.js" th:src="@{vendor/DataTables/DataTables/jQuery-3.3.1/jquery-3.3.1.js}"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<!--<script src="../../static/vendor/DataTables/DataTables/jQuery-3.3.1/jquery-3.3.1.js" th:src="@{vendor/DataTables/DataTables/jQuery-3.3.1/jquery-3.3.1.js}"></script>-->
 
 
 <!-- Script Bootstrap -->
@@ -163,71 +214,11 @@
 <!--<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>-->
 <script src="../../static/vendor/DataTables/DataTables/Buttons-1.6.1/js/buttons.html5.min.js" th:src="@{/vendor/DataTables/DataTables/Buttons-1.6.1/js/buttons.html5.min.js}"></script>
 
+
 <script>
-    /*$(document).ready( function () {
-        var table = $('#index-stock').DataTable({
-
-            "sAjaxSource": "/stocks",
-            "sAjaxDataProp": "",
-          /!*  "order": [ 0, "desc" ],*!/
-            "aoColumnDefs": [
-                {
-                    "bSearchable": false,
-                    "bVisible": false,
-                    "aTargets": [0]
-                }
-
-            ],
-            "aoColumns": [
-
-                { "mData": "stockId"},
-                { "mData": "clientNom" },
-                { "mData": "projetNom" },
-              /!*  { "mData": "produitNom" },*!/
-                { "mData": "entrepotNom" },
-                { "mData": "stockQuantite" },
-
-            ],
-
-
-            language: {
-                /!*url: '//cdn.datatables.net/plug-ins/1.10.16/i18n/French.json'*!/
-                sProcessing: "Traitement en cours...",
-                sSearch: "Rechercher&nbsp;:",
-                sLengthMenu: "Afficher _MENU_ &eacute;l&eacute;ments",
-                sInfo: "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
-                sInfoEmpty: "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
-                sInfoFiltered: "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
-                sInfoPostFix: "",
-                sLoadingRecords: "Chargement en cours...",
-                sZeroRecords: "Aucun &eacute;l&eacute;ment &agrave; afficher",
-                sEmptyTable: "Aucune donn&eacute;e disponible dans le tableau",
-                oPaginate: {
-                    sFirst: "Premier",
-                    sPrevious: "Pr&eacute;c&eacute;dent",
-                    sNext: "Suivant",
-                    sLast: "Dernier"
-                },
-                oAria: {
-                    sSortAscending: ": activer pour trier la colonne par ordre croissant",
-                    sSortDescending: ": activer pour trier la colonne par ordre d&eacute;croissant"
-                }
-            },
-
-            dom: 'Bfrtip',
-            buttons: [
-                'copyHtml5',
-                'excelHtml5',
-                'csvHtml5',
-                'pdfHtml5'
-            ]
-
-
-        })
-    });*/
 
     $(document).ready( function () {
-        /*var table =*/ $('#index-stock').DataTable({
+        /*var table =*/ $('#table-etat-stock').DataTable({
 
 
             language: {
