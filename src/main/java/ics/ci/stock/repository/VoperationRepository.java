@@ -63,4 +63,31 @@ public interface VoperationRepository extends JpaRepository <Voperation, Long> {
     //List<StockBeforeCustom> stockBeforeCustom(LocalDateTime dateTime);
     List<IStockBeforeCustom> stockBeforeCustom(LocalDateTime dateTime);
 
+
+    @Query(value = "SELECT\n" +
+            "dbo.v_operation.projet_id,\n" +
+            "dbo.v_operation.projet,\n" +
+            "dbo.v_operation.client,\n" +
+            "dbo.v_operation.produit,\n" +
+            "dbo.v_operation.emetteur,\n" +
+            "Sum(CASE WHEN v_operation.operation = 'dis' then v_operation.quantite else 0 end) AS entreposage,\n" +
+            "Sum(CASE WHEN v_operation.operation = 'enl' then v_operation.quantite else 0 end) AS enlevement,\n" +
+            "COALESCE(Sum(v_operation.retour),0) AS retour,\n" +
+            "COALESCE(Sum(v_operation.gache),0) AS gache,\n" +
+            "Sum(CASE WHEN v_operation.operation = 'dis' then v_operation.quantite else 0 end) + COALESCE(Sum(v_operation.retour),0)  - Sum(CASE WHEN v_operation.operation = 'enl' then v_operation.quantite else 0 end) AS stock\n" +
+            "\n" +
+            "\n" +
+            "FROM\n" +
+            "dbo.v_operation\n" +
+            "WHERE\n" +
+            "dbo.v_operation.[date] BETWEEN ?1 AND ?2\n" +
+            "GROUP BY\n" +
+            "dbo.v_operation.projet_id,\n" +
+            "dbo.v_operation.projet,\n" +
+            "dbo.v_operation.client,\n" +
+            "dbo.v_operation.produit,\n" +
+            "dbo.v_operation.emetteur\n"
+            ,nativeQuery = true)
+    List<IStockBetweenCustom> stockBetween(LocalDateTime start, LocalDateTime end);
+
 }

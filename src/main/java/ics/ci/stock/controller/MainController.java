@@ -2,10 +2,8 @@ package ics.ci.stock.controller;
 
 import ics.ci.stock.entity.*;
 import ics.ci.stock.entity.custom.StockBeforeCustom;
-import ics.ci.stock.repository.IStockBeforeCustom;
-import ics.ci.stock.repository.VmouvementRepository;
-import ics.ci.stock.repository.VoperationRepository;
-import ics.ci.stock.repository.VstockRepository;
+import ics.ci.stock.entity.custom.StockBetween;
+import ics.ci.stock.repository.*;
 import ics.ci.stock.utils.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -24,6 +22,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -173,19 +172,57 @@ public class MainController {
 
 
 
-
-        List<IStockBeforeCustom> st = voperationRepository.stockBeforeCustom(debut);
-        IStockBeforeCustom j = getIStockBeforeCustom(st,"OMIS");
-
+        //List de stock par projet avant la date entrée.
+        List<IStockBeforeCustom> stockBefore = voperationRepository.stockBeforeCustom(debut);
 
 
+        //Recherche d'une interface IStockBefore en fonction du nom de projet.
+        IStockBeforeCustom j = getIStockBeforeCustom(stockBefore,"OMIS");
+        //List des operation en fonction des dates entrées.
+        //List<Voperation> listOperation = voperationRepository.findAllByDateBetween(debut,fin);
+
+        //List de stock par projet en fonction des dates entrées.
+        //List<IStockBeforeCustom> stockBetween = voperationRepository.stockBetween(debut,fin);
+        List<IStockBetweenCustom> stockBetween = voperationRepository.stockBetween(debut,fin);
+
+        List<StockBetween> listStockBetween = new ArrayList<>();;
 
 
+        for (IStockBetweenCustom var: stockBetween) {
 
-        List<Voperation> listOperation = voperationRepository.findAllByDateBetween(debut,fin);
+            String nomProjet = var.getProjet();
+            IStockBeforeCustom before = getIStockBeforeCustom(stockBefore, nomProjet);
+            int stockInitial;
+            if (before == null)
+            {
+                stockInitial = 0;
+
+            }
 
 
+            else {
+                stockInitial = before.getStock();
+            }
 
+            int stockFinal = stockInitial + var.getEntreposage() + var.getRetour() - var.getEnlevement();
+
+            StockBetween a = new StockBetween();
+            a.setProjet(var.getProjet());
+            a.setClient(var.getClient());
+            a.setProduit(var.getProduit());
+            a.setEmetteur(var.getEmetteur());
+            a.setStockInitial(stockInitial);
+            a.setEntreposage(var.getEntreposage());
+            a.setEnlevement(var.getEnlevement());
+            a.setRetour(var.getRetour());
+            a.setGache(var.getGache());
+            a.setStockFinal(stockFinal);
+            listStockBetween.add(a);
+
+        }
+
+        List<StockBetween> last = listStockBetween;
+        String aa ="";
 
 
         return "";
