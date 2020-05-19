@@ -22,6 +22,7 @@
 <!-- page content -->
 <br>
 <p class="alert alert-success text-center h6"   role="alert" th:text="${messagesucces}" th:if="${messagesucces}"></p>
+<p class="alert alert-danger text-center h6"   role="alert" th:text="${messagedanger}" th:if="${messagedanger}"></p>
 <div class="card mx-auto" style="width: 80rem">
 
     <div class="card-header">
@@ -57,7 +58,7 @@
 
                     <tr th:each = "c:${listprojets}">
                         <td th:text = "${c.projet_id}" class="text-center"></td>
-                        <td th:text = "${c.projet_nom}" class="text-center"></td>
+                        <td th:text = "${c.projetNom}" class="text-center"></td>
                         <td th:text = "${c.seuilProjet}" class="text-center"></td>
                         <td th:text = "${c.client.client_nom}" class="text-center"></td>
                         <td th:text = "${c.produit.produit_nom}" class="text-center"></td>

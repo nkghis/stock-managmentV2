@@ -27,7 +27,7 @@
     <div class="card-header">
         <div class="row">
             <div class="col-md-8">
-                <h3><span class="badge badge-info">Editer</span> <span th:text ="${projet.projet_nom}" class="badge badge-secondary"></span></h3>
+                <h3><span class="badge badge-info">Editer</span> <span th:text ="${projet.projetNom}" class="badge badge-secondary"></span></h3>
             </div>
 
             <div class="col-md-4 page-action text-right">
@@ -49,7 +49,7 @@
                                     <label for="project" class="col-sm-4 col-form-label text-md-right"><strong>Nom</strong></label>
 
                                     <div class="col-md-6">
-                                        <input id="project" type="text" class="form-control" th:field="${projet.projet_nom}"  autofocus>
+                                        <input id="project" type="text" class="form-control" th:field="${projet.projetNom}" autofocus>
                                     </div>
                                 </div>
 
@@ -61,7 +61,7 @@
                                     <div class="col-md-6">
 
                                         <input id="seuilSecurite" type="number" min="1" class="form-control" th:field="${projet.seuilProjet}" required onkeyup="if(this.value<0){this.value= this.value * -1}"  autofocus>
-                                        <!--<span th:if="${#fields.hasErrors('projet_nom')}" th:errors="*{projet_nom}"  th:class="help-block"></span>-->
+                                        <!--<span th:if="${#fields.hasErrors('projetNom')}" th:errors="*{projetNom}"  th:class="help-block"></span>-->
                                         <div id="msg"></div>
                                     </div>
                                 </div>

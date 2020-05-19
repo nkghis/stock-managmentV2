@@ -59,7 +59,7 @@ public class EnlevementController {
         /*List<VentreposageTrueLivrable> livrab = livrableRepository.findAll();
         int test = 1;*/
 
-        model.addAttribute("title", "Enlevement  - Liste");
+        model.addAttribute("title", "Sortie, Gache, Retour  - Liste");
         return "enlevement/index";
     }
 
@@ -148,7 +148,7 @@ public class EnlevementController {
 
         enlevementRepository.save(enlevement);
 
-        redirectAttributes.addFlashAttribute("messageenlevement","Enlevement éffectée avec succès");
+        redirectAttributes.addFlashAttribute("messageenlevement","Sortie éffectée avec succès");
         return "redirect:/admin/livraisons";
     }
 
@@ -180,7 +180,7 @@ public class EnlevementController {
         model.addAttribute("ressources",ressources);
         model.addAttribute("motifs",motifs);
         model.addAttribute("entreposage", entreposage);
-        model.addAttribute("title", "Enlevement - Enregistrer une enlevement");
+        model.addAttribute("title", "Sortie - Enregistrer une Sortie");
         return "enlevement/new";
 
     }

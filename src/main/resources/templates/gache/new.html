@@ -50,7 +50,7 @@
 
                 <div class="col-md-6">
                     <select  id="idtypegache" name="typegache" class="select-type form-control" required >
-                        <option value="">-- Selectionner la Type de gache --</option>
+                        <option value="">-- Selectionner le type de gache --</option>
                         <option th:each="c:${typegaches}" th:value="${c.typegacheId}" th:text="${c.typegacheNom}"></option>
                     </select>
                     <!--<span th:if="${#fields.hasErrors('projets')}" th:errors="*{projets}"></span>-->

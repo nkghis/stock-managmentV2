@@ -38,7 +38,7 @@
                 <div class="col-md-6">
 
                     <input id="operationReference" type="text"  class="form-control" th:field="${reception.operationReference}" readonly >
-                    <!--<span th:if="${#fields.hasErrors('projet_nom')}" th:errors="*{projet_nom}"  th:class="help-block"></span>-->
+                    <!--<span th:if="${#fields.hasErrors('projetNom')}" th:errors="*{projetNom}"  th:class="help-block"></span>-->
                 </div>
             </div>
 
@@ -50,7 +50,7 @@
                 <div class="col-md-6">
 
                     <input id="operationReferenceFournisseur" type="text"  class="form-control" th:field="${reception.operationReferenceFournisseur}"  autofocus>
-                    <!--<span th:if="${#fields.hasErrors('projet_nom')}" th:errors="*{projet_nom}"  th:class="help-block"></span>-->
+                    <!--<span th:if="${#fields.hasErrors('projetNom')}" th:errors="*{projetNom}"  th:class="help-block"></span>-->
                 </div>
             </div>
 
@@ -61,7 +61,7 @@
                 <div class="col-md-6">
                     <select th:field="${reception.projet}"  id="idprojet" name="projet" class="select-type form-control" multiple="multiple" required >
                         <option value="">-- Selectionner le projet --;</option>
-                        <option th:each="c:${projets}" th:value="${c.projet_id}" th:text="${c.projet_nom}" th:selected="${c.projet_id == reception.projet}"></option>
+                        <option th:each="c:${projets}" th:value="${c.projet_id}" th:text="${c.projetNom}" th:selected="${c.projet_id == reception.projet}"></option>
                     </select>
                     <!--<span th:if="${#fields.hasErrors('projets')}" th:errors="*{projets}"></span>-->
                 </div>
@@ -113,7 +113,7 @@
                 <div class="col-md-6">
 
                     <input id="quantite" type="number" min="1" class="form-control" th:field="${reception.operation_qte}" required onkeyup="if(this.value<0){this.value= this.value * -1}"  autofocus>
-                    <!--<span th:if="${#fields.hasErrors('projet_nom')}" th:errors="*{projet_nom}"  th:class="help-block"></span>-->
+                    <!--<span th:if="${#fields.hasErrors('projetNom')}" th:errors="*{projetNom}"  th:class="help-block"></span>-->
                 </div>
             </div>
 

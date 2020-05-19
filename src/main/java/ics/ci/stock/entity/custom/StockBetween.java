@@ -14,6 +14,7 @@ public class StockBetween {
     private int retour;
     private int gache;
     private int stockFinal;
+    private int livraison;
 
     public StockBetween() {
         super();
@@ -112,6 +113,14 @@ public class StockBetween {
         this.stockFinal = stockFinal;
     }
 
+    public int getLivraison() {
+        return livraison;
+    }
+
+    public void setLivraison(int livraison) {
+        this.livraison = livraison;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -122,6 +131,7 @@ public class StockBetween {
                 enlevement == that.enlevement &&
                 retour == that.retour &&
                 gache == that.gache &&
+                livraison == that.livraison&&
                 stockFinal == that.stockFinal &&
                 Objects.equals(projet, that.projet) &&
                 Objects.equals(client, that.client) &&
@@ -131,6 +141,6 @@ public class StockBetween {
 
     @Override
     public int hashCode() {
-        return Objects.hash(projet, client, produit, emetteur, stockInitial, entreposage, enlevement, retour, gache, stockFinal);
+        return Objects.hash(projet, client, produit, emetteur, stockInitial, entreposage, enlevement, retour, gache, stockFinal, livraison);
     }
 }

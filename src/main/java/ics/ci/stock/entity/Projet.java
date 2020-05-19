@@ -4,15 +4,16 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "projets")
+@Table(name = "projets" , uniqueConstraints=@UniqueConstraint(columnNames="projet_nom"))
+
 public class Projet implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long projet_id;
 
-
-    private String Projet_nom;
+    @Column(name = "projet_nom", unique = true)
+    private String projetNom;
 
     @Column(name = "seuil_projet", nullable = true)
     private Integer seuilProjet;
@@ -36,22 +37,22 @@ public class Projet implements Serializable {
         super();
     }
 
-    public Projet(String projet_nom) {
-        Projet_nom = projet_nom;
+    public Projet(String projetNom) {
+        this.projetNom = projetNom;
     }
 
-    public Projet(String projet_nom, Client client) {
-        Projet_nom = projet_nom;
+    public Projet(String projetNom, Client client) {
+        this.projetNom = projetNom;
         this.client = client;
     }
 
-    public Projet(String projet_nom, Integer seuilProjet) {
-        Projet_nom = projet_nom;
+    public Projet(String projetNom, Integer seuilProjet) {
+        this.projetNom = projetNom;
         this.seuilProjet = seuilProjet;
     }
 
-    public Projet(String projet_nom, Integer seuilProjet, Client client, Emetteur emetteur, Produit produit) {
-        Projet_nom = projet_nom;
+    public Projet(String projetNom, Integer seuilProjet, Client client, Emetteur emetteur, Produit produit) {
+        this.projetNom = projetNom;
         this.seuilProjet = seuilProjet;
         this.client = client;
         this.emetteur = emetteur;
@@ -68,12 +69,12 @@ public class Projet implements Serializable {
         this.projet_id = projet_id;
     }
 
-    public String getProjet_nom() {
-        return Projet_nom;
+    public String getProjetNom() {
+        return projetNom;
     }
 
-    public void setProjet_nom(String projet_nom) {
-        Projet_nom = projet_nom;
+    public void setProjetNom(String projetNom) {
+        this.projetNom = projetNom;
     }
 
     public Client getClient() {

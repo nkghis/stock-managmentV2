@@ -1,6 +1,6 @@
 SELECT
 dbo.clients.client_nom,
-dbo.projets.projet_nom,
+dbo.projets.projetNom,
 dbo.produits.produit_nom,
 dbo.emetteurs.emetteur_nom,
 dbo.operations.typeoperation,

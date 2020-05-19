@@ -147,7 +147,12 @@
                                     <td th:text = "${c.clientNom}" class="text-center"></td>
                                     <td th:text = "${c.projetNom}" class="text-center"></td>
                                     <td th:text = "${c.entrepotNom}" class="text-center"></td>
-                                    <td th:text = "${c.stockQuantite}" class="text-center" style="font-weight: bold; color: red"></td>
+                                  <!--  <td th:text = "${c.stockQuantite}" class="text-center" style="font-weight: bold; color: red"></td>-->
+                                    <td >
+                                        <span th:text="${c.stockQuantite}" class="badge badge-pill badge-success" style="font-weight: bold" th:if="${c.stockQuantite >= c.seuilProjet}"></span>
+                                        <span th:text="${c.stockQuantite}" class="badge badge-pill badge-danger" style="font-weight: bold" th:if="${c.stockQuantite < c.seuilProjet}"></span>
+
+                                    </td>
 
 
 

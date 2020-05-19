@@ -45,7 +45,7 @@ public class EntreposageController {
     @RequestMapping(value = "/admin/distributions", method = RequestMethod.GET)
     public String indexEntreposage(Model model){
 
-        model.addAttribute("title", "Entreposage - Liste");
+        model.addAttribute("title", "Entrée - Liste");
         return "entreposage/index";
     }
 
@@ -53,7 +53,7 @@ public class EntreposageController {
     public String newEntreposage(Model model){
 
 
-        model.addAttribute("title", "Entreposage - Nouveau");
+        model.addAttribute("title", "Entrée - Nouveau");
         return "entreposage/new";
     }
 
@@ -167,7 +167,7 @@ public class EntreposageController {
         //persist entreposage
         entreposerRepository.save(entreposage);
         //Notification et redirection
-        redirectAttributes.addFlashAttribute("messagedistribution","Entreposage éffectée avec succès");
+        redirectAttributes.addFlashAttribute("messagedistribution","Entréé éffectée avec succès");
         return "redirect:/admin/distributions";
     }
 
@@ -215,7 +215,7 @@ public class EntreposageController {
         model.addAttribute("madistribution", entreposage);
         model.addAttribute("entrepots",entrepots);
         model.addAttribute("reception",reception);
-        model.addAttribute("title", "Entreposage - Affectation d'une réception à un entrepôt ");
+        model.addAttribute("title", "Entrée - Affectation d'une réception à un entrepôt ");
         return "entreposage/new";
     }
 

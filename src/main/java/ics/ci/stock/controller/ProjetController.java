@@ -52,8 +52,27 @@ public class ProjetController {
             model.addAttribute("monprojet", new Projet());
             return "projet/new";
         }
-        projetRepository.save(projet);
-        redirectAttributes.addFlashAttribute("messagesucces","Opération éffectée avec succès");
+        Projet p = projet;
+        //String aa = "";
+
+        Projet t = projetRepository.findByProjetNom(projet.getProjetNom());
+
+        if (t == null)
+        {
+           String s ="save";
+            projetRepository.save(projet);
+            redirectAttributes.addFlashAttribute("messagesucces","Opération éffectée avec succès");
+        }
+
+        else {
+            String s = "notSave";
+            redirectAttributes.addFlashAttribute("messagedanger","Echec, Le nom du projet [" +projet.getProjetNom() + " ] existe déjà dans la base de données");
+        }
+        //boolean t = projetRepository.findByProjetNom(projet.getProjetNom());
+
+        //String aa = "";
+
+
         return "redirect:/admin/projets";
     }
 

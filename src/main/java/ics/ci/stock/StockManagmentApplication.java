@@ -128,7 +128,7 @@ public class StockManagmentApplication {
 		Projet projet2 = projetRepository.save(new Projet("Prestige Personnalisation", c1));
 		Projet projet3 = projetRepository.save(new Projet("Cartes Fonctionnaires", c2));
 		Projet projet4 = projetRepository.save(new Projet("Olapi", c1));
-		projetRepository.findAll().forEach(t->System.out.println(t.getProjet_nom()));
+		projetRepository.findAll().forEach(t->System.out.println(t.getProjetNom()));
 		System.out.println("Projets ajoutés avec succes");
 		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 

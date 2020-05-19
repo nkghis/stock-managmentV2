@@ -225,9 +225,14 @@ public class MainController {
             a.setStockInitial(stockInitial);
             a.setEntreposage(var.getEntreposage());
             a.setEnlevement(var.getEnlevement());
+          /*  a.setEnlevement(var.getEnlevement()-var.getRetour());*/
             a.setRetour(var.getRetour());
             a.setGache(var.getGache());
+            //a retire
+            a.setLivraison(a.getEnlevement()-a.getRetour());
             a.setStockFinal(stockFinal);
+            //a.setStockFinal(var.getEntreposage() - a.getLivraison() + stockInitial);
+
 
             //Ajout du stock between dans la list des stock StockBetween.
             listStockBetween.add(a);

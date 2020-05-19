@@ -113,7 +113,8 @@
                                     <th class="text-center">Gâche</th>
                                     <th class="text-center">Retour</th>
                                     <th class="text-center">Stock final</th>
-                                    <th class="text-center">Entrepôt</th>
+                                    <th class="text-center">Date</th>
+                                    <!--<th class="text-center">Entrepôt</th>-->
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -126,14 +127,16 @@
                                         <td th:text = "${c.quantite}?:'0'" class="text-center"  style="font-weight: bold; color: blue"></td>
                                         <td th:switch = "${c.operation}" class="text-center">
                                             <span class="badge badge-pill badge-primary" th:case="'rec'" >Réception</span>
-                                            <span class="badge badge-pill badge-success" th:case="'enl'" >Enlevement</span>
-                                            <span class="badge badge-pill badge-danger" th:case="'dis'" >Entreposage</span>
+                                            <span class="badge badge-pill badge-success" th:case="'enl'" >Sortie</span>
+                                            <span class="badge badge-pill badge-danger" th:case="'dis'" >Entrée</span>
 
                                         </td>
                                         <td th:text = "${c.gache}?:'0'" class="text-center" style="font-weight: bold"></td>
                                         <td th:text = "${c.retour}?:'0'" class="text-center" style="font-weight: bold"></td>
                                         <td th:text = "${c.finale}?:'0'" class="text-center"  style="font-weight: bold; color: red"></td>
-                                        <td th:text = "${c.entrepot}" class="text-center"></td>
+                                        <!--<td th:text = "${#calendars.format(c.date, 'dd-MM-yyyy HH:mm:ss')}" class="text-center"></td>-->
+                                        <!--<td th:text = "${{#dates.format(c.date, 'dd-MM-yyyy HH:mm:ss')}}" class="text-center"></td>-->
+                                        <td th:text = "${c.date}" class="text-center"></td>
                                     </tr>
 
 
@@ -149,7 +152,8 @@
                                 <th class="text-center">Gâche</th>
                                 <th class="text-center">Retour</th>
                                 <th class="text-center">Stock final</th>
-                                <th class="text-center">Entrepôt</th>
+                                <th class="text-center">Date</th>
+                                <!--<th class="text-center">Entrepôt</th>-->
                                 </tfoot>
                             </table>
                         </div>

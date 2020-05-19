@@ -28,6 +28,9 @@ public class Vstock {
     @Column(name = "stock_quantite")
     private  Integer stockQuantite;
 
+    @Column(name = "seuil_projet")
+    private  Integer seuilProjet;
+
     public Vstock() {
         super();
     }
@@ -78,5 +81,13 @@ public class Vstock {
 
     public void setStockQuantite(Integer stockQuantite) {
         this.stockQuantite = stockQuantite;
+    }
+
+    public Integer getSeuilProjet() {
+        return seuilProjet;
+    }
+
+    public void setSeuilProjet(Integer seuilProjet) {
+        this.seuilProjet = seuilProjet;
     }
 }
