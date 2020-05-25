@@ -11,13 +11,13 @@
     <title th:utext="${title}"></title>
 
     &lt;!&ndash; Include CSS block &ndash;&gt;
-    <th:block th:include="/main/layout/block_css"></th:block>
+    <th:block th:include="main/layout/block_css"></th:block>
 
 </head>
 <body>
 
 &lt;!&ndash; Include MENU block &ndash;&gt;
-<th:block th:include="/main/_menu"></th:block>
+<th:block th:include="main/_menu"></th:block>
 
 
 &lt;!&ndash; page content &ndash;&gt;
@@ -37,7 +37,7 @@
 
 
 &lt;!&ndash; Include END MENU block &ndash;&gt;
-<th:block th:include="/main/_end_menu"></th:block>
+<th:block th:include="main/_end_menu"></th:block>
 
 
 
@@ -46,7 +46,7 @@
 
 
 &lt;!&ndash; Include SCRIPT block &ndash;&gt;
-<th:block th:include="/main/layout/block_script"></th:block>
+<th:block th:include="main/layout/block_script"></th:block>
 
 </body>
 </html>-->

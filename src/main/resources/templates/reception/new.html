@@ -10,7 +10,7 @@
     <title th:utext="${title}"></title>
 
     <!-- Include CSS block -->
-    <th:block th:include="/main/layout/block_css"></th:block>
+    <th:block th:include="main/layout/block_css"></th:block>
 <!--    <link th:rel="stylesheet" th:href="@{vendor/select2/css/select2.min.css}"/>-->
     <!-- SELECT2 CSS block -->
     <link rel = "stylesheet" type = "text/css" href = "../../static/vendor/select2/css/select2.min.css" th:href="@{/vendor/select2/css/select2.min.css}"/>
@@ -18,7 +18,7 @@
 <body>
 
 <!-- Include MENU block -->
-<th:block th:include="/main/_menu"></th:block>
+<th:block th:include="main/_menu"></th:block>
 
 
 <!-- page content -->
@@ -152,7 +152,7 @@
 
 
 <!-- Include END MENU block -->
-<th:block th:include="/main/_end_menu"></th:block>
+<th:block th:include="main/_end_menu"></th:block>
 
 
 
@@ -161,7 +161,7 @@
 
 
 <!-- Include SCRIPT block -->
-<th:block th:include="/main/layout/block_script"></th:block>
+<th:block th:include="main/layout/block_script"></th:block>
 <!--<script th:src="@{vendor/select2/js/select2.min.js}"></script>-->
 
 <!-- SELECT2 SCRIPT block -->

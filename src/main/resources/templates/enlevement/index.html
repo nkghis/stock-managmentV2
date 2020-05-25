@@ -10,7 +10,7 @@
     <title th:utext="${title}"></title>
 
     <!-- Include CSS block -->
-    <th:block th:include="/main/layout/block_css"></th:block>
+    <th:block th:include="main/layout/block_css"></th:block>
     <style>
         .nav-tabs {
             border-bottom:none;
@@ -46,7 +46,7 @@
 <body>
 
 <!-- Include MENU block -->
-<th:block th:include="/main/_menu"></th:block>
+<th:block th:include="main/_menu"></th:block>
 
 
 <!-- page content -->
@@ -194,7 +194,7 @@
 
 
 <!-- Include END MENU block -->
-<th:block th:include="/main/_end_menu"></th:block>
+<th:block th:include="main/_end_menu"></th:block>
 
 
 
@@ -203,7 +203,7 @@
 
 
 <!-- Include SCRIPT block -->
-<th:block th:include="/main/layout/block_script"></th:block>
+<th:block th:include="main/layout/block_script"></th:block>
 <script>
 
     $(document).ready( function () {
