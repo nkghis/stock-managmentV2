@@ -229,7 +229,7 @@ public class MainController {
             a.setRetour(var.getRetour());
             a.setGache(var.getGache());
             //a retire
-            a.setLivraison(a.getEnlevement()-a.getRetour());
+            a.setLivraison(a.getEnlevement()-a.getRetour()-a.getGache());
             a.setStockFinal(stockFinal);
             //a.setStockFinal(var.getEntreposage() - a.getLivraison() + stockInitial);
 
