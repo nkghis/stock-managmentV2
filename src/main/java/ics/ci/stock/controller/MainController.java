@@ -161,7 +161,7 @@ public class MainController {
         Date ldebut = new SimpleDateFormat("yyyy-MM-dd").parse(search.getDebut());
         LocalDateTime debut = ldebut.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
         Date lfin = new SimpleDateFormat("yyyy-MM-dd").parse(search.getFin());
-        LocalDateTime fin = lfin.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        LocalDateTime fin = lfin.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().withHour(23);
 
         Date d = new SimpleDateFormat("yyyy-MM-dd").parse("2020-01-01");
         LocalDateTime da = d.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
@@ -269,7 +269,7 @@ public class MainController {
         Date ldebut = new SimpleDateFormat("yyyy-MM-dd").parse(search.getDebut());
         LocalDateTime debut = ldebut.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
         Date lfin = new SimpleDateFormat("yyyy-MM-dd").parse(search.getFin());
-        LocalDateTime fin = lfin.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        LocalDateTime fin = lfin.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().withHour(23);
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         String datedebut = formatter.format(ldebut);
