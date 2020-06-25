@@ -136,7 +136,8 @@ public class EntreposageController {
             stk.setStockQuantite(entreposage.getQteVerse());
 
             //affectection de stock initial et final
-            entreposage.setStockInitial(entreposage.getQteVerse());
+            //entreposage.setStockInitial(entreposage.getQteVerse());
+            entreposage.setStockInitial(0);
             entreposage.setStockFinal(entreposage.getQteVerse());
 
             //perssist stock
