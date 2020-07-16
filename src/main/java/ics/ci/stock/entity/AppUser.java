@@ -1,6 +1,7 @@
 package ics.ci.stock.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
 
@@ -26,6 +27,16 @@ public class AppUser {
 
     @OneToMany(mappedBy = "appUser")
     private Collection<UserRole> userRoles;
+
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_role",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "user_id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "role_id"))
+    private Collection<AppRole> roles;
 
     public AppUser() {
         super();
@@ -76,4 +87,22 @@ public class AppUser {
     public void setUserRoles(Set<UserRole> userRoles) {
         this.userRoles = userRoles;
     }
+
+    public void setUserRoles(Collection<UserRole> userRoles) {
+        this.userRoles = userRoles;
+    }
+
+    public Collection<AppRole> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Collection<AppRole> roles) {
+        this.roles = roles;
+    }
+
+    /*public ArrayList<String> getRoleName ()
+    {
+
+        return
+    }*/
 }

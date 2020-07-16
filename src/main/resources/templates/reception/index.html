@@ -38,8 +38,8 @@
                 <h5><strong>Liste des Receptions.</strong></h5>
             </div>
 
-            <div class="col-md-4 page-action text-right">
-                <a th:href="@{/admin/receptions/new}" class="btn btn-sm btn-success pull-right" > <i class="material-icons">open_in_new</i> <b>Nouvelle réception</b></a>
+            <div sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_AGENT')" class="col-md-4 page-action text-right">
+                <a th:href="@{/agent/receptions/new}" class="btn btn-sm btn-success pull-right" > <i class="material-icons">open_in_new</i> <b>Nouvelle réception</b></a>
             </div>
         </div>
     </div>
@@ -140,7 +140,7 @@
     $(document).ready( function () {
         var table = $('#index-reception').DataTable({
 
-            "sAjaxSource": "/admin/receptions/all",
+            "sAjaxSource": "/agent/receptions/all",
             "sAjaxDataProp": "",
             "order": [ 1, "desc" ],
             "aoColumns": [
@@ -185,7 +185,7 @@
                             '                        </a>'+
                             '                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">'+
                             '                          <a class="dropdown-item" href=/admin/receptions/edit/'+ full.operationId+'>'+'Editer'+'</a>'+
-                            '                          <a class="dropdown-item" href=/admin/distributions/entrepots/'+ full.operationId+'>'+'Entreposer'+'</a>'+
+                            '                          <a class="dropdown-item" href=/agent/distributions/entrepots/'+ full.operationId+'>'+'Entreposer'+'</a>'+
                             '                        </div>'
                     }
                 }

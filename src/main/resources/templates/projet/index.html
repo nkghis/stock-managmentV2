@@ -33,7 +33,7 @@
             </div>
 
             <div class="col-md-4 page-action text-right">
-                <a th:href="@{/admin/projets/new}" class="btn btn-sm btn-success pull-right" > <i class="material-icons">open_in_new</i> <b>Nouveau Projet</b></a>
+                <a th:href="@{/auth/projets/new}" class="btn btn-sm btn-success pull-right" > <i class="material-icons">open_in_new</i> <b>Nouveau Projet</b></a>
             </div>
         </div>
     </div>
@@ -63,8 +63,8 @@
                         <td th:text = "${c.client.client_nom}" class="text-center"></td>
                         <td th:text = "${c.produit.produit_nom}" class="text-center"></td>
                         <td th:text = "${c.emetteur.emetteurNom}" class="text-center"></td>
-                        <td class="text-center"><a th:href="@{/admin/projets/edit/} + ${c.projet_id}" class="btn btn-primary btn-sm" ><i class="material-icons">edit</i>Editer</a></td>
-                        <td class="text-center"><a onclick="return confirm('Êtes vous sûre !!!')"  th:href="@{/admin/projets/delete/} + ${c.projet_id}" class="btn btn-danger btn-sm"><i class="material-icons">delete_forever</i>Supprimer</a></td>
+                        <td class="text-center"><a th:href="@{/auth/projets/edit/} + ${c.projet_id}" class="btn btn-primary btn-sm" ><i class="material-icons">edit</i>Editer</a></td>
+                        <td class="text-center"><a onclick="return confirm('Êtes vous sûre !!!')"  th:href="@{/auth/projets/delete/} + ${c.projet_id}" class="btn btn-danger btn-sm"><i class="material-icons">delete_forever</i>Supprimer</a></td>
 
                     </tr>
 

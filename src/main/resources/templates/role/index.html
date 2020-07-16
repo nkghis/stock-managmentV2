@@ -30,10 +30,10 @@
         <div class="row">
 
             <div class="col-md-8">
-                <h5><strong>Liste des clients.</strong></h5>
+                <h5><strong>Liste des roles.</strong></h5>
             </div>
 
-            <div class="col-md-4 page-action text-right">
+            <div sec:authorize="hasRole('ROLE_ADMIN')" class="col-md-4 page-action text-right">
                 <a th:href="@{/admin/roles/new}" class="btn btn-sm btn-success pull-right"> <i class="material-icons">open_in_new</i> <b>Nouveau Rôle</b></a>
             </div>
         </div>
@@ -49,8 +49,11 @@
                     <tr>
                         <th class="text-center">Id</th>
                         <th class="text-center">Rôle</th>
-                        <th class="text-center">Editer</th>
-                        <th class="text-center">Supprimer</th>
+                        <div sec:authorize="hasRole('ROLE_ADMIN')">
+                            <th class="text-center">Editer</th>
+                            <th class="text-center">Supprimer</th>
+                        </div>
+
 
 
                     </tr>
@@ -60,9 +63,12 @@
                     <tr th:each = "c:${listroles}">
                         <td th:text = "${c.roleId}" class="text-center"></td>
                         <td th:text = "${c.roleName}" class="text-center"></td>
-                        <td class="text-center"><a th:href="@{/admin/roles/edit/} + ${c.roleId}" class="btn btn-primary btn-sm" ><i class="material-icons">edit</i>Editer</a></td>
-                        <td class="text-center"><a onclick="return confirm('Êtes vous sûre !!!')"  th:href="@{/admin/clients/delete/} + ${c.roleId}" class="btn btn-danger btn-sm"><i class="material-icons">delete_forever</i>Supprimer</a></td>
 
+                        <div sec:authorize="hasRole('ROLE_ADMIN')">
+                            <td class="text-center"><a th:href="@{/admin/roles/edit/} + ${c.roleId}" class="btn btn-primary btn-sm" ><i class="material-icons">edit</i>Editer</a></td>
+                            <td class="text-center"><a onclick="return confirm('Êtes vous sûre !!!')"  th:href="@{/admin/roles/delete/} + ${c.roleId}" class="btn btn-danger btn-sm"><i class="material-icons">delete_forever</i>Supprimer</a></td>
+
+                        </div>
 
                     </tr>
 

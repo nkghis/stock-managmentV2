@@ -34,7 +34,7 @@ public class ProjetController {
     @Autowired
     private ProduitRepository produitRepository;
 
-    @RequestMapping(value = "/admin/projets")
+    @RequestMapping(value = "/auth/projets")
     public String index(Model model){
 
         List<Projet> projets = projetRepository.findAll();
@@ -44,7 +44,7 @@ public class ProjetController {
     }
 
 
-    @RequestMapping(value = "/admin/projets/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/auth/projets/save", method = RequestMethod.POST)
     public String saveProjet(@Valid Projet projet, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes){
 
         if(bindingResult.hasErrors()) {
@@ -52,31 +52,30 @@ public class ProjetController {
             model.addAttribute("monprojet", new Projet());
             return "projet/new";
         }
-        Projet p = projet;
-        //String aa = "";
+
+
 
         Projet t = projetRepository.findByProjetNom(projet.getProjetNom());
 
         if (t == null)
         {
-           String s ="save";
+
+           projet.setProjetNom(projet.getProjetNom().toUpperCase());
             projetRepository.save(projet);
             redirectAttributes.addFlashAttribute("messagesucces","Opération éffectée avec succès");
         }
 
         else {
-            String s = "notSave";
+
             redirectAttributes.addFlashAttribute("messagedanger","Echec, Le nom du projet [" +projet.getProjetNom() + " ] existe déjà dans la base de données");
         }
-        //boolean t = projetRepository.findByProjetNom(projet.getProjetNom());
-
-        //String aa = "";
 
 
-        return "redirect:/admin/projets";
+
+        return "redirect:/auth/projets";
     }
 
-    @RequestMapping(value = "/admin/projets/new", method = RequestMethod.GET)
+    @RequestMapping(value = "/auth/projets/new", method = RequestMethod.GET)
     public String newProjet (Model model){
         List<Client> clients =clientRepository.findAll();
         List<Emetteur> emetteurs =emetteurRepository.findAll();
@@ -89,7 +88,7 @@ public class ProjetController {
         return "projet/new";
     }
 
-    @RequestMapping(value = "/admin/projets/edit/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/auth/projets/edit/{id}", method = RequestMethod.GET)
     public String editProjet(@PathVariable Long id, Model model){
 
         Projet p = projetRepository.getOne(id);
@@ -104,10 +103,44 @@ public class ProjetController {
         return "projet/edit";
     }
 
-    @RequestMapping(value = "/admin/projets/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/auth/projets/delete/{id}", method = RequestMethod.GET)
     public String deleteClient(@PathVariable Long id){
 
         projetRepository.deleteById(id);
-        return "redirect:/admin/projets";
+        return "redirect:/auth/projets";
     }
+
+
+    @RequestMapping(value = "/auth/projets/update", method = RequestMethod.POST)
+    public String updateProjet(@Valid Projet projet, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes){
+
+        if(bindingResult.hasErrors()) {
+            System.out.println(bindingResult.getFieldError());
+            model.addAttribute("monprojet", new Projet());
+            return "projet/new";
+        }
+
+        Projet p = projetRepository.findByProjetNom(projet.getProjetNom());
+
+        if(p == null)
+        {
+            projet.setProjetNom(projet.getProjetNom().toUpperCase());
+            projetRepository.save(projet);
+
+            redirectAttributes.addFlashAttribute("messagesucces","Projet [" + projet.getProjetNom()+"] mis à jour avec succès");
+        }
+
+        else {
+           p.setProjetNom(projet.getProjetNom().toUpperCase());
+           p.setSeuilProjet(projet.getSeuilProjet());
+           p.setClient(projet.getClient());
+           p.setEmetteur(projet.getEmetteur());
+           p.setProduit(projet.getProduit());
+
+           projetRepository.save(p);
+            redirectAttributes.addFlashAttribute("messagesucces","Projet [" + p.getProjetNom()+"] mis à jour avec succès");
+        }
+        return "redirect:/auth/projets";
+    }
+
 }

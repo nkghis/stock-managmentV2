@@ -39,7 +39,7 @@ public class RetourController {
 
 
     //Affiche un formulaire de Retour.
-    @RequestMapping(value = "/admin/retours/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/agent/retours/{id}", method = RequestMethod.GET)
     public String newRetour(@PathVariable Long id, Model model) {
 
         Enlevement enlevement = enlevementRepository.getOne(id);
@@ -54,11 +54,11 @@ public class RetourController {
 
 
     //Attribuer retour
-    @RequestMapping(value = "/admin/retours/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/agent/retours/save", method = RequestMethod.POST)
     public String attribuerRetour(@Valid Retour retour, BindingResult bindingResult, Model model, Principal principal, HttpServletRequest request, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             System.out.println(bindingResult.getFieldError());
-            return "redirect:/admin/livraisons";
+            return "redirect:/agent/livraisons";
         }
 
         //Get id distribuer since form
@@ -108,11 +108,11 @@ public class RetourController {
 
         //Notification et redirection
         redirectAttributes.addFlashAttribute("messageretour","Attribution du retour éffectée avec succès");
-        return "redirect:/admin/livraisons";
+        return "redirect:/agent/livraisons";
     }
 
     //Liste des stock a attribuer des retour en Json
-    @RequestMapping(value = "/admin/retours")
+    @RequestMapping(value = "/agent/retours")
     @ResponseBody
     public List<VenlevementRetour> EnlevementRetourJson(Model model){
 
@@ -120,12 +120,12 @@ public class RetourController {
     }
 
 
-    @RequestMapping(value = {"/admin/retours/pas/{id}"}, method = {RequestMethod.GET})
+    @RequestMapping(value = {"/agent/retours/pas/{id}"}, method = {RequestMethod.GET})
     public String pasRetour(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
         Enlevement enlevement = (Enlevement)this.enlevementRepository.getOne(id);
         enlevement.setEstRetour(Boolean.valueOf(true));
         this.enlevementRepository.save(enlevement);
         redirectAttributes.addFlashAttribute("messageretour", "Pas du retour éffectée avec succès");
-        return "redirect:/admin/livraisons";
+        return "redirect:/agent/livraisons";
      }
 }

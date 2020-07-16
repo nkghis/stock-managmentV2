@@ -34,7 +34,7 @@ public class ProduitController {
     private EnlevementRepository enlevementRepository;
 
 
-    @RequestMapping(value = "/admin/produits")
+    @RequestMapping(value = "/auth/produits")
     public String index(Model model) {
         List<Produit> produit = produitRepository.findAll();
         model.addAttribute("produits", produit);
@@ -59,7 +59,7 @@ public class ProduitController {
         return "produit/index";
     }
 
-    @RequestMapping(value = "/admin/produits/new", method = RequestMethod.GET)
+    @RequestMapping(value = "/auth/produits/new", method = RequestMethod.GET)
     public String newProduit(Model model){
 
         model.addAttribute("monproduit",new Produit());
@@ -69,7 +69,7 @@ public class ProduitController {
     }
 
 
-    @RequestMapping(value = "/admin/produits/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/auth/produits/save", method = RequestMethod.POST)
         public String saveProduit(@Valid Produit produit, Errors errors, Model model, RedirectAttributes redirectAttributes){
 
         if (errors.hasErrors()){
@@ -78,12 +78,14 @@ public class ProduitController {
             //model.addAttribute("errors", errors);
             return "produit/new";
         }
+
+        produit.setProduit_nom(produit.getProduit_nom().toUpperCase());
         produitRepository.save(produit);
         redirectAttributes.addFlashAttribute("messagesucces","Opération éffectée avec succès");
-        return "redirect:/admin/produits";
+        return "redirect:/auth/produits";
     }
 
-    @RequestMapping(value = "/admin/produits/edit/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/auth/produits/edit/{id}", method = RequestMethod.GET)
     public String editProduit(@PathVariable Long id, Model model){
 
         Produit c = produitRepository.getOne(id);
@@ -95,11 +97,11 @@ public class ProduitController {
     }
 
 
-    @RequestMapping(value = "/admin/produits/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/auth/produits/delete/{id}", method = RequestMethod.GET)
     public String deleteProduit(@PathVariable Long id){
 
         produitRepository.deleteById(id);
-        return "redirect:/admin/produits";
+        return "redirect:/auth/produits";
     }
 
 }

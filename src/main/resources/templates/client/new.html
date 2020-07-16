@@ -40,7 +40,7 @@
 
 
             <div class="card-body">
-                <form th:action="@{/admin/clients/save}" th:object="${monclient}"  method="post">
+                <form th:action="@{/auth/clients/save}" th:object="${monclient}"  method="post">
                     <!-- Nom Client Form Input -->
                     <div  class="form-group row">
                         <label th:for="client_nom" class="col-sm-4 col-form-label text-md-right"><strong>Nom</strong></label>

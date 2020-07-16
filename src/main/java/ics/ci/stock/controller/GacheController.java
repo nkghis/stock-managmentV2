@@ -47,7 +47,7 @@ public class GacheController {
     private EnlevementController enlevementController;
 
     //Affiche un formulaire de Gache.
-    @RequestMapping(value = "/admin/gaches/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/agent/gaches/{id}", method = RequestMethod.GET)
     public String newGache(@PathVariable Long id, Model model) {
 
         List<Typegache> typegaches = typegacheRepository.findAll();
@@ -63,11 +63,11 @@ public class GacheController {
     }
 
     //Attribuer Gache
-    @RequestMapping(value = "/admin/gaches/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/agent/gaches/save", method = RequestMethod.POST)
     public String attribuerGache(@Valid Gache gache, BindingResult bindingResult, Model model, Principal principal, HttpServletRequest request, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             System.out.println(bindingResult.getFieldError());
-            return "redirect:/admin/livraisons";
+            return "redirect:/agent/livraisons";
         }
 
         //Get id distribuer since form
@@ -158,11 +158,11 @@ public class GacheController {
 
         //Notification et redirection
         redirectAttributes.addFlashAttribute("messagegache", mes);
-        return "redirect:/admin/livraisons";
+        return "redirect:/agent/livraisons";
     }
 
     //Liste des stock livrer en Json
-    @RequestMapping(value = "/admin/gaches")
+    @RequestMapping(value = "/agent/gaches")
     @ResponseBody
     public List<VenlevementGache> LivrerJson(Model model){
 
@@ -171,13 +171,13 @@ public class GacheController {
 
 
 
-    @RequestMapping(value = {"/admin/gaches/pas/{id}"}, method = {RequestMethod.GET})
+    @RequestMapping(value = {"/agent/gaches/pas/{id}"}, method = {RequestMethod.GET})
       public String pasGache(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
             Enlevement enlevement = (Enlevement)this.enlevementRepository.getOne(id);
             enlevement.setEstGache(Boolean.valueOf(true));
             this.enlevementRepository.save(enlevement);
             redirectAttributes.addFlashAttribute("messagegache", "Pas de gache éffectée avec succès");
-            return "redirect:/admin/livraisons";
+            return "redirect:/agent/livraisons";
 
           }
 }

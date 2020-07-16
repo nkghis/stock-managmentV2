@@ -1,6 +1,7 @@
 package ics.ci.stock.controller;
 
 import ics.ci.stock.entity.AppRole;
+import ics.ci.stock.entity.AppUser;
 import ics.ci.stock.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -21,10 +24,24 @@ public class RoleController {
     @Autowired
     private RoleRepository roleRepository;
 
-    @RequestMapping(value = "/admin/roles")
-    public String indexRole(Model model){
+    @RequestMapping(value = "/acces/roles")
+    public String indexRole(Model model, HttpServletRequest request){
 
-        List<AppRole> roles = roleRepository.findAll(Sort.by(Sort.Direction.DESC,"roleId"));
+        List<AppRole> roles = new ArrayList<AppRole>();
+
+        if (request.isUserInRole("ROLE_ADMIN")) {
+
+            roles = roleRepository.findAll(Sort.by(Sort.Direction.DESC,"roleId"));
+        }
+
+        else {
+            String r = "ROLE_ADMIN";
+            roles = roleRepository.findByRoleNameIsNot(r);
+        }
+
+
+
+        //List<AppRole> roles = roleRepository.findAll(Sort.by(Sort.Direction.DESC,"roleId"));
         model.addAttribute("listroles",roles);
         model.addAttribute("title", "Rôle - Liste");
         return "role/index";
@@ -50,7 +67,7 @@ public class RoleController {
         }
         roleRepository.save(role);
         redirectAttributes.addFlashAttribute("messagesucces","Opération éffectée avec succès");
-        return "redirect:/admin/roles";
+        return "redirect:/acces/roles";
     }
 
     @RequestMapping(value = "/admin/roles/edit/{id}", method = RequestMethod.GET)
@@ -67,7 +84,7 @@ public class RoleController {
     public String deleteRole(@PathVariable Long id){
 
         roleRepository.deleteById(id);
-        return "redirect:/admin/roles";
+        return "redirect:/acces/roles";
     }
 
 }

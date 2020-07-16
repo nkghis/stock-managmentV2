@@ -20,7 +20,7 @@ public class EntrepotController {
     @Autowired
     private EntrepotRepository entrepotRepository;
 
-    @RequestMapping(value = "/admin/entrepots")
+    @RequestMapping(value = "/auth/entrepots")
     public String indexEntrepot(Model model){
 
 
@@ -31,7 +31,7 @@ public class EntrepotController {
         return "entrepot/index";
     }
 
-    @RequestMapping(value = "/admin/entrepots/new", method = RequestMethod.GET)
+    @RequestMapping(value = "/auth/entrepots/new", method = RequestMethod.GET)
     public String newEntrepot(Model model){
 
         model.addAttribute("monentrepot",new Entrepot());
@@ -41,7 +41,7 @@ public class EntrepotController {
     }
 
 
-    @RequestMapping(value = "/admin/entrepots/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/auth/entrepots/save", method = RequestMethod.POST)
     public String saveEntrepot(@Valid Entrepot entrepot, Errors errors, Model model, RedirectAttributes redirectAttributes){
 
         if (errors.hasErrors()){
@@ -50,14 +50,16 @@ public class EntrepotController {
             //model.addAttribute("errors", errors);
             return "entrepot/new";
         }
+
+        entrepot.setEntrepotNom(entrepot.getEntrepotNom().toUpperCase());
         entrepotRepository.save(entrepot);
         redirectAttributes.addFlashAttribute("messagesucces","Opération éffectée avec succès");
-        return "redirect:/admin/entrepots";
+        return "redirect:/auth/entrepots";
     }
 
 
 
-    @RequestMapping(value = "/admin/entrepots/edit/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/auth/entrepots/edit/{id}", method = RequestMethod.GET)
     public String editEntrepot(@PathVariable Long id, Model model){
 
         Entrepot e = entrepotRepository.getOne(id);
@@ -67,11 +69,11 @@ public class EntrepotController {
         return "entrepot/edit";
     }
 
-    @RequestMapping(value = "/admin/entrepots/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/auth/entrepots/delete/{id}", method = RequestMethod.GET)
     public String deleteEntrepot(@PathVariable Long id){
 
         entrepotRepository.deleteById(id);
-        return "redirect:/admin/entrepots";
+        return "redirect:/auth/entrepots";
     }
 }
 

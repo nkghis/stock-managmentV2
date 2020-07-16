@@ -36,7 +36,7 @@
         </div>
     </div>
     <div class="card-body">
-        <form th:action="@{/admin/produits/save}" th:object="${monproduit}"  method="post">
+        <form th:action="@{/auth/produits/save}" th:object="${monproduit}"  method="post">
             <!-- Nom Client Form Input -->
             <div  class="form-group row">
                 <label th:for="produit_nom" class="col-sm-4 col-form-label text-md-right"><strong>Nom</strong></label>

@@ -21,7 +21,7 @@ public class EmetteurController {
     @Autowired
     private EmetteurRepository emetteurRepository;
 
-    @RequestMapping(value = "/admin/emetteurs")
+    @RequestMapping(value = "/auth/emetteurs")
     public String index(Model model){
 
 
@@ -33,7 +33,7 @@ public class EmetteurController {
     }
 
 
-    @RequestMapping(value = "/admin/emetteurs/new", method = RequestMethod.GET)
+    @RequestMapping(value = "/auth/emetteurs/new", method = RequestMethod.GET)
     public String newEmetteur(Model model){
 
         model.addAttribute("monemetteur",new Emetteur());
@@ -43,7 +43,7 @@ public class EmetteurController {
     }
 
 
-    @RequestMapping(value = "/admin/emetteurs/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/auth/emetteurs/save", method = RequestMethod.POST)
     public String saveEmetteur(@Valid Emetteur emetteur, Errors errors, Model model, RedirectAttributes redirectAttributes){
 
         if (errors.hasErrors()){
@@ -52,12 +52,14 @@ public class EmetteurController {
             //model.addAttribute("errors", errors);
             return "emetteur/new";
         }
+
+        emetteur.setEmetteurNom(emetteur.getEmetteurNom().toUpperCase());
         emetteurRepository.save(emetteur);
         redirectAttributes.addFlashAttribute("messagesucces","Opération éffectée avec succès");
-        return "redirect:/admin/emetteurs";
+        return "redirect:/auth/emetteurs";
     }
 
-    @RequestMapping(value = "/admin/emetteurs/edit/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/auth/emetteurs/edit/{id}", method = RequestMethod.GET)
     public String editEmetteur(@PathVariable Long id, Model model){
 
         Emetteur e = emetteurRepository.getOne(id);
@@ -68,11 +70,11 @@ public class EmetteurController {
     }
 
 
-    @RequestMapping(value = "/admin/emetteurs/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/auth/emetteurs/delete/{id}", method = RequestMethod.GET)
     public String deleteEmetteur(@PathVariable Long id){
 
         emetteurRepository.deleteById(id);
-        return "redirect:/admin/emetteurs";
+        return "redirect:/auth/emetteurs";
     }
 
 

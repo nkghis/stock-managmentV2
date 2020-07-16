@@ -138,7 +138,7 @@
     $(document).ready( function () {
         var table = $('#index-reception-true').DataTable({
 
-            "sAjaxSource": "/admin/distributions/all",
+            "sAjaxSource": "/agent/distributions/all",
             "sAjaxDataProp": "",
             "order": [ 1, "desc" ],
             "aoColumns": [
@@ -176,7 +176,7 @@
                             '                          <i class="fas fa-ellipsis-v"></i>'+
                             '                        </a>'+
                             '                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">'+
-                            '                          <a class="dropdown-item" href=/admin/distributions/entrepots/'+ full.operationId+'>'+'Entreposer'+'</a>'+
+                            '                          <a class="dropdown-item" href=/agent/distributions/entrepots/'+ full.operationId+'>'+'Entreposer'+'</a>'+
                             '                        </div>'
                     }
                 }

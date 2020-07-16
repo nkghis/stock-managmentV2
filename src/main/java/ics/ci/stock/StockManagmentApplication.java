@@ -1,9 +1,17 @@
 package ics.ci.stock;
 
 
+import ics.ci.stock.entity.AppRole;
+import ics.ci.stock.entity.AppUser;
+import ics.ci.stock.entity.UserRole;
+import ics.ci.stock.repository.RoleRepository;
+import ics.ci.stock.repository.UserRepository;
+import ics.ci.stock.repository.UserRoleRepository;
+import ics.ci.stock.utils.EncrytedPasswordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.mail.javamail.JavaMailSender;
 
@@ -15,8 +23,8 @@ public class StockManagmentApplication {
 	public static void main(String[] args) {
 
 
-		/*ApplicationContext ctx = SpringApplication.run(AuthentificationApplication.class, args);
-		String p = "123";
+		ApplicationContext ctx = SpringApplication.run(StockManagmentApplication.class, args);
+		/*String p = "123";
 		String password = EncrytedPasswordUtils.encrytePassword(p);
 
 		System.out.println("===============DEBUT TRANSACTION=======================");
@@ -41,15 +49,14 @@ public class StockManagmentApplication {
 		userRoleRepository.save(new UserRole(user1,roleuser));
 		userRoleRepository.save(new UserRole(user2,roleuser));
 
-		System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&FIN DE LA TRANSACTION&&&&&&&&&&&&&&&&&&&");*/
-
-		ConfigurableApplicationContext configurableApplicationContext = SpringApplication.run(ics.ci.stock.StockManagmentApplication.class, args);
+		System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&FIN DE LA TRANSACTION&&&&&&&&&&&&&&&&&&&");
+		*/
+		/*ConfigurableApplicationContext configurableApplicationContext = SpringApplication.run(ics.ci.stock.StockManagmentApplication.class, args);
 		System.out.println("Sending Email...".toUpperCase());
-		String p = "azerty";
-		String s = p.toUpperCase();
+		String pa = "azerty";
+		String s = pa.toUpperCase();
 		System.out.println(s);
-
-
+*/
 
 /*
 	ApplicationContext ctx = SpringApplication.run(AuthentificationApplication.class, args);

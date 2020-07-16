@@ -20,7 +20,7 @@ public class ClientController {
     @Autowired
     private ClientRepository clientRepository;
 
-    @RequestMapping(value = "/admin/clients")
+    @RequestMapping(value = "/auth/clients")
     public String index(Model model){
 
 
@@ -31,7 +31,7 @@ public class ClientController {
         return "client/index";
     }
 
-    @RequestMapping(value = "/admin/clients/new", method = RequestMethod.GET)
+    @RequestMapping(value = "/auth/clients/new", method = RequestMethod.GET)
     public String newClient(Model model){
 
         model.addAttribute("monclient",new Client());
@@ -41,7 +41,7 @@ public class ClientController {
     }
 
 
-    @RequestMapping(value = "/admin/clients/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/auth/clients/save", method = RequestMethod.POST)
     public String saveClient(@Valid Client client, Errors errors, Model model, RedirectAttributes redirectAttributes){
 
         if (errors.hasErrors()){
@@ -50,14 +50,15 @@ public class ClientController {
             //model.addAttribute("errors", errors);
             return "client/new";
         }
+        client.setClient_nom(client.getClient_nom().toUpperCase());
         clientRepository.save(client);
         redirectAttributes.addFlashAttribute("messagesucces","Opération éffectée avec succès");
-        return "redirect:/admin/clients";
+        return "redirect:/auth/clients";
     }
 
 
 
-    @RequestMapping(value = "/admin/clients/edit/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/auth/clients/edit/{id}", method = RequestMethod.GET)
     public String editClient(@PathVariable Long id, Model model){
 
         Client c = clientRepository.getOne(id);
@@ -67,10 +68,10 @@ public class ClientController {
         return "client/edit";
     }
 
-    @RequestMapping(value = "/admin/clients/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/auth/clients/delete/{id}", method = RequestMethod.GET)
     public String deleteClient(@PathVariable Long id){
 
         clientRepository.deleteById(id);
-        return "redirect:/admin/clients";
+        return "redirect:/auth/clients";
     }
 }

@@ -42,14 +42,14 @@ public class EntreposageController {
     @Autowired
     private StockRepository stockRepository;
 
-    @RequestMapping(value = "/admin/distributions", method = RequestMethod.GET)
+    @RequestMapping(value = "/agent/distributions", method = RequestMethod.GET)
     public String indexEntreposage(Model model){
 
         model.addAttribute("title", "Entrée - Liste");
         return "entreposage/index";
     }
 
-    @RequestMapping(value = "/admin/distributions/new", method = RequestMethod.GET)
+    @RequestMapping(value = "/agent/distributions/new", method = RequestMethod.GET)
     public String newEntreposage(Model model){
 
 
@@ -58,11 +58,11 @@ public class EntreposageController {
     }
 
 
-    @RequestMapping(value = "/admin/distributions/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/agent/distributions/save", method = RequestMethod.POST)
     public String saveDistribution(@Valid Entreposer entreposage, BindingResult bindingResult, Model model, Principal principal, HttpServletRequest request, Stock stk, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             System.out.println(bindingResult.getFieldError());
-            return "redirect:/admin/distributions/new";
+            return "redirect:/agent/distributions/new";
         }
         //Get id Operation since form
         String s = request.getParameter("reception");
@@ -169,7 +169,7 @@ public class EntreposageController {
         entreposerRepository.save(entreposage);
         //Notification et redirection
         redirectAttributes.addFlashAttribute("messagedistribution","Entréé éffectée avec succès");
-        return "redirect:/admin/distributions";
+        return "redirect:/agent/distributions";
     }
 
     @RequestMapping(value = "/admin/distributions/edit/{id}", method = RequestMethod.GET)
@@ -184,7 +184,7 @@ public class EntreposageController {
         return "";
     }
 
-    @RequestMapping(value = "/admin/distributions/all")
+    @RequestMapping(value = "/agent/distributions/all")
     @ResponseBody
     public List<VreceptionTrueDispo> allReceptionTrueJson(Model model) {
 
@@ -193,7 +193,7 @@ public class EntreposageController {
 
     }
 
-    @RequestMapping(value = "/admin/distributions/entrepots/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/agent/distributions/entrepots/{id}", method = RequestMethod.GET)
     public String DistribuerEntrepot(@PathVariable Long id, Model model){
 
         List<Entrepot> entrepots = entrepotRepository.findAll();

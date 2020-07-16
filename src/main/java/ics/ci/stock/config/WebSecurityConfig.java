@@ -52,10 +52,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // /user page requires login as ROLE_USER or ROLE_ADMIN.
         // If no login, it will redirect to /login page.
-        http.authorizeRequests().antMatchers("/user/*").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
+        http.authorizeRequests().antMatchers("/user/**").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
+        http.authorizeRequests().antMatchers("/auth/**").access("hasAnyRole('ROLE_SUPERVISOR', 'ROLE_ADMIN')");
+        http.authorizeRequests().antMatchers("/agent/**").access("hasAnyRole('ROLE_AGENT', 'ROLE_ADMIN')");
+        http.authorizeRequests().antMatchers("/acces/**").access("hasAnyRole('ROLE_ACCES', 'ROLE_ADMIN')");
+        http.authorizeRequests().antMatchers("/access/**").access("hasAnyRole('ROLE_ACCES', 'ROLE_ADMIN', 'ROLE_SUPERVISOR')");
+        http.authorizeRequests().antMatchers("/stocks").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN','ROLE_SUPERVISOR', 'ROLE_AGENT')");
+        http.authorizeRequests().antMatchers("/dashboard/*").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN','ROLE_SUPERVISOR', 'ROLE_AGENT')");
 
         // For ADMIN only.
-        http.authorizeRequests().antMatchers("/admin/*").access("hasRole('ROLE_ADMIN')");
+        http.authorizeRequests().antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')");
 
         // When the user has logged in as XX.
         // But access a page that requires role YY,

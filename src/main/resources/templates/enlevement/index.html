@@ -209,7 +209,7 @@
     $(document).ready( function () {
         var table = $('#index-enlevement-true').DataTable({
 
-            "sAjaxSource": "/admin/livraisons/all",
+            "sAjaxSource": "/agent/livraisons/all",
             "sAjaxDataProp": "",
             "order": [ 0, "desc" ],
             "aoColumnDefs": [
@@ -273,7 +273,7 @@
                             '                          <i class="fas fa-ellipsis-v"></i>'+
                             '                        </a>'+
                             '                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">'+
-                            '                          <a class="dropdown-item" href=/admin/livraisons/distributions/'+ full.entreposageId+'>'+'Livrer'+'</a>'+
+                            '                          <a class="dropdown-item" href=/agent/livraisons/distributions/'+ full.entreposageId+'>'+'Livrer'+'</a>'+
                             '                        </div>'
                     }
                 }
@@ -310,7 +310,7 @@
     $(document).ready( function () {
         var table = $('#index-gache').DataTable({
 
-            "sAjaxSource": "/admin/gaches",
+            "sAjaxSource": "/agent/gaches",
             "sAjaxDataProp": "",
             "order": [ 0, "desc" ],
             "aoColumnDefs": [
@@ -348,8 +348,8 @@
                             '                          <i class="fas fa-ellipsis-v"></i>'+
                             '                        </a>'+
                             '                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">'+
-                            '                          <a class="dropdown-item" href=/admin/gaches/'+ full.operationId+'>'+'Attribuer'+'</a>'+
-                            '                          <a class="dropdown-item" href=/admin/gaches/pas/'+ full.operationId+'>'+'Pas Gache'+'</a>'+
+                            '                          <a class="dropdown-item" href=/agent/gaches/'+ full.operationId+'>'+'Attribuer'+'</a>'+
+                            '                          <a class="dropdown-item" href=/agent/gaches/pas/'+ full.operationId+'>'+'Pas Gache'+'</a>'+
                             '                        </div>'
                     }
                 }
@@ -386,7 +386,7 @@
     $(document).ready( function () {
         var table = $('#index-retour').DataTable({
 
-            "sAjaxSource": "/admin/retours",
+            "sAjaxSource": "/agent/retours",
             "sAjaxDataProp": "",
             "order": [ 0, "desc" ],
             "aoColumnDefs": [
@@ -424,8 +424,8 @@
                             '                          <i class="fas fa-ellipsis-v"></i>'+
                             '                        </a>'+
                             '                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">'+
-                            '                          <a class="dropdown-item" href=/admin/retours/'+ full.operationId+'>'+'Attribuer'+'</a>'+
-                            '                          <a class="dropdown-item" href=/admin/retours/pas/'+ full.operationId+'>'+'Pas de retour'+'</a>'+
+                            '                          <a class="dropdown-item" href=/agent/retours/'+ full.operationId+'>'+'Attribuer'+'</a>'+
+                            '                          <a class="dropdown-item" href=/agent/retours/pas/'+ full.operationId+'>'+'Pas de retour'+'</a>'+
                             '                        </div>'
                     }
                 }

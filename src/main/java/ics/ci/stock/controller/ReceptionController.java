@@ -47,7 +47,7 @@ public class ReceptionController {
 
         return  vreceptionRepository.findAll();
     }*/
-    @RequestMapping(value = "/admin/receptions")
+    @RequestMapping(value = "/agent/receptions")
     public String indexReception(Model model) {
 
 
@@ -56,7 +56,7 @@ public class ReceptionController {
         return "reception/index";
     }
 
-    @RequestMapping(value = "/admin/receptions/new", method = RequestMethod.GET)
+    @RequestMapping(value = "/agent/receptions/new", method = RequestMethod.GET)
     public String newReception(Model model){
 
 
@@ -85,7 +85,7 @@ public class ReceptionController {
 
     }
 
-    @RequestMapping(value = "/admin/receptions/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/agent/receptions/save", method = RequestMethod.POST)
     public String saveReception(@Valid Reception reception, BindingResult bindingResult, Model model, Principal principal, RedirectAttributes redirectAttributes) {
 
         //Validation du formulaire
@@ -101,7 +101,7 @@ public class ReceptionController {
 
             model.addAttribute("mareception", r);
             return "reception/new";*/
-            return "redirect:/admin/receptions/new";
+            return "redirect:/agent/receptions/new";
         }
         LocalDateTime date = LocalDateTime.now();
         AppUser user = userRepository.findByUserName(principal.getName());
@@ -116,7 +116,7 @@ public class ReceptionController {
 
         //Notification et redirection
         redirectAttributes.addFlashAttribute("messagereception","Reception éffectée avec succès");
-        return "redirect:/admin/receptions";
+        return "redirect:/agent/receptions";
 
 
     }
@@ -164,13 +164,13 @@ public class ReceptionController {
         return "reception/edit";
     }
 
-    @RequestMapping(value = "/admin/receptions/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/agent/receptions/update", method = RequestMethod.POST)
     public String updateReception(@Valid Reception reception, BindingResult bindingResult, Model model, Principal principal){
 
         return "";
     }
 
-    @RequestMapping(value = "/admin/receptions/all")
+    @RequestMapping(value = "/agent/receptions/all")
     @ResponseBody
     public List<Vreception> allReceptionJson(Model model) {
 

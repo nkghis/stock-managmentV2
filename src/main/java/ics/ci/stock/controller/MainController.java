@@ -100,7 +100,7 @@ public class MainController {
 
         List<Vstock> stocks = vstockRepository.findAll();
         model.addAttribute("userInfo", userInfo);
-        model.addAttribute("title", "Tableau de bord");
+        model.addAttribute("title", "Tableau de bord - Etat de stock");
         model.addAttribute("stocks", stocks);
         model.addAttribute("search", new Search());
 
@@ -144,7 +144,7 @@ public class MainController {
     }
 
 
-    @RequestMapping(value = "/admin/dashboard/operation", method = RequestMethod.POST)
+    @RequestMapping(value = "/dashboard/operation", method = RequestMethod.POST)
     public String allOperation( @Valid Search search , Errors errors, Model model, RedirectAttributes redirectAttributes) throws ParseException {
 
         if (errors.hasErrors()){
@@ -253,7 +253,7 @@ public class MainController {
         return "main/operation";
     }
 
-    @RequestMapping(value = "/admin/dashboard/mouvement", method = RequestMethod.POST)
+    @RequestMapping(value = "/dashboard/mouvement", method = RequestMethod.POST)
     public String allMouvement( @Valid Search search , Errors errors, Model model) throws ParseException {
 
         if (errors.hasErrors()){

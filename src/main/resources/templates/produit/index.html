@@ -32,7 +32,7 @@
                         </div>
 
                         <div class="col-md-4 page-action text-right">
-                            <a th:href="@{/admin/produits/new}" class="btn btn-sm btn-success pull-right"> <i class="material-icons">open_in_new</i> <b>Nouveau Produit</b></a>
+                            <a th:href="@{/auth/produits/new}" class="btn btn-sm btn-success pull-right"> <i class="material-icons">open_in_new</i> <b>Nouveau Produit</b></a>
                         </div>
                     </div>
                 </div>
@@ -58,7 +58,7 @@
                                 <tr th:each = "c:${produits}">
                                     <td th:text = "${c.produit_id}" class="text-center"></td>
                                     <td th:text = "${c.produit_nom}" class="text-center"></td>
-                                    <td class="text-center"><a th:href="@{/admin/produits/edit/} + ${c.produit_id}" class="btn btn-primary btn-sm" ><i class="material-icons">edit</i>Editer</a></td>
+                                    <td class="text-center"><a th:href="@{/auth/produits/edit/} + ${c.produit_id}" class="btn btn-primary btn-sm" ><i class="material-icons">edit</i>Editer</a></td>
                                     <td class="text-center"><a onclick="return confirm('Êtes vous sûre !!!')"  th:href="@{produits/delete/} + ${c.produit_id}" class="btn btn-danger btn-sm"><i class="material-icons">delete_forever</i>Supprimer</a></td>
 
 

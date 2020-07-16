@@ -34,7 +34,7 @@
             </div>
 
             <div class="col-md-4 page-action text-right">
-                <a th:href="@{/admin/ressources/new}" class="btn btn-sm btn-success pull-right"> <i class="material-icons">open_in_new</i> <b>Nouvelle Ressource</b></a>
+                <a th:href="@{/access/ressources/new}" class="btn btn-sm btn-success pull-right"> <i class="material-icons">open_in_new</i> <b>Nouvelle Ressource</b></a>
             </div>
         </div>
     </div>
@@ -60,8 +60,8 @@
                     <tr th:each = "c:${listressources}">
                         <td th:text = "${c.ressource_id}" class="text-center"></td>
                         <td th:text = "${c.ressource_nom} + ' ' + ${c.ressource_prenoms}" class="text-center"></td>
-                        <td class="text-center"><a th:href="@{/admin/ressources/edit/} + ${c.ressource_id}" class="btn btn-primary btn-sm" ><i class="material-icons">edit</i>Editer</a></td>
-                        <td class="text-center"><a onclick="return confirm('Êtes vous sûre !!!')"  th:href="@{/admin/ressources/delete/} + ${c.ressource_id}" class="btn btn-danger btn-sm"><i class="material-icons">delete_forever</i>Supprimer</a></td>
+                        <td class="text-center"><a th:href="@{/access/ressources/edit/} + ${c.ressource_id}" class="btn btn-primary btn-sm" ><i class="material-icons">edit</i>Editer</a></td>
+                        <td class="text-center"><a onclick="return confirm('Êtes vous sûre !!!')"  th:href="@{/access/ressources/delete/} + ${c.ressource_id}" class="btn btn-danger btn-sm"><i class="material-icons">delete_forever</i>Supprimer</a></td>
 
 
                     </tr>

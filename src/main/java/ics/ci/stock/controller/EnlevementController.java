@@ -53,7 +53,7 @@ public class EnlevementController {
     @Autowired
     private GacheRepository gacheRepository;
 
-    @RequestMapping(value = "/admin/livraisons", method = RequestMethod.GET)
+    @RequestMapping(value = "/agent/livraisons", method = RequestMethod.GET)
     public String indexLivraison(Model model){
 
         /*List<VentreposageTrueLivrable> livrab = livrableRepository.findAll();
@@ -63,11 +63,11 @@ public class EnlevementController {
         return "enlevement/index";
     }
 
-    @RequestMapping(value = "/admin/livraisons/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/agent/livraisons/save", method = RequestMethod.POST)
     public String saveDistribution(@Valid Enlevement enlevement, BindingResult bindingResult, Model model, Principal principal, HttpServletRequest request, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             System.out.println(bindingResult.getFieldError());
-            return "redirect:/admin/livraisons";
+            return "redirect:/agent/livraisons";
         }
 
         //Get id entreposage since form
@@ -149,7 +149,7 @@ public class EnlevementController {
         enlevementRepository.save(enlevement);
 
         redirectAttributes.addFlashAttribute("messageenlevement","Sortie éffectée avec succès");
-        return "redirect:/admin/livraisons";
+        return "redirect:/agent/livraisons";
     }
 
 
@@ -158,7 +158,7 @@ public class EnlevementController {
 
 
         //Affiche un formulaire de enlevement.
-    @RequestMapping(value = "/admin/livraisons/distributions/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/agent/livraisons/distributions/{id}", method = RequestMethod.GET)
     public String LivraisonDistribuer(@PathVariable Long id, Model model){
 
         //Get reference.
@@ -187,7 +187,7 @@ public class EnlevementController {
 
 
     //Liste des stock livrables en Json
-    @RequestMapping(value = "/admin/livraisons/all")
+    @RequestMapping(value = "/agent/livraisons/all")
     @ResponseBody
     public List<VentreposageTrueLivrable> allDistributionTrueLivrableJson(Model model){
 

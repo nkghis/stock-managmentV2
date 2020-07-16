@@ -20,7 +20,7 @@ public class RessourceController {
     @Autowired
     private RessourceRepository ressourceRepository;
 
-    @RequestMapping(value = "/admin/ressources")
+    @RequestMapping(value = "/access/ressources")
     public String indexRessource(Model model){
 
         List<Ressource> ressources = ressourceRepository.findAll();
@@ -29,7 +29,7 @@ public class RessourceController {
         return "ressource/index";
     }
 
-    @RequestMapping(value = "/admin/ressources/new", method = RequestMethod.GET)
+    @RequestMapping(value = "/access/ressources/new", method = RequestMethod.GET)
     public String newRessource(Model model){
 
         model.addAttribute("maressource",new Ressource());
@@ -38,7 +38,7 @@ public class RessourceController {
 
     }
 
-    @RequestMapping(value = "/admin/ressources/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/access/ressources/save", method = RequestMethod.POST)
     public String saveRessource(@Valid Ressource ressource, Errors errors, Model model, RedirectAttributes redirectAttributes){
 
         if (errors.hasErrors()){
@@ -47,12 +47,14 @@ public class RessourceController {
             //model.addAttribute("errors", errors);
             return "ressource/new";
         }
+        ressource.setRessource_nom(ressource.getRessource_nom().toUpperCase());
+        ressource.setRessource_prenoms(ressource.getRessource_prenoms().toUpperCase());
         ressourceRepository.save(ressource);
         redirectAttributes.addFlashAttribute("messagesucces","Opération éffectée avec succès");
-        return "redirect:/admin/ressources";
+        return "redirect:/access/ressources";
     }
 
-    @RequestMapping(value = "/admin/ressources/edit/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/access/ressources/edit/{id}", method = RequestMethod.GET)
     public String editRessource(@PathVariable Long id, Model model){
 
         Ressource r = ressourceRepository.getOne(id);
@@ -62,11 +64,11 @@ public class RessourceController {
         return "ressource/edit";
     }
 
-    @RequestMapping(value = "/admin/ressources/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/access/ressources/delete/{id}", method = RequestMethod.GET)
     public String deleteRessource(@PathVariable Long id){
 
         ressourceRepository.deleteById(id);
-        return "redirect:/admin/ressources";
+        return "redirect:/access/ressources";
     }
 
 }

@@ -5,6 +5,8 @@ import ics.ci.stock.entity.Reception;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface UserRepository extends JpaRepository<AppUser, Long> {
     AppUser findByUserName(String userName);
 
@@ -31,4 +33,8 @@ public interface UserRepository extends JpaRepository<AppUser, Long> {
 
   /*  @Query(value = )*/
     Reception operation();
+
+    //List<AppUser> findByRoles_NameIn(List<String> roles);
+
+    //List<AppUser>
 }

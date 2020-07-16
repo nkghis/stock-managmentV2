@@ -20,7 +20,7 @@ public class FournisseurController {
     @Autowired
     private FournisseurRepository fournisseurRepository;
 
-    @RequestMapping(value = "/admin/fournisseurs")
+    @RequestMapping(value = "/access/fournisseurs")
     public String indexFournisseur(Model model){
 
         List<Fournisseur> fournisseurs = fournisseurRepository.findAll();
@@ -29,7 +29,7 @@ public class FournisseurController {
         return "fournisseur/index";
     }
 
-    @RequestMapping(value = "/admin/fournisseurs/new", method = RequestMethod.GET)
+    @RequestMapping(value = "/access/fournisseurs/new", method = RequestMethod.GET)
     public String newFournisseur(Model model){
 
         model.addAttribute("monfournisseur",new Fournisseur());
@@ -38,7 +38,7 @@ public class FournisseurController {
 
     }
 
-    @RequestMapping(value = "/admin/fournisseurs/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/access/fournisseurs/save", method = RequestMethod.POST)
     public String saveFournisseur(@Valid Fournisseur fournisseur, Errors errors, Model model, RedirectAttributes redirectAttributes){
 
         if (errors.hasErrors()){
@@ -47,12 +47,13 @@ public class FournisseurController {
             //model.addAttribute("errors", errors);
             return "fournisseur/new";
         }
+        fournisseur.setFournisseur_nom(fournisseur.getFournisseur_nom().toUpperCase());
         fournisseurRepository.save(fournisseur);
         redirectAttributes.addFlashAttribute("messagesucces","Opération éffectée avec succès");
-        return "redirect:/admin/fournisseurs";
+        return "redirect:/access/fournisseurs";
     }
 
-    @RequestMapping(value = "/admin/fournisseurs/edit/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/access/fournisseurs/edit/{id}", method = RequestMethod.GET)
     public String editFournisseur(@PathVariable Long id, Model model){
 
         Fournisseur r = fournisseurRepository.getOne(id);
@@ -62,10 +63,10 @@ public class FournisseurController {
         return "fournisseur/edit";
     }
 
-    @RequestMapping(value = "/admin/fournisseurs/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/access/fournisseurs/delete/{id}", method = RequestMethod.GET)
     public String deleteFournisseur(@PathVariable Long id){
 
         fournisseurRepository.deleteById(id);
-        return "redirect:/admin/fournisseurs";
+        return "redirect:/access/fournisseurs";
     }
 }
