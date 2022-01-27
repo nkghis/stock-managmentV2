@@ -48,9 +48,9 @@
                         <th class="text-center">Rôles</th>
                         <!--<th class="text-center">Rôles</th>-->
                         <th class="text-center">Editer</th>
-                        <div sec:authorize="hasRole('ROLE_ADMIN')">
+                        <!--<div sec:authorize="hasRole('ROLE_ADMIN')">
                             <th  class="text-center">Supprimer</th>
-                        </div>
+                        </div>-->
 
 
 
@@ -61,24 +61,11 @@
                     <tr th:each = "c:${listusers}">
                         <!--<td th:text = "${c.userId}" class="text-center"></td>-->
                         <td th:text = "${c.userName}" class="text-center"></td>
-
-                       <!-- <td th:each="d:${c.getUserRoles()}" th:text = "${d.getAppRole().getRoleName()}" class="text-center"></td>-->
-                        <td th:each="d:${c.getUserRoles()}" th:text = "${#strings.concat(d.getAppRole().getRoleName())}" class="text-center"></td>
-                        <!--<td  th:text = "${#strings.arraySplit(c.getRole()),','}" class="text-center"></td>-->
-                      <!--  <td  th:text = "${#strings.arraySplit(getRoles().stream().map(AppRole::getRoleName).collect(Collectors.toList())),','}" class="text-center"></td>-->
-                        <!--<td  th:text = "${#strings.listJoin(c.userRoles[roleName], ',')}" class="text-center"></td>-->
-<!--                        <!--<td th:each="d:${c.getUserRoles()}" th:text = "${d.getAppRole().getRoleName()}" class="text-center"></td>-->
-                      <!--  <td th:each="d:${c.getUserRoles()}" th:text = "${#strings.)}" class="text-center"></td>&ndash;&gt;-->
-                       <!-- <td  th:text = "${c.getUserRoles().ge}" class="text-center"></td>-->
-                     <!--   <td th:each="d:${c.getUserRoles()}" th:text = "${#strings.listJoin(#messages.listMsg(d.getAppRole().getRoleName()), ',')}" class="text-center"></td>-->
-                      <!--  <td  th:text = "${#strings.listJoin(#messages.listMsg(c.userRoles.forEach()), ',')}" class="text-center"></td>-->
-    <!--                    <td th:each="d:${c.getUserRoles()}" th:text = "${#strings.join(d.getAppRole().getRoleName(),',')}" class="text-center"></td>-->
-                        <!--<td th:each="d:${c.getUserRoles()}" th:text = "${d.getAppRole().getRoleName().toString()}" class="text-center"></td>-->
-                        <!--<td th:text = "${c.userRoles.forEach(p->p.)}" class="text-center"></td>-->
-                       <td class="text-center"><a th:href="@{/acces/users/edit/} + ${c.userId}" class="btn btn-primary btn-sm" ><i class="material-icons">edit</i>Editer</a></td>
-                        <div sec:authorize="hasRole('ROLE_ADMIN')" >
+                        <td th:text = "${c.mesroles}" class="text-center"></td>
+                        <td class="text-center"><a th:href="@{/acces/users/edit/} + ${c.userId}" class="btn btn-primary btn-sm" ><i class="material-icons">edit</i>Editer</a></td>
+                        <!--<div sec:authorize="hasRole('ROLE_ADMIN')" >
                             <td class="text-center"><a onclick="return confirm('Êtes vous sûre !!!')" th:href="@{/admin/users/delete/} + ${c.userId}"  class="btn btn-danger btn-sm"><i class="material-icons">delete_forever</i>Supprimer</a></td>
-                        </div>
+                        </div>-->
 
 
 

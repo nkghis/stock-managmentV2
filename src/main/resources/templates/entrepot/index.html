@@ -48,7 +48,7 @@
                         <th class="text-center">Id</th>
                         <th class="text-center">Nom</th>
                         <th class="text-center">Editer</th>
-                        <th class="text-center">Supprimer</th>
+                       <!-- <th class="text-center">Supprimer</th>-->
 
 
                     </tr>
@@ -59,7 +59,7 @@
                         <td th:text = "${c.entrepotId}" class="text-center"></td>
                         <td th:text = "${c.entrepotNom}" class="text-center"></td>
                         <td class="text-center"><a th:href="@{/auth/entrepots/edit/} + ${c.entrepotId}" class="btn btn-primary btn-sm" ><i class="material-icons">edit</i>Editer</a></td>
-                        <td class="text-center"><a onclick="return confirm('Êtes vous sûre !!!')"  th:href="@{/auth/entrepots/delete/} + ${c.entrepotId}" class="btn btn-danger btn-sm"><i class="material-icons">delete_forever</i>Supprimer</a></td>
+                       <!-- <td class="text-center"><a onclick="return confirm('Êtes vous sûre !!!')"  th:href="@{/auth/entrepots/delete/} + ${c.entrepotId}" class="btn btn-danger btn-sm"><i class="material-icons">delete_forever</i>Supprimer</a></td>-->
 
 
                     </tr>

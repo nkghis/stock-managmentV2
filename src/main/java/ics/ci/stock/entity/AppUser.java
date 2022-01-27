@@ -38,6 +38,15 @@ public class AppUser {
                     name = "role_id", referencedColumnName = "role_id"))
     private Collection<AppRole> roles;
 
+    public void setMesroles(String mesroles) {
+        this.mesroles = mesroles;
+    }
+
+    @Transient
+    private String mesroles;
+
+
+
     public AppUser() {
         super();
     }
@@ -98,6 +107,10 @@ public class AppUser {
 
     public void setRoles(Collection<AppRole> roles) {
         this.roles = roles;
+    }
+
+    public String getMesroles() {
+        return mesroles;
     }
 
     /*public ArrayList<String> getRoleName ()

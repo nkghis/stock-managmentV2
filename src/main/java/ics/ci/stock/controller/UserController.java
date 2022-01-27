@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,9 +53,31 @@ public class UserController {
 
         List<AppUser> users = new ArrayList<AppUser>();
 
+        //String roles = "";
+
+
         if (request.isUserInRole("ROLE_ADMIN")) {
 
+            /*List<AppRole> ros = new ArrayList<AppRole>();
+            Collection<AppRole> appRoles;*/
+
              users = userRepository.findAll(Sort.by(Sort.Direction.DESC,"userId"));
+             users = this.getUserListWithRoleInString(users);
+
+             /*for (AppUser u : users){
+                 appRoles = u.getRoles();
+                 ArrayList<String> arrayList = new ArrayList<>();
+                 for (AppRole a : appRoles){
+
+                     String s = a.getRoleName();
+                     arrayList.add(s);
+                 }
+
+
+                 String role = Arrays.toString(arrayList.toArray()).replace("[", "").replace("]", "");
+                 u.setMesroles(role);
+             }*/
+
         }
 
         else {
@@ -68,6 +93,7 @@ public class UserController {
             }
 
              users = allusers;
+             users = this.getUserListWithRoleInString(users);
         }
         //List<AppUser> users = userRepository.findAll();
 
@@ -141,7 +167,15 @@ public class UserController {
 
         AppUser u = userRepository.getOne(id);
 
+        List<AppRole>  roles = roleRepository.findAll();
+
+        Collection<AppRole> selected = u.getRoles();
+
+        //selected = u.
+
         model.addAttribute("user", u);
+        model.addAttribute("roles", roles);
+        model.addAttribute("selected", selected);
         model.addAttribute("title", "Utilisateur - Edition");
         return "user/edit";
     }
@@ -189,6 +223,92 @@ public class UserController {
         }*/
         //return "redirect:/admin/users/new";
         return u;
+    }
+
+    @RequestMapping(value = "/acces/users/update", method = RequestMethod.POST)
+    public String saveUser(@Valid AppUser user, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request){
+
+        if (bindingResult.hasErrors()){
+            System.out.println("error YES");
+            model.addAttribute("monuser", new AppUser());
+            //model.addAttribute("errors", errors);
+            return "user/new";
+        }
+
+        //Get muser by id
+        AppUser myuser = userRepository.getOne(user.getUserId());
+
+        String p = myuser.getEncrytedPassword();
+
+        //init role
+        String[] selected = request.getParameterValues("role");
+
+        //Get roles by muser
+        Collection<AppRole> mesroles = myuser.getRoles();
+
+        String asPassword = user.getEncrytedPassword();
+        String password = "";
+        if (asPassword.isEmpty())
+        {
+             password = myuser.getEncrytedPassword();
+        }
+        else{
+
+            password =  EncrytedPasswordUtils.encrytePassword(user.getEncrytedPassword());
+        }
+
+        user.setUserName(myuser.getUserName());
+        user.setEnabled(true);
+        user.setEncrytedPassword(password);
+        userRepository.save(user);
+
+        //Add role
+        for (String s : selected){
+            Long id = Long.parseLong(s);
+            AppRole role = roleRepository.getOne(id);
+            UserRole userRole = new UserRole();
+            userRole.setAppUser(myuser);
+            userRole.setAppRole(role);
+            userRoleRepository.save(userRole);
+        }
+        redirectAttributes.addFlashAttribute("messagesucces","Utilisateur [" + user.getUserName()+"] mis à jour avec succès");
+        return "redirect:/acces/users";
+    }
+
+    /*
+    * Parametre Listes Utilisateurs
+    * Retour Listes Utilisateurs
+    *
+    * Recupere la liste des utilisateurs puis pour chaque utilisateur recupere la liste des roles et la convertie en chaine de caracteres attribue
+    * cette chaine de caratere au champs @Transient "mesroles" et la remet l'utilisateur dans la liste
+    * */
+    private List<AppUser> getUserListWithRoleInString(List<AppUser> Users){
+
+
+        //Init Collection
+        Collection<AppRole> appRoles;
+        for (AppUser u : Users){
+            //Get roles for a user
+            appRoles = u.getRoles();
+            //ini array list
+            ArrayList<String> arrayList = new ArrayList<>();
+
+            for (AppRole a : appRoles){
+                // Get User Role Name
+                String s = a.getRoleName();
+
+                //Add in list array
+                arrayList.add(s);
+            }
+
+            // Convert Array to string without bracket
+            String role = Arrays.toString(arrayList.toArray()).replace("[", "").replace("]", "");
+
+            //Set String to mesroles;
+            u.setMesroles(role);
+        }
+
+        return Users;
     }
 
 

@@ -50,7 +50,7 @@
                         <th class="text-center">Id</th>
                         <th class="text-center">Nom</th>
                         <th class="text-center">Editer</th>
-                        <th class="text-center">Supprimer</th>
+
 
 
                     </tr>
@@ -61,7 +61,7 @@
                         <td th:text = "${c.emetteur_id}" class="text-center"></td>
                         <td th:text = "${c.emetteurNom}" class="text-center"></td>
                         <td class="text-center"><a th:href="@{/auth/emetteurs/edit/} + ${c.emetteur_id}" class="btn btn-primary btn-sm" ><i class="material-icons">edit</i>Editer</a></td>
-                        <td class="text-center"><a onclick="return confirm('Êtes vous sûre !!!')"  th:href="@{emetteurs/delete/} + ${c.emetteur_id}" class="btn btn-danger btn-sm"><i class="material-icons">delete_forever</i>Supprimer</a></td>
+
 
 
                     </tr>

@@ -50,7 +50,7 @@
                         <th class="text-center">Id</th>
                         <th class="text-center">Nom & Prénom</th>
                         <th class="text-center">Editer</th>
-                        <th class="text-center">Supprimer</th>
+                        <!--<th class="text-center">Supprimer</th>-->
 
 
                     </tr>
@@ -61,8 +61,8 @@
                         <td th:text = "${c.ressource_id}" class="text-center"></td>
                         <td th:text = "${c.ressource_nom} + ' ' + ${c.ressource_prenoms}" class="text-center"></td>
                         <td class="text-center"><a th:href="@{/access/ressources/edit/} + ${c.ressource_id}" class="btn btn-primary btn-sm" ><i class="material-icons">edit</i>Editer</a></td>
-                        <td class="text-center"><a onclick="return confirm('Êtes vous sûre !!!')"  th:href="@{/access/ressources/delete/} + ${c.ressource_id}" class="btn btn-danger btn-sm"><i class="material-icons">delete_forever</i>Supprimer</a></td>
-
+                       <!-- <td class="text-center"><a onclick="return confirm('Êtes vous sûre !!!')"  th:href="@{/access/ressources/delete/} + ${c.ressource_id}" class="btn btn-danger btn-sm"><i class="material-icons">delete_forever</i>Supprimer</a></td>
+-->
 
                     </tr>
 
