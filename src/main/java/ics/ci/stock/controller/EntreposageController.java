@@ -117,6 +117,9 @@ public class EntreposageController {
         entreposage.setEstLivrable(true);
         entreposage.setOperation_date(date);
         entreposage.setUser(user);
+        //Add for transfert Fonction
+        entreposage.setTransfertDispo(entreposage.getQteVerse());
+        //----------------------------------------------
         entreposage.setReception(reception);
 
 
@@ -216,7 +219,7 @@ public class EntreposageController {
         model.addAttribute("madistribution", entreposage);
         model.addAttribute("entrepots",entrepots);
         model.addAttribute("reception",reception);
-        model.addAttribute("title", "Entrée - Affectation d'une réception à un entrepôt ");
+        model.addAttribute("title", "Entrée - Affectation d'une réception à un entrepôt | projet : "+reception.getProjet().getProjetNom());
         return "entreposage/new";
     }
 
@@ -231,7 +234,7 @@ public class EntreposageController {
 
 
 
-    private String getReference(){
+    public String getReference(){
 
         Entreposer lastEntreposage = entreposerRepository.findTopByOrderByOperationIdDesc();
         LocalDate date = LocalDate.now();

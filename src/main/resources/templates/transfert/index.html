@@ -1,0 +1,215 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Authentification Bootstrap 4 Spring Boot.">
+    <meta name="author" content="Ghislain Nkagou">
+    <title th:utext="${title}"></title>
+
+    <!-- Include CSS block -->
+    <th:block th:include="main/layout/block_css"></th:block>
+
+    <style>
+        td
+        {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Include MENU block -->
+<th:block th:include="main/_menu"></th:block>
+
+
+<!-- page content -->
+<br>
+<!-- Message pour succes de l operation -->
+<p class="alert alert-success text-center h6"   role="alert" th:text="${messagesucces}" th:if="${messagesucces}"></p>
+<div class="card mx-auto" style="width: 80rem">
+
+    <div class="card-header">
+        <div class="row">
+
+            <div class="col-md-8">
+                <h5><strong>Liste des Transferts.</strong></h5>
+            </div>
+
+            <div sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_SUPERVISOR')" class="col-md-4 page-action text-right">
+                <a th:href="@{/auth/transferts/new}" class="btn btn-sm btn-success pull-right" > <i class="material-icons">open_in_new</i> <b>Nouveau Transfert</b></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div>
+            <div class="table-responsive">
+                <table class="table table-sm display" id="index-transfert" style="width:100%">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th class="text-center">Id</th>
+                        <th class="text-center">Ref</th>
+                        <th class="text-center">Projet</th>
+                        <th class="text-center">Quantité</th>
+                       <!-- <th class="text-center">Disponibilité</th>-->
+
+                        <th class="text-center">Initial source</th>
+                        <th class="text-center">Final source</th>
+                        <th class="text-center">Initial destination</th>
+                        <th class="text-center">Final destinantion</th>
+                        <th class="text-center">Entrepot source</th>
+                        <th class="text-center">Entrepot destination</th>
+
+
+                        <!-- <th class="text-center">Produit</th>-->
+                        <th class="text-center">Utilisateur</th>
+                        <th class="text-center">Date</th>
+                        <!--<th class="text-center">Action</th>-->
+                    </tr>
+                    </thead>
+
+                    <tfoot>
+                    <th></th>
+                    <th class="text-center">Id</th>
+                    <th class="text-center">Ref</th>
+                    <th class="text-center">Projet</th>
+                    <th class="text-center">Quantité</th>
+                   <!-- <th class="text-center">Disponibilité</th>-->
+
+
+                    <th class="text-center">Initial source</th>
+                    <th class="text-center">Final source</th>
+                    <th class="text-center">Initial destination</th>
+                    <th class="text-center">Final destinantion</th>
+                    <th class="text-center">Entrepot source</th>
+                    <th class="text-center">Entrepot destination</th>
+
+                    <!-- <th class="text-center">Produit</th>-->
+                    <th class="text-center">Utilisateur</th>
+                    <th class="text-center">Date</th>
+                   <!-- <th class="text-center">Action</th>-->
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+<!-- page content -->
+
+
+<!-- Include END MENU block -->
+<th:block th:include="main/_end_menu"></th:block>
+
+
+
+<br/><br/>
+
+
+
+<!-- Include SCRIPT block -->
+<th:block th:include="main/layout/block_script"></th:block>
+<!-- Script Bootstrap -->
+
+
+
+
+<script>
+
+
+
+    $(document).ready( function () {
+        var table = $('#index-transfert').DataTable({
+
+            "sAjaxSource": "/auth/transferts/all",
+            "sAjaxDataProp": "",
+            "order": [ 1, "desc" ],
+            "aoColumns": [
+                {
+                    "className":      'details-control',
+                    "orderable":      false,
+                    "data":           null,
+                    "defaultContent": ''
+                },
+                { "mData": "operationId"},
+                { "mData": "operationReference" },
+                { "mData": "projetNom" },
+                { "mData": "qteOperation" },
+               /* { "mData": "disponibilite" },*/
+                { "mData": "initialSource" },
+                { "mData": "finalSource" },
+                { "mData": "initialDestination" },
+                { "mData": "finalDestination" },
+                { "mData": "entrepotSource" },
+                { "mData": "entrepotDestination" },
+                { "mData": "userName" },
+
+                {
+                    "mData": "operationDate" ,
+                    "mRender": function ( data, type, full ) {
+                        var d = new Date();
+                        /* d.setTime(1245398693390);*/
+                        return d.getDate() + "/"+  (d.getMonth() + 1) + "/" + d.getFullYear()+ " "+ d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+                    }
+                },
+
+                /*{
+                    "mData": null,
+                    "bSortable": false,
+                    "mRender": function(data, type, full) {
+                        /!* return '<a class="btn btn-info btn-sm" href=/admin/receptions/' + full.operationId + '>' + 'Edit' + '</a>';*!/
+                        return '<div class="dropdown">'+
+                            '                        <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+
+                            '                          <i class="fas fa-ellipsis-v"></i>'+
+                            '                        </a>'+
+                            '                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">'+
+                            '                          <a class="dropdown-item" href=/admin/receptions/edit/'+ full.operationId+'>'+'Editer'+'</a>'+
+                            '                          <a class="dropdown-item" href=/agent/distributions/entrepots/'+ full.operationId+'>'+'Entreposer'+'</a>'+
+                            '                        </div>'
+                    }
+                }*/
+            ],
+
+
+            language: {
+                /*url: '//cdn.datatables.net/plug-ins/1.10.16/i18n/French.json'*/
+                sProcessing: "Traitement en cours...",
+                sSearch: "Rechercher&nbsp;:",
+                sLengthMenu: "Afficher _MENU_ &eacute;l&eacute;ments",
+                sInfo: "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                sInfoEmpty: "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+                sInfoFiltered: "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                sInfoPostFix: "",
+                sLoadingRecords: "Chargement en cours...",
+                sZeroRecords: "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                sEmptyTable: "Aucune donn&eacute;e disponible dans le tableau",
+                oPaginate: {
+                    sFirst: "Premier",
+                    sPrevious: "Pr&eacute;c&eacute;dent",
+                    sNext: "Suivant",
+                    sLast: "Dernier"
+                },
+                oAria: {
+                    sSortAscending: ": activer pour trier la colonne par ordre croissant",
+                    sSortDescending: ": activer pour trier la colonne par ordre d&eacute;croissant"
+                }
+            },
+
+
+        })
+
+    });
+
+
+</script>
+</body>
+</html>

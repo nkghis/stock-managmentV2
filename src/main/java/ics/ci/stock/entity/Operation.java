@@ -29,7 +29,7 @@ public abstract class Operation {
     @Column(name = "operation_date", nullable = false)
     private LocalDateTime operation_date;
 
-    @Column(name = "dispo_operation")
+    @Column(name = "dispo_operation", nullable = true)
     private boolean estDisponible;
 
     @ManyToOne

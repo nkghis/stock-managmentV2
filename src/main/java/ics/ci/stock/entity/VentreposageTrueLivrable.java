@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 public class VentreposageTrueLivrable {
 
     @Id
-
     @Column(name = "operation_id")
     private Long entreposageId;
 

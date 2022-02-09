@@ -26,6 +26,10 @@ public class Entreposer extends Operation {
     @Column(name = "stock_final")
     private int stockFinal;
 
+    //Add for manage transfert
+    @Column(name = "transfert_dispo", nullable = true)
+    private Integer transfertDispo;
+
     @ManyToOne
     @JoinColumn(name = "receptionId")
     private Reception reception;
@@ -43,13 +47,15 @@ public class Entreposer extends Operation {
         super();
     }
 
-    public Entreposer(String operation_ref, int operation_qte, LocalDateTime operation_date, boolean dispo_operation, Projet projet, AppUser user, int qteVerse, int qteRestante, Boolean estLivrable, int stockInitial, int stockFinal, Reception reception, Entrepot entrepot) {
+    public Entreposer(String operation_ref, int operation_qte, LocalDateTime operation_date, boolean dispo_operation, Projet projet, AppUser user, int qteVerse, int qteRestante, Boolean estLivrable, int stockInitial, int stockFinal, Integer transfertDispo, Reception reception, Entrepot entrepot) {
         super(operation_ref, operation_qte, operation_date, dispo_operation, projet, user);
         this.qteVerse = qteVerse;
         this.qteRestante = qteRestante;
         this.estLivrable = estLivrable;
         this.stockInitial = stockInitial;
         this.stockFinal = stockFinal;
+        //Add for manage transfert
+        this.transfertDispo = transfertDispo;
         this.reception = reception;
         this.entrepot = entrepot;
     }
@@ -92,6 +98,17 @@ public class Entreposer extends Operation {
 
     public void setStockFinal(int stockFinal) {
         this.stockFinal = stockFinal;
+    }
+
+    //Add for manage transfert
+
+
+    public Integer getTransfertDispo() {
+        return transfertDispo;
+    }
+
+    public void setTransfertDispo(Integer transfertDispo) {
+        this.transfertDispo = transfertDispo;
     }
 
     public Reception getReception() {
