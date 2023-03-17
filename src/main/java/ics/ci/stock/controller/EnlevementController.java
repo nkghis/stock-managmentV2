@@ -2,6 +2,7 @@ package ics.ci.stock.controller;
 
 import ics.ci.stock.entity.*;
 import ics.ci.stock.repository.*;
+import ics.ci.stock.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,36 +23,42 @@ import java.util.List;
 @Controller
 public class EnlevementController {
 
-    @Autowired
-    private EnlevementRepository enlevementRepository;
+    private final EnlevementRepository enlevementRepository;
 
-    @Autowired
-    private VentreposageTrueLivrableRepository livrableRepository;
+    private final VentreposageTrueLivrableRepository livrableRepository;
 
-    @Autowired
-    private RessourceRepository ressourceRepository;
+    private final RessourceRepository ressourceRepository;
 
-    @Autowired
-    private MotifRepository motifRepository;
+    private final MotifRepository motifRepository;
 
-    @Autowired
-    private EntreposerRepository entreposerRepository;
+    private final EntreposerRepository entreposerRepository;
     //private EntreposageRepository entreposageRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private StockRepository stockRepository;
+    private final StockRepository stockRepository;
 
-    @Autowired
-    private VenlevementGacheRepository venlevementGacheRepository;
+    private final VenlevementGacheRepository venlevementGacheRepository;
 
-    @Autowired
-    private TypegacheRepository typegacheRepository;
+    private final TypegacheRepository typegacheRepository;
 
-    @Autowired
-    private GacheRepository gacheRepository;
+    private final GacheRepository gacheRepository;
+
+    private final StockService stockService;
+
+    public EnlevementController(EnlevementRepository enlevementRepository, VentreposageTrueLivrableRepository livrableRepository, RessourceRepository ressourceRepository, MotifRepository motifRepository, EntreposerRepository entreposerRepository, UserRepository userRepository, StockRepository stockRepository, VenlevementGacheRepository venlevementGacheRepository, TypegacheRepository typegacheRepository, GacheRepository gacheRepository, StockService stockService) {
+        this.enlevementRepository = enlevementRepository;
+        this.livrableRepository = livrableRepository;
+        this.ressourceRepository = ressourceRepository;
+        this.motifRepository = motifRepository;
+        this.entreposerRepository = entreposerRepository;
+        this.userRepository = userRepository;
+        this.stockRepository = stockRepository;
+        this.venlevementGacheRepository = venlevementGacheRepository;
+        this.typegacheRepository = typegacheRepository;
+        this.gacheRepository = gacheRepository;
+        this.stockService = stockService;
+    }
 
     @RequestMapping(value = "/agent/livraisons", method = RequestMethod.GET)
     public String indexLivraison(Model model){
@@ -70,6 +77,11 @@ public class EnlevementController {
             return "redirect:/agent/livraisons";
         }
 
+
+
+
+
+
         //Get id entreposage since form
         String d = request.getParameter("entreposer");
 
@@ -80,75 +92,91 @@ public class EnlevementController {
         //Entreposage entreposage = entreposageRepository.getOne(ditribuerId);
         Entreposer entreposage = entreposerRepository.getOne(ditribuerId);
 
-        //Get Local date Time
-        LocalDateTime date = LocalDateTime.now();
+        Projet pro = entreposage.getProjet();
+        Entrepot ent = entreposage.getEntrepot();
+        int qte = enlevement.getOperationQte();
 
-        //Get User AUth
-        AppUser user = userRepository.findByUserName(principal.getName());
+        // Check if Stock quantite is available
+        Boolean result = stockService.checkIfStockAvailable(pro, ent, qte);
 
-        //Declaration des quantités depuis le formulaire
-        int qteVerseForm = enlevement.getOperation_qte();
-        int qteRestanteForm = enlevement.getEnlevementDispo();
+        String messageValue = null;
+        String messageVariable = null;
 
-        //Declaration de qte restante dans Distribution
-        int qteR = qteRestanteForm - qteVerseForm;
+        if (result == false){
 
-        //Mise à jour de Entreposage
-        if (qteR == 0){
-            entreposage.setEstLivrable(false);
-        }else{
-            entreposage.setEstLivrable(true);
+            messageVariable = "messagestock";
+            messageValue = "Le stock du project : " + entreposage.getProjet().getProjetNom()  +" ayant pour entrepot " + entreposage.getEntrepot().getEntrepotNom()+" ne dispose pas assez de stock pour effectué cette opération";
+
+        }else {
+
+            messageVariable = "messageenlevement";
+            messageValue = "Sortie éffectuée avec succès";
+            //Get Local date Time
+            LocalDateTime date = LocalDateTime.now();
+
+            //Get User AUth
+            AppUser user = userRepository.findByUserName(principal.getName());
+
+            //Declaration des quantités depuis le formulaire
+            int qteVerseForm = enlevement.getOperation_qte();
+            int qteRestanteForm = enlevement.getEnlevementDispo();
+
+            //Declaration de qte restante dans Distribution
+            int qteR = qteRestanteForm - qteVerseForm;
+
+            //Mise à jour de Entreposage
+            if (qteR == 0){
+                entreposage.setEstLivrable(false);
+            }else{
+                entreposage.setEstLivrable(true);
+            }
+
+            entreposage.setQteRestante(qteR);
+            entreposerRepository.save(entreposage);
+
+            //Declaration variables
+            Projet projet = entreposage.getProjet();
+            Entrepot entrepot = entreposage.getEntrepot();
+
+            //Enregistrement de Enlevement.
+            //enlevement.setOperationReferenceFournisseur(null);
+            enlevement.setEnlevementDispo(enlevement.getOperation_qte());
+            enlevement.setOperation_date(date);
+            enlevement.setUser(user);
+            enlevement.setEntreposer(entreposage);
+            enlevement.setEstGache(false);
+            enlevement.setEstRetour(false);
+            enlevement.setGache(0);
+            enlevement.setEstDisponible(true);
+            //enlevement.setProduit(entreposage.getReception().getProduit());
+            enlevement.setProjet(projet);
+            enlevement.setEntrepot(entrepot);
+            enlevement.setOperationDateSaisie(enlevement.getOperationDateSaisie());
+
+            //Produit produit = entreposage.getReception().getProduit();
+            //Recherche dans la table stock en fonction de produit, projet, entrepot
+            Stock stock = stockRepository.findByProjetAndEntrepot(/*produit,*/ projet, entrepot);
+            int quantite = stock.getStockQuantite() - enlevement.getOperation_qte();
+
+            enlevement.setStockInitial(stock.getStockQuantite());
+            enlevement.setStockFinal(quantite);
+
+            stock.setUser(user);
+            stock.setStockDate(date);
+            stock.setStockQuantite(quantite);
+
+            stockRepository.save(stock);
+
+            enlevementRepository.save(enlevement);
+
         }
 
-        entreposage.setQteRestante(qteR);
-        entreposerRepository.save(entreposage);
-
-        //Declaration variables
-        Projet projet = entreposage.getProjet();
-        Entrepot entrepot = entreposage.getEntrepot();
-
-        //Enregistrement de Enlevement.
-        //enlevement.setOperationReferenceFournisseur(null);
-        enlevement.setEnlevementDispo(enlevement.getOperation_qte());
-        enlevement.setOperation_date(date);
-        enlevement.setUser(user);
-        enlevement.setEntreposer(entreposage);
-        enlevement.setEstGache(false);
-        enlevement.setEstRetour(false);
-        enlevement.setGache(0);
-        enlevement.setEstDisponible(true);
-        //enlevement.setProduit(entreposage.getReception().getProduit());
-        enlevement.setProjet(projet);
-        enlevement.setEntrepot(entrepot);
 
 
 
-        //Produit produit = entreposage.getReception().getProduit();
+        redirectAttributes.addFlashAttribute(messageVariable,messageValue);
+        //redirectAttributes.addFlashAttribute("messageenlevement","Sortie éffectée avec succès");
 
-
-
-        //Recherche dans la table stock en fonction de produit, projet, entrepot
-        Stock stock = stockRepository.findByProjetAndEntrepot(/*produit,*/ projet, entrepot);
-        int quantite = stock.getStockQuantite() - enlevement.getOperation_qte();
-
-        enlevement.setStockInitial(stock.getStockQuantite());
-        enlevement.setStockFinal(quantite);
-
-
-
-
-        stock.setUser(user);
-        stock.setStockDate(date);
-        stock.setStockQuantite(quantite);
-
-
-
-
-        stockRepository.save(stock);
-
-        enlevementRepository.save(enlevement);
-
-        redirectAttributes.addFlashAttribute("messageenlevement","Sortie éffectée avec succès");
         return "redirect:/agent/livraisons";
     }
 

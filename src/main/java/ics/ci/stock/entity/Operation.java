@@ -1,8 +1,11 @@
 package ics.ci.stock.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Date;
 
 @Entity
 @Table(name = "operations"/*, //
@@ -32,6 +35,11 @@ public abstract class Operation {
     @Column(name = "dispo_operation", nullable = true)
     private boolean estDisponible;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "operation_date_saisie", nullable = true)
+    private Date operationDateSaisie;
+
+
     @ManyToOne
     @JoinColumn(name = "projetId")
     private Projet projet;
@@ -57,7 +65,7 @@ public abstract class Operation {
         super();
     }
 
-    public Operation(String operation_ref,/* String operation_ref_fournisseur,*/ int operation_qte, LocalDateTime operation_date, boolean dispo_operation, Projet projet, /*Produit produit,*/ AppUser user) {
+    public Operation(String operation_ref,/* String operation_ref_fournisseur,*/ int operation_qte, LocalDateTime operation_date, boolean dispo_operation, Projet projet, /*Produit produit,*/ AppUser user, Date operationDateSaisie) {
         this.operationReference = operation_ref;
         //this.operationReferenceFournisseur = operation_ref_fournisseur;
         this.operationQte = operation_qte;
@@ -66,6 +74,7 @@ public abstract class Operation {
         this.projet = projet;
       /*  this.produit = produit;*/
         this.user = user;
+        this.operationDateSaisie = operationDateSaisie;
     }
 
     public Long getOperationId() {
@@ -154,5 +163,13 @@ public abstract class Operation {
 
     public void setRetours(Collection<Retour> retours) {
         this.retours = retours;
+    }
+
+    public Date getOperationDateSaisie() {
+        return operationDateSaisie;
+    }
+
+    public void setOperationDateSaisie(Date operationDateSaisie) {
+        this.operationDateSaisie = operationDateSaisie;
     }
 }

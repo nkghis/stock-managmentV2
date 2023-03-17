@@ -26,6 +26,14 @@
                     </li>
                 </div>
 
+                <div sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')or hasRole('ROLE_SUPERVISOR') or hasRole('ROLE_AGENT')">
+                    <li class="nav-item">
+                        <a th:href="@{/dashboard/gache}"  class="nav-link">
+                            <i class="ni ni-air-baloon text-cyan"></i>  Gache
+                        </a>
+                    </li>
+                </div>
+
 
                <!-- <div sec:authorize="hasRole('ROLE_ADMIN')">
                     <li  class="nav-item">
@@ -89,7 +97,7 @@
                 <div sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_AGENT')">
                     <li class="nav-item">
                         <a th:href="@{/agent/distributions}" class="nav-link">
-                            <i class="ni ni-send text-light"></i> Entrée
+                            <i class="ni ni-send text-light"></i> Affectation
                         </a>
                     </li>
                 </div>
@@ -106,6 +114,14 @@
                     <li class="nav-item">
                         <a th:href="@{/auth/transfert}" class="nav-link">
                             <i class="ni ni-ui-04 text-pink"></i> Transfert
+                        </a>
+                    </li>
+                </div>
+
+                <div sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_AGENT')">
+                    <li class="nav-item">
+                        <a th:href="@{/destruction/destructions}" class="nav-link">
+                            <i class="ni ni-single-02  text-red"></i> Destruction
                         </a>
                     </li>
                 </div>

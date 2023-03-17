@@ -1,7 +1,10 @@
 package ics.ci.stock.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "gaches")
@@ -16,6 +19,11 @@ public class Gache {
 
     @Column(name = "gache_date")
     private LocalDateTime gacheDate;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "operation_date_saisie", nullable = true)
+    private Date operationDateSaisie;
+
 
     @ManyToOne
     @JoinColumn(name = "operationId")
@@ -33,9 +41,10 @@ public class Gache {
         super();
     }
 
-    public Gache(Integer gacheQte, LocalDateTime gacheDate, Operation operation, AppUser user, Typegache typegache) {
+    public Gache(Integer gacheQte, LocalDateTime gacheDate,Date operationDateSaisie , Operation operation, AppUser user, Typegache typegache) {
         this.gacheQte = gacheQte;
         this.gacheDate = gacheDate;
+        this.operationDateSaisie = operationDateSaisie;
         this.operation = operation;
         this.user = user;
         this.typegache = typegache;
@@ -87,5 +96,13 @@ public class Gache {
 
     public void setTypegache(Typegache typegache) {
         this.typegache = typegache;
+    }
+
+    public Date getOperationDateSaisie() {
+        return operationDateSaisie;
+    }
+
+    public void setOperationDateSaisie(Date operationDateSaisie) {
+        this.operationDateSaisie = operationDateSaisie;
     }
 }

@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "v_reception")
@@ -55,6 +56,9 @@ public class Vreception {
 
     @Column(name = "emetteur_nom")
     private String emetteurNom;
+
+    @Column(name = "operation_date_saisie", nullable = true)
+    private Date operationDateSaisie;
 
 
     public Vreception() {
@@ -179,5 +183,13 @@ public class Vreception {
 
     public void setEmetteurNom(String emetteurNom) {
         this.emetteurNom = emetteurNom;
+    }
+
+    public Date getOperationDateSaisie() {
+        return operationDateSaisie;
+    }
+
+    public void setOperationDateSaisie(Date operationDateSaisie) {
+        this.operationDateSaisie = operationDateSaisie;
     }
 }

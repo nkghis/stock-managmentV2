@@ -28,42 +28,41 @@
 <!-- page content -->
 <br>
 <!-- Message pour succes de l operation -->
-<p class="alert alert-success text-center h6"   role="alert" th:text="${messagereception}" th:if="${messagereception}"></p>
+<p class="alert alert-success text-center h6"   role="alert" th:text="${messagedestruction}" th:if="${messagedestruction}"></p>
 <div class="card mx-auto" style="width: 80rem">
 
     <div class="card-header">
         <div class="row">
 
             <div class="col-md-8">
-                <h5><strong>Liste des Receptions.</strong></h5>
+                <h5><strong>Liste des Destructions.</strong></h5>
             </div>
 
-            <div sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_AGENT')" class="col-md-4 page-action text-right">
+           <!-- <div sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_AGENT')" class="col-md-4 page-action text-right">
                 <a th:href="@{/agent/receptions/new}" class="btn btn-sm btn-success pull-right" > <i class="material-icons">open_in_new</i> <b>Nouvelle réception</b></a>
-            </div>
+            </div>-->
         </div>
     </div>
 
     <div class="card-body">
         <div>
             <div class="table-responsive">
-                <table class="table table-sm display" id="index-reception" style="width:100%">
+                <table class="table table-sm display" id="index-destruction" style="width:100%">
                     <thead>
                     <tr>
                         <th></th>
                         <th class="text-center">Id</th>
                         <th class="text-center">Ref</th>
-                        <th class="text-center">Client</th>
                         <th class="text-center">Projet</th>
-                        <th class="text-center">Produit</th>
-                        <th class="text-center">Emetteur</th>
                         <th class="text-center">Quantité</th>
-                        <th class="text-center">Disponibilité</th>
-
-                       <!-- <th class="text-center">Produit</th>-->
+                        <th class="text-center">Stock Initial</th>
+                        <th class="text-center">Stock Final</th>
+                        <th class="text-center">Ressource</th>
+                        <th class="text-center">Entrepot</th>
+                        <th class="text-center">Utilisateur</th>
                         <th class="text-center">Date Saisie</th>
                         <th class="text-center">Date reception</th>
-                        <th class="text-center">Action</th>
+
                     </tr>
                     </thead>
 
@@ -71,17 +70,15 @@
                     <th></th>
                     <th class="text-center">Id</th>
                     <th class="text-center">Ref</th>
-                    <th class="text-center">Client</th>
                     <th class="text-center">Projet</th>
-                    <th class="text-center">Produit</th>
-                    <th class="text-center">Emetteur</th>
                     <th class="text-center">Quantité</th>
-                    <th class="text-center">Disponibilité</th>
-
-                    <!-- <th class="text-center">Produit</th>-->
+                    <th class="text-center">Stock Initial</th>
+                    <th class="text-center">Stock Final</th>
+                    <th class="text-center">Ressource</th>
+                    <th class="text-center">Entrepot</th>
+                    <th class="text-center">Utilisateur</th>
                     <th class="text-center">Date Saisie</th>
-                    <th class="text-center">Date reception</th>
-                    <th class="text-center">Action</th>
+                    <th class="text-center">Date Destruction</th>
                     </tfoot>
                 </table>
             </div>
@@ -140,9 +137,9 @@
     }
 
     $(document).ready( function () {
-        var table = $('#index-reception').DataTable({
+        var table = $('#index-destruction').DataTable({
 
-            "sAjaxSource": "/agent/receptions/all",
+            "sAjaxSource": "/destruction/destructions/all",
             "sAjaxDataProp": "",
             "order": [ 1, "desc" ],
             "aoColumns": [
@@ -154,71 +151,16 @@
                 },
                 { "mData": "operationId"},
                 { "mData": "operationReference" },
-                { "mData": "clientNom" },
-                { "mData": "projetNom" },
-                { "mData": "produitNom" },
-                { "mData": "emetteurNom" },
-                { "mData": "qteOperation" },
-                { "mData": "disponibilite" },
-               /* { "mData": "projetNom" },*/
-                /*{ "mData": "produitNom" },*/
+                { "mData": "projet" },
+                { "mData": "operationQte" },
+                { "mData": "stockInitial" },
+                { "mData": "stockFinal" },
+                { "mData": "ressource" },
+                { "mData": "entrepot" },
+                { "mData": "user" },
+                {"mData": "operationDate" },
+                {"mData": "operationDateSaisie"},
 
-                /*{ "mData": "fournisseurNom" },*/
-
-                /*{ "mData": "ressourceNom" },*/
-                /*{ "mData": "dispoOperation" },*/
-                {
-                    "mData": "operationDate" ,
-                    "mRender": function ( data, type, full ) {
-                        //Get data with attribute operationDate in String
-                        var aa = full.operationDate;
-
-                        //parse String operationDate to Date
-                       var d = new Date(aa);
-
-                       //console.log(aa);
-                        //var d = data;
-
-                       /* d.setTime(1245398693390);*/
-                        return d.getDate() + "/"+  (d.getMonth() + 1) + "/" + d.getFullYear()+ " "+ d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
-                        //return full.operationDate.getDate() + "/"+  (full.operationDate.getMonth() + 1) + "/" + full.operationDate.getFullYear()+ " "+ full.operationDate.getHours()+":"+full.operationDate.getMinutes()+":"+full.operationDate.getSeconds();
-                        //return moment (full.operationDate).format('DD/MM/YYYY hh:mm:ss');
-                    }
-                },
-
-                {
-                    "mData": "operationDateSaisie" ,
-                    "mRender": function ( data, type, full ) {
-
-                        var aa = full.operationDateSaisie;
-                        if (aa == null){return ""}
-                        else {
-                            var d = new Date(aa);
-
-                            return d.getDate() + "/"+  (d.getMonth() + 1) + "/" + d.getFullYear();
-                        }
-                       /* var aa = full.operationDateSaisie;
-                        var d = new Date(aa);
-
-                        return d.getDate() + "/"+  (d.getMonth() + 1) + "/" + d.getFullYear();*/
-                    }
-                },
-
-                {
-                    "mData": null,
-                    "bSortable": false,
-                    "mRender": function(data, type, full) {
-                       /* return '<a class="btn btn-info btn-sm" href=/admin/receptions/' + full.operationId + '>' + 'Edit' + '</a>';*/
-                        return '<div class="dropdown">'+
-                            '                        <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+
-                            '                          <i class="fas fa-ellipsis-v"></i>'+
-                            '                        </a>'+
-                            '                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">'+
-                            '                          <a class="dropdown-item" href=/admin/receptions/edit/'+ full.operationId+'>'+'Editer'+'</a>'+
-                            '                          <a class="dropdown-item" href=/agent/distributions/entrepots/'+ full.operationId+'>'+'Entreposer'+'</a>'+
-                            '                        </div>'
-                    }
-                }
             ],
 
 

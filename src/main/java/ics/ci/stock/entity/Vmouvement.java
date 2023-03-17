@@ -50,6 +50,15 @@ public class Vmouvement {
     @Column(name = "entrepot")
     private  String entrepot;
 
+    @Column(name = "operation_date_saisie")
+    private LocalDateTime operationDateSaisie;
+
+   /* @Column(name = "entrepotSource")
+    private  String entrepotSource;
+
+    @Column(name = "entrepotDestination")
+    private  String entrepotDestination;*/
+
     public Vmouvement() {
         super();
     }
@@ -157,4 +166,28 @@ public class Vmouvement {
     public void setProduit(String produit) {
         this.produit = produit;
     }
+
+    public LocalDateTime getOperationDateSaisie() {
+        return operationDateSaisie;
+    }
+
+    public void setOperationDateSaisie(LocalDateTime operationDateSaisie) {
+        this.operationDateSaisie = operationDateSaisie;
+    }
+
+   /* public String getEntrepotSource() {
+        return entrepotSource;
+    }
+
+    public void setEntrepotSource(String entrepotSource) {
+        this.entrepotSource = entrepotSource;
+    }
+
+    public String getEntrepotDestination() {
+        return entrepotDestination;
+    }
+
+    public void setEntrepotDestination(String entrepotDestination) {
+        this.entrepotDestination = entrepotDestination;
+    }*/
 }

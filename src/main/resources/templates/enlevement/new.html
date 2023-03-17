@@ -98,6 +98,18 @@
                 </div>
             </div>
 
+            <!-- Date d Achat Form Input -->
+            <div  class="form-group row">
+                <label for="operationDateSaisie" class="col-sm-4 col-form-label text-md-right"><strong>Date de sortie</strong></label>
+
+                <div class="col-md-6">
+
+                    <input id="operationDateSaisie" type="date" class="form-control" th:field="${malivraison.operationDateSaisie}"  autofocus required>
+                    <!--<span th:if="${#fields.hasErrors('projetNom')}" th:errors="*{projetNom}"  th:class="help-block"></span>-->
+                </div>
+            </div>
+
+
 
             <div class="form-group row">
                 <label for="btn" class="col-sm-4 col-form-label text-md-right"><strong></strong></label>

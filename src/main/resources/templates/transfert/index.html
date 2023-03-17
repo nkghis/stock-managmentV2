@@ -67,7 +67,8 @@
 
                         <!-- <th class="text-center">Produit</th>-->
                         <th class="text-center">Utilisateur</th>
-                        <th class="text-center">Date</th>
+                        <th class="text-center">Date saisie</th>
+                        <th class="text-center">Date Transfert</th>
                         <!--<th class="text-center">Action</th>-->
                     </tr>
                     </thead>
@@ -90,7 +91,8 @@
 
                     <!-- <th class="text-center">Produit</th>-->
                     <th class="text-center">Utilisateur</th>
-                    <th class="text-center">Date</th>
+                    <th class="text-center">Date saisie</th>
+                    <th class="text-center">Date Transfert</th>
                    <!-- <th class="text-center">Action</th>-->
                     </tfoot>
                 </table>
@@ -156,9 +158,37 @@
                 {
                     "mData": "operationDate" ,
                     "mRender": function ( data, type, full ) {
-                        var d = new Date();
-                        /* d.setTime(1245398693390);*/
+                        //Get data with attribute operationDate in String
+                        var dateString = full.operationDate;
+
+                        //parse String operationDate to Date
+                        var d = new Date(dateString);
+
+                        //console.log(dateString);
                         return d.getDate() + "/"+  (d.getMonth() + 1) + "/" + d.getFullYear()+ " "+ d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+
+                    }
+                },
+
+                {
+                    "mData": "operationDateSaisie" ,
+                    "mRender": function ( data, type, full ) {
+
+                      /*  //Get data with attribute operationDateSaisie in String
+                        var dateString = full.operationDateSaisie;
+
+                        //parse String operationDate to Date
+                        var d = new Date(dateString);
+                        /!* d.setTime(1245398693390);*!/
+                        return d.getDate() + "/"+  (d.getMonth() + 1) + "/" + d.getFullYear();*/
+
+                        var aa = full.operationDateSaisie;
+                        if (aa == null){return ""}
+                        else {
+                            var d = new Date(aa);
+
+                            return d.getDate() + "/"+  (d.getMonth() + 1) + "/" + d.getFullYear();
+                        }
                     }
                 },
 

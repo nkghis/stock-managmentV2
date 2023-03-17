@@ -5,22 +5,11 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
-@DiscriminatorValue("enl")
-public class Enlevement extends Operation  {
+@DiscriminatorValue("des")
+public class Destruction extends Operation {
 
-    /*@Column(name = "reference", length = 36, nullable = true)*/
-    //private Integer estlivre;
     @Column(name = "enlevement_disponibilite", nullable = true)
     private Integer enlevementDispo;
-
-    @Column(name = "est_gache", nullable = true)
-    private Boolean estGache;
-
-    @Column(name = "est_retour", nullable = true)
-    private Boolean estRetour;
-
-    @Column(name = "gache", nullable = true)
-    private Integer gache;
 
     @Column(name = "stock_initial")
     private int stockInitial;
@@ -28,14 +17,9 @@ public class Enlevement extends Operation  {
     @Column(name = "stock_final")
     private int stockFinal;
 
-
     @ManyToOne
     @JoinColumn(name = "ressource_id")
     private Ressource ressource;
-
-    @ManyToOne
-    @JoinColumn(name = "motif_id")
-    private Motif motif;
 
     @ManyToOne
     @JoinColumn(name = "entreposer_id")
@@ -45,24 +29,19 @@ public class Enlevement extends Operation  {
     @JoinColumn(name = "entrepotId")
     private Entrepot entrepot;
 
-    public Enlevement(){
+    public Destruction() {
         super();
     }
 
-    public Enlevement(String operation_ref, int operation_qte, LocalDateTime operation_date, boolean dispo_operation, Projet projet, AppUser user, Date operationDateSaisie, Integer enlevementDispo, Boolean estGache, Boolean estRetour, Integer gache, int stockInitial, int stockFinal, Ressource ressource, Motif motif, Entreposer entreposer, Entrepot entrepot) {
+    public Destruction(String operation_ref, int operation_qte, LocalDateTime operation_date, boolean dispo_operation, Projet projet, AppUser user, Date operationDateSaisie, Integer enlevementDispo, int stockInitial, int stockFinal, Ressource ressource, Entreposer entreposer, Entrepot entrepot) {
         super(operation_ref, operation_qte, operation_date, dispo_operation, projet, user, operationDateSaisie);
         this.enlevementDispo = enlevementDispo;
-        this.estGache = estGache;
-        this.estRetour = estRetour;
-        this.gache = gache;
         this.stockInitial = stockInitial;
         this.stockFinal = stockFinal;
         this.ressource = ressource;
-        this.motif = motif;
         this.entreposer = entreposer;
         this.entrepot = entrepot;
     }
-
 
     public Integer getEnlevementDispo() {
         return enlevementDispo;
@@ -70,30 +49,6 @@ public class Enlevement extends Operation  {
 
     public void setEnlevementDispo(Integer enlevementDispo) {
         this.enlevementDispo = enlevementDispo;
-    }
-
-    public Boolean getEstGache() {
-        return estGache;
-    }
-
-    public void setEstGache(Boolean estGache) {
-        this.estGache = estGache;
-    }
-
-    public Boolean getEstRetour() {
-        return estRetour;
-    }
-
-    public void setEstRetour(Boolean estRetour) {
-        this.estRetour = estRetour;
-    }
-
-    public Integer getGache() {
-        return gache;
-    }
-
-    public void setGache(Integer gache) {
-        this.gache = gache;
     }
 
     public int getStockInitial() {
@@ -118,14 +73,6 @@ public class Enlevement extends Operation  {
 
     public void setRessource(Ressource ressource) {
         this.ressource = ressource;
-    }
-
-    public Motif getMotif() {
-        return motif;
-    }
-
-    public void setMotif(Motif motif) {
-        this.motif = motif;
     }
 
     public Entreposer getEntreposer() {

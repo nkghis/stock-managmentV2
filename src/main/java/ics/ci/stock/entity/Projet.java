@@ -19,9 +19,7 @@ public class Projet implements Serializable {
     private Integer seuilProjet;
 
 
-    @ManyToOne
-    @JoinColumn(name = "clientId")
-    private Client client;
+
 
     @ManyToOne
     @JoinColumn(name = "emetteurId")
@@ -31,7 +29,9 @@ public class Projet implements Serializable {
     @JoinColumn(name = "produitId")
     private Produit produit;
 
-
+    @ManyToOne
+    @JoinColumn(name = "clientId")
+    private Client client;
 
     public Projet() {
         super();

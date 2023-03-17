@@ -2,6 +2,7 @@ package ics.ci.stock.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Collection;
 
@@ -13,7 +14,7 @@ public class Client implements Serializable {
     private Long client_id;
 
     @NotNull
-    /*@Size(min = 1, message = "non vide")*/
+    @Size(min = 1, message = "non vide")
     private String client_nom;
 
 

@@ -49,6 +49,9 @@ public class VentreposageTrueLivrable {
     @Column(name = "operation_date")
     private LocalDateTime entreposageDate;
 
+    @Column(name = "operation_date_saisie")
+    private LocalDateTime operationDateSaisie;
+
     public VentreposageTrueLivrable() {
         super();
     }
@@ -163,6 +166,14 @@ public class VentreposageTrueLivrable {
 
     public void setEmetteurNom(String emetteurNom) {
         this.emetteurNom = emetteurNom;
+    }
+
+    public LocalDateTime getOperationDateSaisie() {
+        return operationDateSaisie;
+    }
+
+    public void setOperationDateSaisie(LocalDateTime operationDateSaisie) {
+        this.operationDateSaisie = operationDateSaisie;
     }
 }
 

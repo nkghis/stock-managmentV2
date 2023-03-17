@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -56,6 +57,9 @@ public class Voperation {
 
     @Column(name = "projet_id")
     private Long projetId;
+
+    @Column(name = "operation_date_saisie", nullable = true)
+    private Date operationDateSaisie;
 
 
     public Voperation() {
@@ -174,8 +178,11 @@ public class Voperation {
         this.projetId = projetId;
     }
 
+    public Date getOperationDateSaisie() {
+        return operationDateSaisie;
+    }
 
-
-
-
+    public void setOperationDateSaisie(Date operationDateSaisie) {
+        this.operationDateSaisie = operationDateSaisie;
+    }
 }

@@ -19,6 +19,10 @@ public class Vstock {
     @Column(name = "projet_nom")
     private String projetNom;
 
+
+    @Column(name = "emetteur_nom")
+    private String emetteurNom;
+
     @Column(name = "entrepot_nom")
     private String entrepotNom;
 
@@ -89,5 +93,13 @@ public class Vstock {
 
     public void setSeuilProjet(Integer seuilProjet) {
         this.seuilProjet = seuilProjet;
+    }
+
+    public String getEmetteurNom() {
+        return emetteurNom;
+    }
+
+    public void setEmetteurNom(String emetteurNom) {
+        this.emetteurNom = emetteurNom;
     }
 }

@@ -79,19 +79,6 @@
                     </div>
                 </div>
 
-              <!--  &lt;!&ndash; Produit  select &ndash;&gt;
-                <div class="form-group row">
-                    <label for="idproduit" class="col-sm-4 col-form-label text-md-right"><strong>Produit</strong></label>
-
-                    <div class="col-md-6">
-                        <select  id="idproduit" name="produit" class="select-type form-control" required  >
-                            <option value="">&#45;&#45; Selectionner le produit &#45;&#45;</option>
-                            <option th:each="c:${produits}" th:value="${c.produit_id}" th:text="${c.produit_nom}"></option>
-                        </select>
-                        &lt;!&ndash;&lt;!&ndash;<span th:if="${#fields.hasErrors('produits')}" th:errors="*{produits}"></span>&ndash;&gt;&ndash;&gt;
-                    </div>
-                </div>-->
-
                 <!-- Fournisseur Form Input -->
                 <div class="form-group row">
                     <label for="idfournisseur" class="col-sm-4 col-form-label text-md-right"><strong>Fournisseur</strong></label>
@@ -125,6 +112,18 @@
                     <div class="col-md-6">
 
                         <input id="quantite" type="number" min="1" class="form-control" th:field="${mareception.operation_qte}" required onkeyup="if(this.value<0){this.value= this.value * -1}"  autofocus>
+                        <!--<span th:if="${#fields.hasErrors('projetNom')}" th:errors="*{projetNom}"  th:class="help-block"></span>-->
+                    </div>
+                </div>
+
+
+                <!-- Date de saisie Form Input -->
+                <div  class="form-group row">
+                    <label for="operationDateSaisie" class="col-sm-4 col-form-label text-md-right"><strong>Date de reception</strong></label>
+
+                    <div class="col-md-6">
+
+                        <input id="operationDateSaisie" type="date" class="form-control" th:field="${mareception.operationDateSaisie}"  autofocus required>
                         <!--<span th:if="${#fields.hasErrors('projetNom')}" th:errors="*{projetNom}"  th:class="help-block"></span>-->
                     </div>
                 </div>

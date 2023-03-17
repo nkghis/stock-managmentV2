@@ -1,6 +1,7 @@
 package ics.ci.stock.controller;
 
 import ics.ci.stock.entity.*;
+import ics.ci.stock.entity.custom.GacheDto;
 import ics.ci.stock.entity.custom.StockBeforeCustom;
 import ics.ci.stock.entity.custom.StockBetween;
 import ics.ci.stock.repository.*;
@@ -37,6 +38,12 @@ public class MainController {
 
     @Autowired
     private VmouvementRepository vmouvementRepository;
+
+    @Autowired
+    private VgacheRepository vgacheRepository;
+
+    @Autowired
+    private VgacheMouvementRepository vgacheMouvementRepository;
 
     /*@Autowired
     private  stockBeforeCustom;*/
@@ -285,6 +292,55 @@ public class MainController {
         model.addAttribute("mouvements", listOperation);
 
         return "main/mouvement";
+    }
+
+    @RequestMapping(value = {"/dashboard/gache"}, method = {RequestMethod.GET})
+    public String sumGacheGroupByProjet( Model model){
+
+        List<Vgache> vgaches = vgacheRepository.findAll();
+
+
+        String s = "";
+        model.addAttribute("title", "Etat de gache");
+        model.addAttribute("vgaches", vgaches);
+        model.addAttribute("search", new Search());
+        return "gache/index";
+
+    }
+
+    @RequestMapping(value = "/dashboard/gache/periode", method = RequestMethod.POST)
+    public String gachePeriode( @Valid Search search , Errors errors, Model model, RedirectAttributes redirectAttributes) throws ParseException {
+
+        if (errors.hasErrors()) {
+            System.out.println("error YES");
+            model.addAttribute("search", new Search());
+
+            return "redirect:/dashboard/gache";
+        }
+
+
+        return "gache/periode";
+    }
+
+    @RequestMapping(value = "/dashboard/gache/mouvement", method = RequestMethod.POST)
+    public String gacheMouvement( @Valid Search search , Errors errors, Model model, RedirectAttributes redirectAttributes) throws ParseException {
+
+        if (errors.hasErrors()) {
+            System.out.println("error YES");
+            model.addAttribute("search", new Search());
+
+            return "redirect:/dashboard/gache";
+        }
+
+        Date debut = new SimpleDateFormat("yyyy-MM-dd").parse(search.getDebut());
+        Date fin = new SimpleDateFormat("yyyy-MM-dd").parse(search.getFin());
+
+        List<GacheDto> gacheDtos = vgacheMouvementRepository.gachesBetween(debut, fin);
+
+        String s = "";
+
+
+        return "gache/mouvement";
     }
 
 

@@ -1,12 +1,9 @@
 package ics.ci.stock;
 
 
-import ics.ci.stock.entity.AppRole;
-import ics.ci.stock.entity.AppUser;
-import ics.ci.stock.entity.UserRole;
-import ics.ci.stock.repository.RoleRepository;
-import ics.ci.stock.repository.UserRepository;
-import ics.ci.stock.repository.UserRoleRepository;
+import ics.ci.stock.entity.*;
+import ics.ci.stock.repository.*;
+import ics.ci.stock.service.StockService;
 import ics.ci.stock.utils.EncrytedPasswordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -24,6 +21,23 @@ public class StockManagmentApplication {
 
 
 		ApplicationContext ctx = SpringApplication.run(StockManagmentApplication.class, args);
+
+		StockService stockService = ctx.getBean(StockService.class);
+		ProjetRepository projetRepository = ctx.getBean(ProjetRepository.class);
+		EntrepotRepository entrepotRepository = ctx.getBean(EntrepotRepository.class);
+
+		/*Projet projet = projetRepository.getOne(1L);
+		Entrepot entrepot = entrepotRepository.getOne(1L);
+		int qte = 286;
+
+		Boolean test = stockService.checkIfStockAvailable(projet, entrepot, qte);
+
+		String o = "";*/
+		//UserRepository userRepository = ctx.getBean(UserRepository.class);
+		//AppUser user = userRepository.getOne(1L);
+
+		String p ="Server start on http://localhost:8089";
+		System.out.println(p);
 		/*String p = "123";
 		String password = EncrytedPasswordUtils.encrytePassword(p);
 

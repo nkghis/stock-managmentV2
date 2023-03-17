@@ -55,6 +55,7 @@
 <p class="alert alert-success text-center h6"   role="alert" th:text="${messagegache}" th:if="${messagegache}"></p>
 <p class="alert alert-success text-center h6"   role="alert" th:text="${messageenlevement}" th:if="${messageenlevement}"></p>
 <p class="alert alert-success text-center h6"   role="alert" th:text="${messageretour}" th:if="${messageretour}"></p>
+<p class="alert alert-danger text-center h6"   role="alert" th:text="${messagestock}" th:if="${messagestock}"></p>
 <div class="card mx-auto" style="width: 80rem">
 
     <!--<div class="card-header">
@@ -89,6 +90,9 @@
                                     <th class="text-center">Entrepôt</th>
                                    <!-- <th class="text-center">Date</th>
                                     <th class="text-center">Est Livrable</th>-->
+                                    <th class="text-center">Date Saisie</th>
+                                    <th class="text-center">Date d'affectation</th>
+
                                     <th class="text-center">Action</th>
                                 </tr>
                                 </thead>
@@ -106,6 +110,8 @@
                                 <th class="text-center">Entrepôt</th>
                                <!-- <th class="text-center">Date</th>
                                 <th class="text-center">Est Livrable</th>-->
+                                <th class="text-center">Date Saisie</th>
+                                <th class="text-center">Date reception</th>
                                 <th class="text-center">Action</th>
                                 </tfoot>
                             </table>
@@ -124,7 +130,8 @@
                                  <!--   <th class="text-center">Produit</th>-->
                                     <th class="text-center">Motif</th>
                                     <th class="text-center">Ressource</th>
-                                    <th class="text-center">Date</th>
+                                    <th class="text-center">Date Saisie</th>
+                                    <th class="text-center">Date de sortie</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                                 </thead>
@@ -138,7 +145,8 @@
                                 <!--<th class="text-center">Produit</th>-->
                                 <th class="text-center">Motif</th>
                                 <th class="text-center">Ressource</th>
-                                <th class="text-center">Date</th>
+                                <th class="text-center">Date Saisie</th>
+                                <th class="text-center">Date de sortie</th>
                                 <th class="text-center">Action</th>
                                 </tfoot>
                             </table>
@@ -157,7 +165,8 @@
                                     <!--<th class="text-center">Produit</th>-->
                                     <th class="text-center">Motif</th>
                                     <th class="text-center">Ressource</th>
-                                    <th class="text-center">Date</th>
+                                    <th class="text-center">Date Saisie</th>
+                                    <th class="text-center">Date de Sortie</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                                 </thead>
@@ -171,7 +180,8 @@
                                 <!--<th class="text-center">Produit</th>-->
                                 <th class="text-center">Motif</th>
                                 <th class="text-center">Ressource</th>
-                                <th class="text-center">Date</th>
+                                <th class="text-center">Date Saisie</th>
+                                <th class="text-center">Date de Sortie</th>
                                 <th class="text-center">Action</th>
                                 </tfoot>
                             </table>
@@ -265,6 +275,43 @@
                 { "mData": "estLivrable" },*/
 
                 {
+                    "mData": "entreposageDate" ,
+                    "mRender": function ( data, type, full ) {
+                        //Get data with attribute operationDate in String
+                        var dateString = full.entreposageDate;
+
+                        //parse String operationDate to Date
+                        var d = new Date(dateString);
+
+                        //console.log(dateString);
+                        return d.getDate() + "/"+  (d.getMonth() + 1) + "/" + d.getFullYear()+ " "+ d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+
+                    }
+                },
+
+                {
+                    "mData": "operationDateSaisie" ,
+                    "mRender": function ( data, type, full ) {
+
+                       /* //Get data with attribute operationDateSaisie in String
+                        var dateString = full.operationDateSaisie;
+
+                        //parse String operationDate to Date
+                        var d = new Date(dateString);
+                        /!* d.setTime(1245398693390);*!/
+                        return d.getDate() + "/"+  (d.getMonth() + 1) + "/" + d.getFullYear();*/
+
+                        var aa = full.operationDateSaisie;
+                        if (aa == null){return ""}
+                        else {
+                            var d = new Date(aa);
+
+                            return d.getDate() + "/"+  (d.getMonth() + 1) + "/" + d.getFullYear();
+                        }
+                    }
+                },
+
+                {
                     "mData": null,
                     "bSortable": false,
                     "mRender": function(data, type, full) {
@@ -274,6 +321,7 @@
                             '                        </a>'+
                             '                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">'+
                             '                          <a class="dropdown-item" href=/agent/livraisons/distributions/'+ full.entreposageId+'>'+'Livrer'+'</a>'+
+                            '                          <a class="dropdown-item" href=/destruction/destructions/'+ full.entreposageId+'>'+'Detruire'+'</a>'+
                             '                        </div>'
                     }
                 }
@@ -333,8 +381,37 @@
                 {
                     "mData": "operationDate" ,
                     "mRender": function ( data, type, full ) {
-                        var d = new Date();
+                        //Get data with attribute operationDate in String
+                        var dateString = full.operationDate;
+
+                        //parse String operationDate to Date
+                        var d = new Date(dateString);
+
+                        //console.log(dateString);
                         return d.getDate() + "/"+  (d.getMonth() + 1) + "/" + d.getFullYear()+ " "+ d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+
+                    }
+                },
+
+                {
+                    "mData": "operationDateSaisie" ,
+                    "mRender": function ( data, type, full ) {
+
+                      /*  //Get data with attribute operationDateSaisie in String
+                        var dateString = full.operationDateSaisie;
+
+                        //parse String operationDate to Date
+                        var d = new Date(dateString);
+                        /!* d.setTime(1245398693390);*!/
+                        return d.getDate() + "/"+  (d.getMonth() + 1) + "/" + d.getFullYear();*/
+
+                        var aa = full.operationDateSaisie;
+                        if (aa == null){return ""}
+                        else {
+                            var d = new Date(aa);
+
+                            return d.getDate() + "/"+  (d.getMonth() + 1) + "/" + d.getFullYear();
+                        }
                     }
                 },
 
@@ -409,10 +486,40 @@
                 {
                     "mData": "operationDate" ,
                     "mRender": function ( data, type, full ) {
-                        var d = new Date();
+                        //Get data with attribute operationDate in String
+                        var dateString = full.operationDate;
+
+                        //parse String operationDate to Date
+                        var d = new Date(dateString);
+
+                        //console.log(dateString);
                         return d.getDate() + "/"+  (d.getMonth() + 1) + "/" + d.getFullYear()+ " "+ d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+
                     }
                 },
+
+                {
+                    "mData": "operationDateSaisie" ,
+                    "mRender": function ( data, type, full ) {
+
+                       /* //Get data with attribute operationDateSaisie in String
+                        var dateString = full.operationDateSaisie;
+
+                        //parse String operationDate to Date
+                        var d = new Date(dateString);
+                        /!* d.setTime(1245398693390);*!/
+                        return d.getDate() + "/"+  (d.getMonth() + 1) + "/" + d.getFullYear();*/
+
+                        var aa = full.operationDateSaisie;
+                        if (aa == null){return ""}
+                        else {
+                            var d = new Date(aa);
+
+                            return d.getDate() + "/"+  (d.getMonth() + 1) + "/" + d.getFullYear();
+                        }
+                    }
+                },
+
 
 
                 {

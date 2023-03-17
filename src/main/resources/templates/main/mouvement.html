@@ -113,7 +113,9 @@
                                     <th class="text-center">Gâche</th>
                                     <th class="text-center">Retour</th>
                                     <th class="text-center">Stock final</th>
-                                    <th class="text-center">Date</th>
+                                    <th class="text-center">Entrepot</th>
+                                    <th class="text-center">Date saisie</th>
+                                    <th class="text-center">Date operation</th>
                                     <!--<th class="text-center">Entrepôt</th>-->
                                 </tr>
                                 </thead>
@@ -128,15 +130,17 @@
                                         <td th:switch = "${c.operation}" class="text-center">
                                             <span class="badge badge-pill badge-primary" th:case="'rec'" >Réception</span>
                                             <span class="badge badge-pill badge-success" th:case="'enl'" >Sortie</span>
-                                            <span class="badge badge-pill badge-danger" th:case="'dis'" >Entrée</span>
+                                            <span class="badge badge-pill badge-danger" th:case="'dis'" >Affectation</span>
+                                            <span class="badge badge-pill badge-dark" th:case="'tra'" >Transfert</span>
+                                            <span class="badge badge-pill badge-secondary" th:case="'des'" >Destruction</span>
 
                                         </td>
                                         <td th:text = "${c.gache}?:'0'" class="text-center" style="font-weight: bold"></td>
                                         <td th:text = "${c.retour}?:'0'" class="text-center" style="font-weight: bold"></td>
                                         <td th:text = "${c.finale}?:'0'" class="text-center"  style="font-weight: bold; color: red"></td>
-                                        <!--<td th:text = "${#calendars.format(c.date, 'dd-MM-yyyy HH:mm:ss')}" class="text-center"></td>-->
-                                        <!--<td th:text = "${{#dates.format(c.date, 'dd-MM-yyyy HH:mm:ss')}}" class="text-center"></td>-->
-                                        <td th:text = "${c.date}" class="text-center"></td>
+                                        <td th:text = "${c.entrepot}?:'N/A'" class="text-center" ></td>
+                                        <td th:text = "${#temporals.format(c.date, 'dd-MM-yyyy HH:mm:ss')}" class="text-center"></td>
+                                        <td th:text = "${#temporals.format(c.operationDateSaisie, 'dd-MM-yyyy')}?:''" class="text-center"></td>
                                     </tr>
 
 
@@ -152,7 +156,9 @@
                                 <th class="text-center">Gâche</th>
                                 <th class="text-center">Retour</th>
                                 <th class="text-center">Stock final</th>
-                                <th class="text-center">Date</th>
+                                <th class="text-center">Entrepot</th>
+                                <th class="text-center">Date saisie</th>
+                                <th class="text-center">Date operation</th>
                                 <!--<th class="text-center">Entrepôt</th>-->
                                 </tfoot>
                             </table>

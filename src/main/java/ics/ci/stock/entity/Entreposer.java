@@ -2,6 +2,7 @@ package ics.ci.stock.entity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @DiscriminatorValue("dis")
@@ -47,8 +48,8 @@ public class Entreposer extends Operation {
         super();
     }
 
-    public Entreposer(String operation_ref, int operation_qte, LocalDateTime operation_date, boolean dispo_operation, Projet projet, AppUser user, int qteVerse, int qteRestante, Boolean estLivrable, int stockInitial, int stockFinal, Integer transfertDispo, Reception reception, Entrepot entrepot) {
-        super(operation_ref, operation_qte, operation_date, dispo_operation, projet, user);
+    public Entreposer(String operation_ref, int operation_qte, LocalDateTime operation_date, boolean dispo_operation, Projet projet, AppUser user, Date operationDateSaisie, int qteVerse, int qteRestante, Boolean estLivrable, int stockInitial, int stockFinal, Integer transfertDispo, Reception reception, Entrepot entrepot) {
+        super(operation_ref, operation_qte, operation_date, dispo_operation, projet, user, operationDateSaisie);
         this.qteVerse = qteVerse;
         this.qteRestante = qteRestante;
         this.estLivrable = estLivrable;

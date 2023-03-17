@@ -227,6 +227,7 @@ public class TransfertController {
             t.setEntreposer(entreposer);
             t.setEntrepotSource(entrepotSource);
             t.setEntrepotDestination(entrepotDestination);
+            t.setOperationDateSaisie(transfert.getOperationDateSaisie());
             transfertRepository.save(t);
 
             ////Mettre à jour dispoTransfert et entreproser.

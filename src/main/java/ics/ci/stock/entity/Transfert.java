@@ -2,6 +2,7 @@ package ics.ci.stock.entity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @DiscriminatorValue("tra")
@@ -36,8 +37,8 @@ public class Transfert extends Operation {
         super();
     }
 
-    public Transfert(String operation_ref, int operation_qte, LocalDateTime operation_date, boolean dispo_operation, Projet projet, AppUser user, int stockInitialSource, int stockFinalSource, int stockInitialDestination, int stockFinalDestination, Entrepot entrepotSource, Entrepot entrepotDestination, Entreposer entreposer) {
-        super(operation_ref, operation_qte, operation_date, dispo_operation, projet, user);
+    public Transfert(String operation_ref, int operation_qte, LocalDateTime operation_date, boolean dispo_operation, Projet projet, AppUser user, Date operationDateSaisie, int stockInitialSource, int stockFinalSource, int stockInitialDestination, int stockFinalDestination, Entrepot entrepotSource, Entrepot entrepotDestination, Entreposer entreposer) {
+        super(operation_ref, operation_qte, operation_date, dispo_operation, projet, user, operationDateSaisie);
         this.stockInitialSource = stockInitialSource;
         this.stockFinalSource = stockFinalSource;
         this.stockInitialDestination = stockInitialDestination;

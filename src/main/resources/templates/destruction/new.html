@@ -25,45 +25,62 @@
 <div class="card mx-auto" style="width: 50rem">
 
     <div class="card-body">
-        <form th:action="@{/agent/gaches/save}" th:object="${magache}"  method="post">
+        <form th:action="@{/destruction/destructions/save}" th:object="${madestruction}"  method="post">
 
-            <!-- Nom Enlevement Form Input -->
+            <!-- Nom Client Form Input -->
 
-            <input name="enlevement" th:value="${enlevement.operationId}" type="hidden"/>
+            <input name="entreposer" th:value="${entreposage.operationId}" type="hidden"/>
 
-            <!-- Disponibilité retour Form Input -->
+            <!-- livraisonReference Form Input -->
             <div  class="form-group row">
-                <label for="disponibilite" class="col-sm-4 col-form-label text-md-right"><strong>Disponibilité retour</strong></label>
+                <label for="livraisonReference" class="col-sm-4 col-form-label text-md-right"><strong>Référence</strong></label>
 
                 <div class="col-md-6">
 
-                    <input id="disponibilite" type="number" min="1" class="form-control" th:field="${enlevement.enlevementDispo}" required readonly>
+                    <input id="livraisonReference" type="text"  class="form-control" th:field="*{operationReference}" readonly >
+                    <!--<span th:if="${#fields.hasErrors('projet_nom')}" th:errors="*{projet_nom}"  th:class="help-block"></span>-->
+                </div>
+            </div>
+
+
+
+
+            <!-- Ressources  select -->
+            <div class="form-group row">
+                <label for="idressource" class="col-sm-4 col-form-label text-md-right"><strong>Ressource</strong></label>
+
+                <div class="col-md-6">
+                    <select  id="idressource" name="ressource" class="select-type form-control" required >
+                        <option value="">-- Selectionner la Ressources --</option>
+                        <option th:each="c:${ressources}" th:value="${c.ressource_id}" th:text="${c.ressource_nom + ' ' + c.ressource_prenoms}"></option>
+                    </select>
+                    <!--<span th:if="${#fields.hasErrors('projets')}" th:errors="*{projets}"></span>-->
+                </div>
+            </div>
+
+
+            <!-- Disponibilité Form Input -->
+            <div  class="form-group row">
+                <label for="disponibilite" class="col-sm-4 col-form-label text-md-right"><strong>Quantité Disponible</strong></label>
+
+                <div class="col-md-6">
+
+                    <input id="disponibilite" type="number" min="1" class="form-control" th:field="${madestruction.enlevementDispo}" required  readonly>
                     <!--<span th:if="${#fields.hasErrors('projet_nom')}" th:errors="*{projet_nom}"  th:class="help-block"></span>-->
 
                 </div>
             </div>
 
 
-            <!-- Type de gache  select -->
-            <div class="form-group row">
-                <label for="idtypegache" class="col-sm-4 col-form-label text-md-right"><strong>Type de Gache</strong></label>
 
-                <div class="col-md-6">
-                    <select  id="idtypegache" name="typegache" class="select-type form-control" required >
-                        <option value="">-- Selectionner le type de gache --</option>
-                        <option th:each="c:${typegaches}" th:value="${c.typegacheId}" th:text="${c.typegacheNom}"></option>
-                    </select>
-                    <!--<span th:if="${#fields.hasErrors('projets')}" th:errors="*{projets}"></span>-->
-                </div>
-            </div>
 
-            <!-- Quantité de gache -->
+            <!-- Quantité Form Input -->
             <div  class="form-group row">
-                <label for="quantitegache" class="col-sm-4 col-form-label text-md-right"><strong>Quantité</strong></label>
+                <label for="quantite" class="col-sm-4 col-form-label text-md-right"><strong>Quantité</strong></label>
 
                 <div class="col-md-6">
 
-                    <input id="quantitegache" type="number" min="1" class="form-control" th:field="${magache.gacheQte}" required onkeyup="if(this.value<0){this.value= this.value * -1}"  autofocus>
+                    <input id="quantite" type="number" min="1" class="form-control" th:field="${madestruction.operation_qte}" required onkeyup="if(this.value<0){this.value= this.value * -1}" autofocus>
                     <!--<span th:if="${#fields.hasErrors('projet_nom')}" th:errors="*{projet_nom}"  th:class="help-block"></span>-->
                     <div id="msg"></div>
                 </div>
@@ -75,10 +92,12 @@
 
                 <div class="col-md-6">
 
-                    <input id="operationDateSaisie" type="date" class="form-control" th:field="${magache.operationDateSaisie}"  autofocus required>
+                    <input id="operationDateSaisie" type="date" class="form-control" th:field="${madestruction.operationDateSaisie}"  autofocus required>
                     <!--<span th:if="${#fields.hasErrors('projetNom')}" th:errors="*{projetNom}"  th:class="help-block"></span>-->
                 </div>
             </div>
+
+
 
             <div class="form-group row">
                 <label for="btn" class="col-sm-4 col-form-label text-md-right"><strong></strong></label>
@@ -88,9 +107,7 @@
                 </div>
 
             </div>
-
         </form>
-
     </div>
 
 </div>
@@ -117,7 +134,7 @@
 
     $(document).ready(function(){
         //Action Java script lorsque le champ quantité perd le focus.
-        $("#quantitegache").on("blur", function(e) {
+        $("#quantite").on("blur", function(e) {
 
             //Initialisation des balise
             //Cacher le balise
@@ -125,10 +142,10 @@
             $('#msg').hide();
 
             //Declaration des variable
-            var qte = $('#quantitegache').val();
+            var qte = $('#quantite').val();
             var dispo = $('#disponibilite').val();
 
-            if ($('#quantitegache').val() == null || $('#quantitegache').val() == "" || $('#quantitegache').val() == 0  ) {
+            if ($('#quantite').val() == null || $('#quantite').val() == "" || $('#quantite').val() == 0  ) {
                 $('#msg').show();
                 $("#msg").html("Veuillez renseigner le champ. Le champ doit etre supérier à 1").css("color", "red");
             }
@@ -150,6 +167,5 @@
         });
     });
 </script>
-
 </body>
 </html>

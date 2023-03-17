@@ -10,7 +10,7 @@
     <title th:utext="${title}"></title>
 
     <!-- Include CSS block -->
-   <!-- <th:block th:include="main/layout/block_css"></th:block>-->
+    <!-- <th:block th:include="main/layout/block_css"></th:block>-->
 
     <!-- Fonts -->
     <link rel = "stylesheet" type = "text/css" href = "../../static/css/font-google/font.css" th:href="@{/css/font-google/font.css}"/>
@@ -104,9 +104,9 @@
                 <div class="col-md-12">
                     <nav>
                         <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                            <a class="nav-item nav-link active" id="nav-stock-tab" data-toggle="tab" href="#nav-stock" role="tab" aria-controls="nav-stock" aria-selected="true">STOCKS A JOUR</a>
-                            <a class="nav-item nav-link" id="nav-operation-tab" data-toggle="tab" href="#nav-operation" role="tab" aria-controls="nav-operation" aria-selected="false">ETAT DES STOCKS PERIODIQUES</a>
-                            <a class="nav-item nav-link" id="nav-mouvement-tab" data-toggle="tab" href="#nav-mouvement" role="tab" aria-controls="nav-mouvement" aria-selected="false">ETAT DES MOUVEMENTS PERIODIQUES</a>
+                            <a class="nav-item nav-link active" id="nav-stock-tab" data-toggle="tab" href="#nav-stock" role="tab" aria-controls="nav-stock" aria-selected="true">GACHES-PROJET</a>
+                            <a class="nav-item nav-link" id="nav-operation-tab" data-toggle="tab" href="#nav-operation" role="tab" aria-controls="nav-operation" aria-selected="false">GACHES-PROJET PERIODIQUES</a>
+                            <a class="nav-item nav-link" id="nav-mouvement-tab" data-toggle="tab" href="#nav-mouvement" role="tab" aria-controls="nav-mouvement" aria-selected="false">LISTE DES GACHES PERIODIQUES</a>
                         </div>
                     </nav>
                     <div class="tab-content" id="nav-tabContent">
@@ -137,37 +137,20 @@
                                     <thead>
                                     <tr>
 
-                                        <th class="text-center">Id</th>
-                                        <th class="text-center">Client</th>
-                                        <th class="text-center">Projet</th>
-                                        <th class="text-center">Type Carte</th>
+                                        <th class="text-center">Id Projet</th>
+                                        <th class="text-center">Nom Projet</th>
+                                        <th class="text-center">Quantite Gache</th>
 
-                                        <th class="text-center">Emetteur</th>
-
-                                        <th class="text-center">Entrepot</th>
-                                        <th class="text-center">Quantité</th>
-                                        <th class="text-center">Seuil</th>
 
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each = "c:${stocks}">
-                                        <td th:text = "${c.stockId}" class="text-center"></td>
-                                        <td th:text = "${c.clientNom}" class="text-center"></td>
-                                        <td th:text = "${c.projetNom}" class="text-center"></td>
-                                        <td th:text = "${c.produitNom}" class="text-center"></td>
-
-                                        <td th:text = "${c.emetteurNom}" class="text-center"></td>
+                                    <tr th:each = "c:${vgaches}">
+                                        <td th:text = "${c.id}" class="text-center"></td>
+                                        <td th:text = "${c.projet}" class="text-center"></td>
+                                        <td th:text = "${c.qte}" class="text-center"></td>
 
 
-                                        <td th:text = "${c.entrepotNom}" class="text-center"></td>
-                                        <!--  <td th:text = "${c.stockQuantite}" class="text-center" style="font-weight: bold; color: red"></td>-->
-                                        <td >
-                                            <span th:text="${c.stockQuantite}" class="badge badge-pill badge-success" id="1" style="font-weight: bold" th:if="${c.stockQuantite >= c.seuilProjet}"></span>
-                                            <span th:text="${c.stockQuantite}" class="badge badge-pill badge-danger" id="2" style="font-weight: lighter" th:if="${c.stockQuantite < c.seuilProjet}"></span>
-                                        </td>
-
-                                        <td th:text = "${c.seuilProjet}" class="text-center"></td>
 
 
 
@@ -175,11 +158,9 @@
                                     </tbody>
                                     <tfoot>
 
-                                    <th class="text-center">Id</th>
-                                    <th class="text-center">Client</th>
-                                    <th class="text-center">Projet</th>
-                                    <th class="text-center">Entrepot</th>
-                                    <th class="text-center" >Quantité</th>
+                                    <th class="text-center">Id Projet</th>
+                                    <th class="text-center">Nom Projet</th>
+                                    <th class="text-center">Quantite Gache</th>
                                     </tfoot>
                                 </table>
                             </div>
@@ -188,7 +169,7 @@
                             <div class="row">
                                 <div class="col-md-2"></div>
                                 <div class="col-md-8">
-                                    <form class="form-inline" th:action="@{/dashboard/operation}" th:object="${search}"  method="post">
+                                    <form class="form-inline" th:action="@{/dashboard/gache/periode}" th:object="${search}"  method="post">
                                         <div class="form-group">
                                             <label th:for="debut"><strong>Date de début :</strong> </label>
                                             <input type="date" class="form-control-sm" th:field="*{debut}" required>
@@ -242,7 +223,7 @@
                             <div class="row">
                                 <div class="col-md-2"></div>
                                 <div class="col-md-8">
-                                    <form class="form-inline" th:action="@{/dashboard/mouvement}" th:object="${search}"  method="post">
+                                    <form class="form-inline" th:action="@{/dashboard/gache/mouvement}" th:object="${search}"  method="post">
                                         <div class="form-group">
                                             <label th:for="debut"><strong>Date de début :</strong> </label>
                                             <input type="date" class="form-control-sm" th:field="*{debut}" required>
@@ -486,26 +467,26 @@
             dom: 'Bfrtip',
             buttons: [{
 
-               /* 'copyHtml5',*/
+                /* 'copyHtml5',*/
                 extend :'excelHtml5',
                 customize: function( xlsx ) {
                     var sheet = xlsx.xl.worksheets['sheet1.xml'];
 
-                   // $('row c[r^="F"]', sheet).attr( 's', '2' );
+                    // $('row c[r^="F"]', sheet).attr( 's', '2' );
 
                     // Loop over the cells in column `F`
-                   /* $('row c[r^="D"]', sheet).each( function () {
-                        // Get the value
-                        if ( $('is t', this).text() == 'NFC' ) {
-                            console.log($('is t', this).text());
-                            console.log($(this).css(font-weight))
-                            $(this).attr( 's', '20' );
-                        }
-                    });*/
+                    /* $('row c[r^="D"]', sheet).each( function () {
+                         // Get the value
+                         if ( $('is t', this).text() == 'NFC' ) {
+                             console.log($('is t', this).text());
+                             console.log($(this).css(font-weight))
+                             $(this).attr( 's', '20' );
+                         }
+                     });*/
 
                 }
-               /* 'csvHtml5',
-                'pdfHtml5'*/
+                /* 'csvHtml5',
+                 'pdfHtml5'*/
             }]
 
 

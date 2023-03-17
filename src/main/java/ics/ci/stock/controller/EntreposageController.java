@@ -45,7 +45,7 @@ public class EntreposageController {
     @RequestMapping(value = "/agent/distributions", method = RequestMethod.GET)
     public String indexEntreposage(Model model){
 
-        model.addAttribute("title", "Entrée - Liste");
+        model.addAttribute("title", "PROJET A AFFECTER - Liste");
         return "entreposage/index";
     }
 
@@ -53,7 +53,7 @@ public class EntreposageController {
     public String newEntreposage(Model model){
 
 
-        model.addAttribute("title", "Entrée - Nouveau");
+        model.addAttribute("title", "Affectation - Nouveau");
         return "entreposage/new";
     }
 
@@ -177,7 +177,7 @@ public class EntreposageController {
 
     @RequestMapping(value = "/admin/distributions/edit/{id}", method = RequestMethod.GET)
     public String editDistribution(@PathVariable Long id, Model model){
-        model.addAttribute("title", "Entreposage - Edition");
+        model.addAttribute("title", "Affectation - Edition");
         return "entreposage/edit";
     }
 

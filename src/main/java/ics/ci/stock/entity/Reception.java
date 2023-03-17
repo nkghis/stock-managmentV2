@@ -2,6 +2,7 @@ package ics.ci.stock.entity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @DiscriminatorValue("rec")
@@ -25,8 +26,8 @@ public class Reception extends Operation {
         super();
     }
 
-    public Reception(String operation_ref, int operation_qte, LocalDateTime operation_date, boolean dispo_operation, Projet projet, /*Produit produit,*/ AppUser user, String operationReferenceFournisseur, Integer dispo, Fournisseur fournisseur, Ressource ressource) {
-        super(operation_ref, operation_qte, operation_date, dispo_operation, projet, /*produit,*/ user);
+    public Reception(String operation_ref, int operation_qte, LocalDateTime operation_date, boolean dispo_operation, Projet projet, /*Produit produit,*/ AppUser user, Date operationDateSaisie, String operationReferenceFournisseur, Integer dispo, Fournisseur fournisseur, Ressource ressource) {
+        super(operation_ref, operation_qte, operation_date, dispo_operation, projet, /*produit,*/ user, operationDateSaisie);
         this.operationReferenceFournisseur = operationReferenceFournisseur;
         this.dispo = dispo;
         this.fournisseur = fournisseur;

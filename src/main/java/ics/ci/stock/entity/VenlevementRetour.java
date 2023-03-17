@@ -47,6 +47,9 @@ public class VenlevementRetour {
     @Column(name = "emetteur_nom")
     private String emetteurNom;
 
+    @Column(name = "operation_date_saisie")
+    private LocalDateTime operationDateSaisie;
+
 
     public VenlevementRetour() {
         super();
@@ -146,5 +149,13 @@ public class VenlevementRetour {
 
     public void setEmetteurNom(String emetteurNom) {
         this.emetteurNom = emetteurNom;
+    }
+
+    public LocalDateTime getOperationDateSaisie() {
+        return operationDateSaisie;
+    }
+
+    public void setOperationDateSaisie(LocalDateTime operationDateSaisie) {
+        this.operationDateSaisie = operationDateSaisie;
     }
 }
