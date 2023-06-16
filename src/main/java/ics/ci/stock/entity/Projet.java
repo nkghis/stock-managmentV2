@@ -2,6 +2,7 @@ package ics.ci.stock.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "projets" , uniqueConstraints=@UniqueConstraint(columnNames="projet_nom"))
@@ -107,5 +108,18 @@ public class Projet implements Serializable {
 
     public void setProduit(Produit produit) {
         this.produit = produit;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Projet)) return false;
+        Projet projet = (Projet) o;
+        return Objects.equals(projet_id, projet.projet_id) && Objects.equals(projetNom, projet.projetNom) && Objects.equals(seuilProjet, projet.seuilProjet) && Objects.equals(emetteur, projet.emetteur) && Objects.equals(produit, projet.produit) && Objects.equals(client, projet.client);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(projet_id, projetNom, seuilProjet, emetteur, produit, client);
     }
 }

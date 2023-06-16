@@ -1,0 +1,149 @@
+
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Authentification Bootstrap 4 Spring Boot.">
+    <meta name="author" content="Ghislain Nkagou">
+    <title th:utext="${title}"></title>
+
+    <!-- Include CSS block -->
+    <th:block th:include="main/layout/block_css"></th:block>
+<!--    <style>
+        .select2-container {
+            position:absolute;
+        }
+    </style>-->
+
+</head>
+<body>
+
+<!-- Include MENU block -->
+<th:block th:include="main/_menu"></th:block>
+
+
+<!-- page content -->
+<br>
+
+<div class="card mx-auto" style="width: 50rem">
+
+    <div class="card-header">
+        <div class="row">
+
+            <div class="col-md-8">
+                <h5><strong>Nouvel Ajustement.</strong></h5>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="card-body">
+        <form th:action="@{/inventaire/inventaires/new/step2}" th:object="${dto}"  method="post">
+        <!--<form th:action="@{/inventaire/inventaires/new/step2}"   method="post">-->
+            <!-- Nom projet Form Input -->
+            <div  class="form-group row">
+                <label for="name" class="col-sm-4 col-form-label text-md-right"><strong>Intitulé</strong></label>
+
+                <div class="col-md-6">
+
+                    <input id="name" type="text" class="form-control" th:field="*{intitule}"  autofocus>
+                    <!--<input id="name" name="intitule" type="text" class="form-control" th:value="${dto.intitule}"  autofocus>-->
+                  <!--  <span class="text-danger" th:errors = "${dto.intitule}"></span>-->
+                    <span class="text-danger" th:if="${#fields.hasErrors('intitule')}" th:errors="*{intitule}" ></span>
+                </div>
+            </div>
+
+
+            <!-- Date debut inventaire Form Input -->
+            <div  class="form-group row">
+                <label for="dateDebutInventaire" class="col-sm-4 col-form-label text-md-right"><strong>Date de debut</strong></label>
+
+                <div class="col-md-6">
+
+                    <input id="dateDebutInventaire" type="date" class="form-control" th:field="*{dateDebut}"  autofocus >
+                   <!-- <input id="dateDebutInventaire" name="dateDebut" type="date" class="form-control" th:value="${dto.dateDebut}"  autofocus >-->
+                    <span class="text-danger" th:if="${#fields.hasErrors('dateDebut')}" th:errors="*{dateDebut}"  ></span>
+                    <!--<span th:errors = "${dto.dateDebut}"></span>-->
+                </div>
+            </div>
+
+            <!-- Date finInventaire Form Input -->
+            <div  class="form-group row">
+                <label for="dateFinInventaire" class="col-sm-4 col-form-label text-md-right"><strong>Date de fin</strong></label>
+
+                <div class="col-md-6">
+
+                    <input id="dateFinInventaire" type="date" class="form-control" th:field="*{dateFin}"  autofocus >
+                    <!--<input id="dateFinInventaire" name="dateFin" type="date" class="form-control" th:value="${dto.dateFin}"  autofocus >-->
+                    <span class="text-danger" th:if="${#fields.hasErrors('dateFin')}" th:errors="*{dateFin}"  ></span>
+                   <!-- <span th:errors = "${dto.dateFin}"></span>-->
+                </div>
+            </div>
+
+
+
+            <!-- Entrepot Form Input -->
+            <div class="form-group row">
+                <label for="identrepot" class="col-md-4 col-form-label text-md-right"><strong>Entrepot</strong></label>
+
+                <div class="col-md-6">
+                    <select th:field="*{entrepot}"  id="identrepot" name="entrepot" class="select-type form-control"   >
+
+                        <option value="">-- Selectionner Entrepot --</option>
+                        <option th:each="c:${entrepots}" th:value="${c.entrepotId}" th:text="${c.entrepotNom}"></option>
+                    </select>
+                    <span class="text-danger" th:if="${#fields.hasErrors('entrepot')}" th:errors="*{entrepot}"></span>
+
+                </div>
+            </div>
+
+
+
+
+
+            <div class="form-group row">
+                <label for="contact" class="col-sm-4 col-form-label text-md-right"><strong></strong></label>
+
+                <div id="contact" class="col-md-6">
+                    <button type="submit" class="btn btn-primary">Enregister</button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+</div>
+
+
+
+
+
+<!-- page content -->
+
+
+<!-- Include END MENU block -->
+
+<th:block th:include="main/_end_menu"></th:block>
+
+
+
+
+
+<br/><br/>
+
+
+
+<!-- Include SCRIPT block -->
+<th:block th:include="main/layout/block_script"></th:block>
+<!--<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>-->
+<script type="text/javascript" >
+    $(document).ready(function() {
+        $('#identrepot').select2();
+    } );
+</script>
+
+</body>
+</html>

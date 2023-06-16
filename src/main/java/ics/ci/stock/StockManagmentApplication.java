@@ -36,8 +36,25 @@ public class StockManagmentApplication {
 		//UserRepository userRepository = ctx.getBean(UserRepository.class);
 		//AppUser user = userRepository.getOne(1L);
 
-		String p ="Server start on http://localhost:8089";
-		System.out.println(p);
+
+
+
+		/*System.out.println("===============DEBUT TRANSACTION=======================");
+		String p = "123";
+		String password = EncrytedPasswordUtils.encrytePassword(p);
+		UserRepository userRepository = ctx.getBean(UserRepository.class);
+		AppUser userInventaire = userRepository.save(new AppUser("inventaire",password,true));
+		System.out.println("===============AJOUT ROLE=======================");
+		RoleRepository roleRepository = ctx.getBean(RoleRepository.class);
+		AppRole roleInventaire = roleRepository.save(new AppRole("ROLE_INVENTAIRE"));
+
+		System.out.println("===============AFFECTATION ROLE PAR USER=======================");
+		UserRoleRepository userRoleRepository = ctx.getBean(UserRoleRepository.class);
+		userRoleRepository.save(new UserRole(userInventaire,roleInventaire));*/
+
+
+		String server ="Server start on http://localhost:8089";
+		System.out.println(server);
 		/*String p = "123";
 		String password = EncrytedPasswordUtils.encrytePassword(p);
 

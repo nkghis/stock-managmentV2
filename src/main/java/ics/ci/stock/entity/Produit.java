@@ -20,9 +20,9 @@ public class Produit implements Serializable {
     private Collection<Projet> projets;
 
 
-
+/*
     @OneToMany(mappedBy = "produit")
-    private Collection<Conditionnement> conditionnements;
+    private Collection<Conditionnement> conditionnements;*/
 
     public Produit() {
         super();
@@ -34,15 +34,12 @@ public class Produit implements Serializable {
         this.produit_nom = produit_nom;
     }
 
-    public Produit(String produit_nom, Collection<Conditionnement> conditionnements) {
-        this.produit_nom = produit_nom;
-        this.conditionnements = conditionnements;
-    }
 
-    public Produit(String produit_nom, Collection<Projet> projets, Collection<Conditionnement> conditionnements) {
+
+    public Produit(String produit_nom, Collection<Projet> projets) {
         this.produit_nom = produit_nom;
         this.projets = projets;
-        this.conditionnements = conditionnements;
+
     }
 
 
@@ -62,13 +59,13 @@ public class Produit implements Serializable {
         this.produit_nom = produit_nom;
     }
 
-    public Collection<Conditionnement> getConditionnements() {
+/*    public Collection<Conditionnement> getConditionnements() {
         return conditionnements;
     }
 
     public void setConditionnements(Collection<Conditionnement> conditionnements) {
         this.conditionnements = conditionnements;
-    }
+    }*/
 
     public Collection<Projet> getProjets() {
         return projets;

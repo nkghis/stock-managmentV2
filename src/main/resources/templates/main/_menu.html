@@ -18,7 +18,7 @@
 
             <!-- Navigation -->
             <ul class="navbar-nav">
-                <div sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')or hasRole('ROLE_SUPERVISOR') or hasRole('ROLE_AGENT')">
+                <div sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')or hasRole('ROLE_SUPERVISOR') or hasRole('ROLE_AGENT') or hasRole('ROLE_INVENTAIRE')">
                     <li class="nav-item">
                         <a th:href="@{/dashboard}"  class="nav-link">
                             <i class="ni ni-tv-2 text-primary"></i>  Tableau de bord
@@ -122,6 +122,14 @@
                     <li class="nav-item">
                         <a th:href="@{/destruction/destructions}" class="nav-link">
                             <i class="ni ni-single-02  text-red"></i> Destruction
+                        </a>
+                    </li>
+                </div>
+
+                <div sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_INVENTAIRE')">
+                    <li class="nav-item">
+                        <a th:href="@{/inventaire/inventaires}" class="nav-link">
+                            <i class="ni ni-bullet-list-67  text-red"></i> Inventaire
                         </a>
                     </li>
                 </div>

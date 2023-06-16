@@ -22,9 +22,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
-    @Autowired
-    private DataSource dataSource;
+    private final DataSource dataSource;
 
+    public WebSecurityConfig(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
 
     @Bean
@@ -54,6 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // If no login, it will redirect to /login page.
         http.authorizeRequests().antMatchers("/user/**").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
         http.authorizeRequests().antMatchers("/auth/**").access("hasAnyRole('ROLE_SUPERVISOR', 'ROLE_ADMIN')");
+        http.authorizeRequests().antMatchers("/inventaire/**").access("hasAnyRole('ROLE_INVENTAIRE', 'ROLE_ADMIN')");
         http.authorizeRequests().antMatchers("/agent/**").access("hasAnyRole('ROLE_AGENT', 'ROLE_ADMIN')");
         http.authorizeRequests().antMatchers("/destruction/**").access("hasAnyRole('ROLE_AGENT', 'ROLE_ADMIN')");
         http.authorizeRequests().antMatchers("/acces/**").access("hasAnyRole('ROLE_ACCES', 'ROLE_ADMIN')");

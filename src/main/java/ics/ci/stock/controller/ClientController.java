@@ -17,8 +17,11 @@ import java.util.List;
 @Controller
 public class ClientController {
 
-    @Autowired
-    private ClientRepository clientRepository;
+    private final ClientRepository clientRepository;
+
+    public ClientController(ClientRepository clientRepository) {
+        this.clientRepository = clientRepository;
+    }
 
     @RequestMapping(value = "/auth/clients")
     public String index(Model model){

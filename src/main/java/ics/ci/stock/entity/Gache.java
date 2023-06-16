@@ -105,4 +105,5 @@ public class Gache {
     public void setOperationDateSaisie(Date operationDateSaisie) {
         this.operationDateSaisie = operationDateSaisie;
     }
+
 }
