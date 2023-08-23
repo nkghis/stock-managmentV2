@@ -5,6 +5,7 @@ import ics.ci.stock.entity.custom.GacheDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface GacheRepository extends JpaRepository<Gache, Long> {
@@ -23,4 +24,6 @@ public interface GacheRepository extends JpaRepository<Gache, Long> {
             "ORDER BY\n" +
             "qte DESC")
     public List<Gache> totalGacheGroupByProject();*/
+
+    List<Gache> findAllByGacheDateBetween(LocalDateTime debut, LocalDateTime fin);
 }

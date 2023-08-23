@@ -156,10 +156,7 @@
                                         <td th:text = "${c.clientNom}" class="text-center"></td>
                                         <td th:text = "${c.projetNom}" class="text-center"></td>
                                         <td th:text = "${c.produitNom}" class="text-center"></td>
-
                                         <td th:text = "${c.emetteurNom}" class="text-center"></td>
-
-
                                         <td th:text = "${c.entrepotNom}" class="text-center"></td>
                                         <!--  <td th:text = "${c.stockQuantite}" class="text-center" style="font-weight: bold; color: red"></td>-->
                                         <td >
@@ -490,18 +487,6 @@
                 extend :'excelHtml5',
                 customize: function( xlsx ) {
                     var sheet = xlsx.xl.worksheets['sheet1.xml'];
-
-                   // $('row c[r^="F"]', sheet).attr( 's', '2' );
-
-                    // Loop over the cells in column `F`
-                   /* $('row c[r^="D"]', sheet).each( function () {
-                        // Get the value
-                        if ( $('is t', this).text() == 'NFC' ) {
-                            console.log($('is t', this).text());
-                            console.log($(this).css(font-weight))
-                            $(this).attr( 's', '20' );
-                        }
-                    });*/
 
                 }
                /* 'csvHtml5',

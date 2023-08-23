@@ -14,6 +14,16 @@ public class Inventairedetail extends Operation {
     @Column(name = "stock_suivant")
     private int stockSuivant;
 
+    @Column(name = "stock_initial")
+    private int stockInitial;
+
+    @Column(name = "stock_final")
+    private int stockFinal;
+
+    @ManyToOne
+    @JoinColumn(name = "entrepotId")
+    private Entrepot entrepot;
+
     @ManyToOne
     @JoinColumn(name = "inventaireId")
     private Inventaire inventaire;
@@ -51,5 +61,29 @@ public class Inventairedetail extends Operation {
 
     public void setInventaire(Inventaire inventaire) {
         this.inventaire = inventaire;
+    }
+
+    public int getStockInitial() {
+        return stockInitial;
+    }
+
+    public void setStockInitial(int stockInitial) {
+        this.stockInitial = stockInitial;
+    }
+
+    public int getStockFinal() {
+        return stockFinal;
+    }
+
+    public void setStockFinal(int stockFinal) {
+        this.stockFinal = stockFinal;
+    }
+
+    public Entrepot getEntrepot() {
+        return entrepot;
+    }
+
+    public void setEntrepot(Entrepot entrepot) {
+        this.entrepot = entrepot;
     }
 }

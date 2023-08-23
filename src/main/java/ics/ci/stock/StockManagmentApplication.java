@@ -1,8 +1,11 @@
 package ics.ci.stock;
 
 
+import ics.ci.stock.dto.gache.GacheProjetDTO;
 import ics.ci.stock.entity.*;
 import ics.ci.stock.repository.*;
+import ics.ci.stock.service.GacheService;
+import ics.ci.stock.service.NotificationService;
 import ics.ci.stock.service.StockService;
 import ics.ci.stock.utils.EncrytedPasswordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.mail.javamail.JavaMailSender;
+
+import java.util.List;
 
 @SpringBootApplication
 public class StockManagmentApplication {
@@ -22,9 +27,22 @@ public class StockManagmentApplication {
 
 		ApplicationContext ctx = SpringApplication.run(StockManagmentApplication.class, args);
 
+/*		NotificationService notificationService = ctx.getBean(NotificationService.class);
+
+		String toEmail = "ghislain.nkagou@ics.ci";
+		String subject = "Notification Stock | Seuil de disponibilité atteint";
+		String message = "Je suis content";
+		//String from = "NOTIFICATION PERSO";
+
+		notificationService.sendEmail(toEmail, subject, message*//*, from*//*);*/
+
+		String d ="";
+
 		StockService stockService = ctx.getBean(StockService.class);
 		ProjetRepository projetRepository = ctx.getBean(ProjetRepository.class);
 		EntrepotRepository entrepotRepository = ctx.getBean(EntrepotRepository.class);
+		GacheService gacheService = ctx.getBean(GacheService.class);
+
 
 		/*Projet projet = projetRepository.getOne(1L);
 		Entrepot entrepot = entrepotRepository.getOne(1L);

@@ -3,6 +3,7 @@ package ics.ci.stock.controller;
 import ics.ci.stock.entity.*;
 import ics.ci.stock.entity.custom.DestructionDto;
 import ics.ci.stock.repository.*;
+import ics.ci.stock.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,6 +43,9 @@ public class DestructionController {
     @Autowired
     private StockRepository stockRepository;
 
+    @Autowired
+    private StockService stockService;
+
     @RequestMapping(value = "/destruction/destructions", method = RequestMethod.GET)
     public String indexDestruction(Model model){
 
@@ -72,56 +76,84 @@ public class DestructionController {
 
         Entreposer entreposage = entreposerRepository.getOne(ditribuerId);
 
-        //Get Local date Time
-        LocalDateTime date = LocalDateTime.now();
-
-        //Get User AUth
-        AppUser user = userRepository.findByUserName(principal.getName());
-
-        //Declaration des quantités depuis le formulaire
-        int qteVerseForm = destruction.getOperation_qte();
-        int qteRestanteForm = destruction.getEnlevementDispo();
-
-        //Declaration de qte restante dans Distribution
-        int qteR = qteRestanteForm - qteVerseForm;
-
-        //Mise à jour de Entreposage
-        if (qteR == 0){
-            entreposage.setEstLivrable(false);
-        }else{
-            entreposage.setEstLivrable(true);
-        }
-
-        entreposage.setQteRestante(qteR);
-        entreposerRepository.save(entreposage);
-
         //Declaration variables
         Projet projet = entreposage.getProjet();
         Entrepot entrepot = entreposage.getEntrepot();
+        int qte = destruction.getOperation_qte();
 
-        //Enregistrement de destruction.
+        // Check if Stock quantite is available
+        Boolean result = stockService.checkIfStockAvailable(projet, entrepot, qte);
 
-        destruction.setEnlevementDispo(destruction.getOperation_qte());
-        destruction.setOperation_date(date);
-        destruction.setUser(user);
-        destruction.setEntreposer(entreposage);
-        destruction.setEstDisponible(true);
-        destruction.setProjet(projet);
-        destruction.setEntrepot(entrepot);
-        destruction.setOperationDateSaisie(destruction.getOperationDateSaisie());
+        String messageValue = null;
+        String messageVariable = null;
 
-        //Recherche dans la table stock en fonction de produit, projet, entrepot
-        Stock stock = stockRepository.findByProjetAndEntrepot(/*produit,*/ projet, entrepot);
-        int quantite = stock.getStockQuantite() - destruction.getOperation_qte();
-        destruction.setStockInitial(stock.getStockQuantite());
-        destruction.setStockFinal(quantite);
-        stock.setUser(user);
-        stock.setStockDate(date);
-        stock.setStockQuantite(quantite);
-        stockRepository.save(stock);
-        destructionRepository.save(destruction);
-        redirectAttributes.addFlashAttribute("messagedestruction","Destruction éffectuée avec succès");
-        System.out.println("save Destruction");
+
+
+        if (result == false){
+
+            //stock unavailable
+            messageVariable = "messagestock";
+            messageValue = "Le stock du project : " + projet.getProjetNom()  +" ayant pour entrepot " + entrepot.getEntrepotNom()+" ne dispose pas assez de stock pour effectué cette opération";
+
+        }else {
+
+            //Get Local date Time
+            LocalDateTime date = LocalDateTime.now();
+
+            //Get User AUth
+            AppUser user = userRepository.findByUserName(principal.getName());
+
+            //Declaration des quantités depuis le formulaire
+            int qteVerseForm = destruction.getOperation_qte();
+            int qteRestanteForm = destruction.getEnlevementDispo();
+
+            //Declaration de qte restante dans Distribution
+            int qteR = qteRestanteForm - qteVerseForm;
+
+            //Mise à jour de Entreposage
+            if (qteR == 0){
+                entreposage.setEstLivrable(false);
+            }else{
+                entreposage.setEstLivrable(true);
+            }
+
+            entreposage.setQteRestante(qteR);
+            entreposerRepository.save(entreposage);
+
+
+            //Enregistrement de destruction.
+
+            destruction.setEnlevementDispo(destruction.getOperation_qte());
+            destruction.setOperation_date(date);
+            destruction.setUser(user);
+            destruction.setEntreposer(entreposage);
+            destruction.setEstDisponible(true);
+            destruction.setProjet(projet);
+            destruction.setEntrepot(entrepot);
+            destruction.setOperationDateSaisie(destruction.getOperationDateSaisie());
+
+            //Recherche dans la table stock en fonction de produit, projet, entrepot
+            Stock stock = stockRepository.findByProjetAndEntrepot(/*produit,*/ projet, entrepot);
+            int quantite = stock.getStockQuantite() - destruction.getOperation_qte();
+            destruction.setStockInitial(stock.getStockQuantite());
+            destruction.setStockFinal(quantite);
+            stock.setUser(user);
+            stock.setStockDate(date);
+            stock.setStockQuantite(quantite);
+            stockRepository.save(stock);
+            destructionRepository.save(destruction);
+            System.out.println("save Destruction");
+
+            messageVariable = "messagedestruction";
+            messageValue = "Destruction éffectuée avec succès";
+
+
+        }
+
+
+        //redirectAttributes.addFlashAttribute("messagedestruction","Destruction éffectuée avec succès");
+        redirectAttributes.addFlashAttribute(messageVariable,messageValue);
+
         return "redirect:/destruction/destructions/";
     }
 

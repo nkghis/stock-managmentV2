@@ -56,6 +56,11 @@ public class GacheController {
     }
 
 
+
+
+
+
+
     //Affiche un formulaire de Gache.
     @RequestMapping(value = "/agent/gaches/{id}", method = RequestMethod.GET)
     public String newGache(@PathVariable Long id, Model model) {
@@ -67,7 +72,6 @@ public class GacheController {
         model.addAttribute("enlevement", enlevement);
         model.addAttribute("magache", new Gache());
         model.addAttribute("title", "  Gache - Attribution");
-
         return "gache/new";
 
     }
@@ -96,28 +100,134 @@ public class GacheController {
         // Check if Stock quantite is available
         Boolean result = stockService.checkIfStockAvailable(pro, ent, qte);
 
+        //Get Local date Time
+        LocalDateTime date = LocalDateTime.now();
+        //Get User AUth
+        AppUser user = userRepository.findByUserName(principal.getName());
+
         String messageValue = null;
         String messageVariable = null;
 
         if (result == false){
 
+            Stock s = stockService.getStockByProjetAndEntrepot(pro, ent);
+            if (s.getStockQuantite() <= 0){
+
+                //debiter enlevement
+
+                //persistence de gache
+                gache.setGacheDate(date);
+                gache.setOperation(enlevement);
+                gache.setUser(user);
+                gache.setOperationDateSaisie(gache.getOperationDateSaisie());
+                gache.setEstGacheNoStock(true);
+                gacheRepository.save(gache);
+
+                //Update enlevement with new qte operation
+                int newQte = enlevement.getOperationQte() - qte;
+                enlevement.setOperationQte(newQte);
+                enlevement.setEnlevementDispo(newQte);
+                enlevement.setEstGache(Boolean.valueOf(true));
+                enlevementRepository.save(enlevement);
+
+
+
+            }else {
+
+                // Recuperre la difference
+                int qteGacheDispo = s.getStockQuantite();
+                int qteGacheDebitable = qte - s.getStockQuantite();
+                //persistence de gache
+                gache.setGacheDate(date);
+                gache.setOperation(enlevement);
+                gache.setUser(user);
+                gache.setOperationDateSaisie(gache.getOperationDateSaisie());
+                gache.setEstGacheNoStock(true);
+                gache.setQteEstGacheNoStock(qteGacheDebitable);
+                gache.setGacheQte(qteGacheDispo);
+                gacheRepository.save(gache);
+
+                //Update enlevement with new qte operation
+                int newQte = enlevement.getOperationQte() - qteGacheDebitable;
+                enlevement.setOperationQte(newQte);
+                enlevement.setEnlevementDispo(newQte);
+                enlevementRepository.save(enlevement);
+                Entreposer entreposage = enlevement.getEntreposer();
+                int qteVerseFrom = gache.getGacheQte().intValue();
+                int qteRestanteForm = entreposage.getQteRestante();
+                int qteR = qteRestanteForm - qteVerseFrom;
+                if (qteR == 0) {
+                    entreposage.setEstLivrable(Boolean.valueOf(false));
+                } else {
+                    entreposage.setEstLivrable(Boolean.valueOf(true));
+                }
+
+                entreposage.setQteRestante(qteR);
+                entreposerRepository.save(entreposage);
+
+                /* Creation d'un nouvel enlevement du au gache */
+                Enlevement en = new Enlevement();
+                en.setOperationReference(enlevementController.getReference());
+                en.setOperationQte(gache.getGacheQte().intValue());
+                en.setEnlevementDispo(gache.getGacheQte());
+                en.setOperation_date(date);
+                en.setUser(user);
+                en.setEntreposer(entreposage);
+                en.setEstGache(Boolean.valueOf(false));
+                en.setEstRetour(Boolean.valueOf(false));
+                en.setGache(Integer.valueOf(0));
+                en.setEstDisponible(true);
+                en.setRessource(enlevement.getRessource());
+                en.setMotif(enlevement.getMotif());
+                //en.setProduit(enlevement.getProduit());
+                en.setProjet(enlevement.getProjet());
+                en.setEntrepot(enlevement.getEntrepot());
+
+                /*Mise à jour de la gache*/
+
+                Projet projet = entreposage.getReception().getProjet();
+                Entrepot entrepot = entreposage.getEntrepot();
+                Stock stock = stockRepository.findByProjetAndEntrepot(projet, entrepot);
+                int quantite = stock.getStockQuantite() - gache.getGacheQte().intValue();
+                en.setStockInitial(stock.getStockQuantite());
+                en.setStockFinal(quantite);
+                stock.setUser(user);
+                stock.setStockDate(date);
+                stock.setStockQuantite(quantite);
+                this.stockRepository.save(stock);
+
+                enlevementRepository.save(en);
+
+                enlevement.setEstGache(Boolean.valueOf(true));
+                enlevementRepository.save(enlevement);
+
+
+
+
+
+                //Marque comme gache
+                //debiter l'enlevement
+
+            }
+
+            //stock unavailable
             messageVariable = "messagestock";
-            messageValue = "Le stock du project : " + enlevement.getProjet().getProjetNom()  +" ayant pour entrepot " + enlevement.getEntrepot().getEntrepotNom()+" ne dispose pas assez de stock pour effectué cette opération";
+            messageValue = "Attribution de gache éffectuée avec succès, avec une quantite de stock indisponible";
+           // messageValue = "Le stock du project : " + enlevement.getProjet().getProjetNom()  +" ayant pour entrepot " + enlevement.getEntrepot().getEntrepotNom()+" ne dispose pas assez de stock pour effectué cette opération";
 
         }else {
+            //stock available
             messageVariable = "messagegache";
 
 
 
-            //Get Local date Time
-            LocalDateTime date = LocalDateTime.now();
-            //Get User AUth
-            AppUser user = userRepository.findByUserName(principal.getName());
+
             //persistence de gache
             gache.setGacheDate(date);
             gache.setOperation(enlevement);
             gache.setUser(user);
             gache.setOperationDateSaisie(gache.getOperationDateSaisie());
+            gache.setEstGacheNoStock(false);
             gacheRepository.save(gache);
             Entreposer entreposage = enlevement.getEntreposer();
             int qteVerseFrom = gache.getGacheQte().intValue();

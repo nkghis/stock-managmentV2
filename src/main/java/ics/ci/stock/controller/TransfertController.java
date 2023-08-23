@@ -4,6 +4,7 @@ package ics.ci.stock.controller;
 import ics.ci.stock.entity.*;
 import ics.ci.stock.entity.custom.EntrepotCriteria;
 import ics.ci.stock.repository.*;
+import ics.ci.stock.service.StockService;
 import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
@@ -49,6 +50,9 @@ public class TransfertController {
 
     @Autowired
     private EntreposageController entreposageController;
+
+    @Autowired
+    private StockService stockService;
 
 
 
@@ -159,60 +163,78 @@ public class TransfertController {
         ////Get entrepot from operation
         Entrepot entrepotSource = entreposer.getEntrepot();
 
-        ////Get entrepot by id
-        Entrepot entrepotDestination = entrepotRepository.getOne(eDestination);
+        // Check if Stock quantite is available
+        Boolean result = stockService.checkIfStockAvailable(projet, entrepotSource, qte);
 
-        //Init Stock
-        Stock stock;
-
-        ////Get Stock by entrepot and Projet
-        Stock sSource = stockRepository.findByProjetAndEntrepot(entreposer.getProjet(),entreposer.getEntrepot());
-        Stock sDestination = stockRepository.findByProjetAndEntrepot(entreposer.getProjet(),entrepotDestination);
+        String messageValue = null;
+        String messageVariable = null;
 
 
-        ////Get Transfert reference
-        String reference = this.getReference();
 
-        ////Get DateTime at now
-        LocalDateTime date = LocalDateTime.now();
+        if (result == false){
 
-        //Get User
-        AppUser user = userRepository.findByUserName(principal.getName());
+            //stock unavailable
+            messageVariable = "messagestock";
+            messageValue = "Le stock du project : " + projet.getProjetNom()  +" ayant pour entrepot " + entrepotSource.getEntrepotNom()+" ne dispose pas assez de stock pour effectué cette opération";
 
-        ////Get Qte Stock Source & Destination
-        //Source
-        int stockInitialSource = sSource.getStockQuantite();
-        int stockFinalSource = sSource.getStockQuantite() - qte ;
+        }else {
 
-        //Initialisation
-        int stockInitialDestination;
-        int stockFinalDestination;
-        // Check if Destination stock exist if exist use it or create one new
-        if (sDestination == null)
-        {
-            //Init Initial & final Destination
-            stockInitialDestination = 0;
-            stockFinalDestination = qte;
+            //stock available
 
-            //Creaete new stock
-            stock = new Stock();
-            stock.setProjet(projet);
-            stock.setEntrepot(entrepotDestination);
+            ////Get entrepot by id
+            Entrepot entrepotDestination = entrepotRepository.getOne(eDestination);
+
+            //Init Stock
+            Stock stock;
+
+            ////Get Stock by entrepot and Projet
+            Stock sSource = stockRepository.findByProjetAndEntrepot(entreposer.getProjet(),entreposer.getEntrepot());
+            Stock sDestination = stockRepository.findByProjetAndEntrepot(entreposer.getProjet(),entrepotDestination);
 
 
-        }
-        else {
-            stockInitialDestination = sDestination.getStockQuantite();
-            stockFinalDestination = sDestination.getStockQuantite() + qte;
-            stock = sDestination;
-        }
-        //Destination
+            ////Get Transfert reference
+            String reference = this.getReference();
 
-        int dispoTransfert = entreposer.getTransfertDispo() - qte;
+            ////Get DateTime at now
+            LocalDateTime date = LocalDateTime.now();
+
+            //Get User
+            AppUser user = userRepository.findByUserName(principal.getName());
+
+            ////Get Qte Stock Source & Destination
+            //Source
+            int stockInitialSource = sSource.getStockQuantite();
+            int stockFinalSource = sSource.getStockQuantite() - qte ;
+
+            //Initialisation
+            int stockInitialDestination;
+            int stockFinalDestination;
+            // Check if Destination stock exist if exist use it or create one new
+            if (sDestination == null)
+            {
+                //Init Initial & final Destination
+                stockInitialDestination = 0;
+                stockFinalDestination = qte;
+
+                //Creaete new stock
+                stock = new Stock();
+                stock.setProjet(projet);
+                stock.setEntrepot(entrepotDestination);
 
 
-        ////Intitialise new transfert and create.
-        Transfert t = new Transfert();
+            }
+            else {
+                stockInitialDestination = sDestination.getStockQuantite();
+                stockFinalDestination = sDestination.getStockQuantite() + qte;
+                stock = sDestination;
+            }
+            //Destination
+
+            int dispoTransfert = entreposer.getTransfertDispo() - qte;
+
+
+            ////Intitialise new transfert and create.
+            Transfert t = new Transfert();
 
             t.setOperationReference(reference);
             t.setOperationQte(qte);
@@ -269,9 +291,21 @@ public class TransfertController {
             stockRepository.save(sSource);
 
             String message = "Transfert effectué avec succès | Quantité : " +qte + "| Entrepot Source : " + entrepotSource.getEntrepotNom() + "| Entrepot Destination : " + entrepotDestination.getEntrepotNom();
-        //redirectAttributes.addFlashAttribute("messagesucces","Opération éffectée avec succès");
-        redirectAttributes.addFlashAttribute("messagesucces",message);
+
+            messageVariable = "messagesucces";
+            messageValue = message;
+
+
+            //redirectAttributes.addFlashAttribute("messagesucces","Opération éffectée avec succès");
+           // redirectAttributes.addFlashAttribute("messagesucces",message);
+
+
+        }
+
+        redirectAttributes.addFlashAttribute(messageVariable,messageValue);
+
         return "redirect:/auth/transfert";
+
     }
 
 

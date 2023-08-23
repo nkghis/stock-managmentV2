@@ -111,7 +111,10 @@ private final EntrepotRepository entrepotRepository;
              inventairedetail.setProjet(projet);
              inventairedetail.setUser(user);
              inventairedetail.setStockPrecedent(stockInitial);
+             inventairedetail.setStockInitial(stockInitial);
              inventairedetail.setStockSuivant(stockFinal);
+             inventairedetail.setStockFinal(stockFinal);
+             inventairedetail.setEntrepot(entrepot);
              inventairedetail.setInventaire(i);
              inventaireDetailRepository.save(inventairedetail);
 

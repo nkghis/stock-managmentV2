@@ -24,6 +24,10 @@ public class Gache {
     @Column(name = "operation_date_saisie", nullable = true)
     private Date operationDateSaisie;
 
+    private Boolean estGacheNoStock;
+
+    private int qteEstGacheNoStock;
+
 
     @ManyToOne
     @JoinColumn(name = "operationId")
@@ -106,4 +110,19 @@ public class Gache {
         this.operationDateSaisie = operationDateSaisie;
     }
 
+    public Boolean getEstGacheNoStock() {
+        return estGacheNoStock;
+    }
+
+    public void setEstGacheNoStock(Boolean estGacheNoStock) {
+        this.estGacheNoStock = estGacheNoStock;
+    }
+
+    public int getQteEstGacheNoStock() {
+        return qteEstGacheNoStock;
+    }
+
+    public void setQteEstGacheNoStock(int qteEstGacheNoStock) {
+        this.qteEstGacheNoStock = qteEstGacheNoStock;
+    }
 }

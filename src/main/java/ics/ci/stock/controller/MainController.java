@@ -1,16 +1,21 @@
 package ics.ci.stock.controller;
 
+import ics.ci.stock.dto.DateSearchINPUT;
 import ics.ci.stock.entity.*;
 import ics.ci.stock.entity.custom.GacheDto;
 import ics.ci.stock.entity.custom.StockBeforeCustom;
 import ics.ci.stock.entity.custom.StockBetween;
 import ics.ci.stock.repository.*;
+import ics.ci.stock.service.GacheService;
+import ics.ci.stock.utils.DateConvert;
 import ics.ci.stock.utils.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.security.core.userdetails.User;
@@ -26,24 +31,34 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class MainController {
 
-    @Autowired
-    private VstockRepository vstockRepository;
+    private final ProjetRepository projetRepository;
 
-    @Autowired
-    private VoperationRepository voperationRepository;
+    private final GacheService gacheService;
 
-    @Autowired
-    private VmouvementRepository vmouvementRepository;
+    private final VstockRepository vstockRepository;
 
-    @Autowired
-    private VgacheRepository vgacheRepository;
+    private final VoperationRepository voperationRepository;
 
-    @Autowired
-    private VgacheMouvementRepository vgacheMouvementRepository;
+    private final VmouvementRepository vmouvementRepository;
+
+    private final VgacheRepository vgacheRepository;
+
+    private final VgacheMouvementRepository vgacheMouvementRepository;
+
+    public MainController(GacheService gacheService, VstockRepository vstockRepository, VoperationRepository voperationRepository, VmouvementRepository vmouvementRepository, VgacheRepository vgacheRepository, VgacheMouvementRepository vgacheMouvementRepository, ProjetRepository projetRepository) {
+        this.gacheService = gacheService;
+        this.vstockRepository = vstockRepository;
+        this.voperationRepository = voperationRepository;
+        this.vmouvementRepository = vmouvementRepository;
+        this.vgacheRepository = vgacheRepository;
+        this.vgacheMouvementRepository = vgacheMouvementRepository;
+        this.projetRepository = projetRepository;
+    }
 
     /*@Autowired
     private  stockBeforeCustom;*/
@@ -192,7 +207,7 @@ public class MainController {
         //List<IStockBeforeCustom> stockBetween = voperationRepository.stockBetween(debut,fin);
         List<IStockBetweenCustom> stockBetween = voperationRepository.stockBetween(debut,fin);
 
-        //Initialisation de la liste des StockBetween.
+        //Initialisation de la liste des StockBetween. Liste des stocks pendant une periode
         List<StockBetween> listStockBetween = new ArrayList<>();;
 
 
@@ -232,19 +247,24 @@ public class MainController {
             a.setStockInitial(stockInitial);
             a.setEntreposage(var.getEntreposage());
             a.setEnlevement(var.getEnlevement());
-          /*  a.setEnlevement(var.getEnlevement()-var.getRetour());*/
             a.setRetour(var.getRetour());
             a.setGache(var.getGache());
             //a retire
             a.setLivraison(a.getEnlevement()-a.getRetour()-a.getGache());
             a.setStockFinal(stockFinal);
-            //a.setStockFinal(var.getEntreposage() - a.getLivraison() + stockInitial);
+
 
 
             //Ajout du stock between dans la list des stock StockBetween.
             listStockBetween.add(a);
 
         }
+
+        //Liste de stock a jours avant la periode
+        List<StockBetween> STOCKBEFORE = this.stockBeforeHaventStockBetween(listStockBetween, stockBefore);
+
+        //Ajout de la liste de stock avant periode à la liste de stock pendant la periode
+        listStockBetween.addAll(STOCKBEFORE);
 
        /* List<StockBetween> last = listStockBetween;
         String aa ="";*/
@@ -297,45 +317,46 @@ public class MainController {
     @RequestMapping(value = {"/dashboard/gache"}, method = {RequestMethod.GET})
     public String sumGacheGroupByProjet( Model model){
 
-        List<Vgache> vgaches = vgacheRepository.findAll();
-
-
-        String s = "";
-        model.addAttribute("title", "Etat de gache");
-        model.addAttribute("vgaches", vgaches);
-        model.addAttribute("search", new Search());
+        Map<String, Integer> gaches = gacheService.getSumGacheByProject();
+        model.addAttribute("title", "Somme des gaches par projet");
+        model.addAttribute("gaches", gaches);
+        model.addAttribute("search", new DateSearchINPUT());
         return "gache/index";
 
     }
 
     @RequestMapping(value = "/dashboard/gache/periode", method = RequestMethod.POST)
-    public String gachePeriode( @Valid Search search , Errors errors, Model model, RedirectAttributes redirectAttributes) throws ParseException {
+    public String gachePeriode(@Valid @ModelAttribute("search") Search search , BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) throws ParseException {
 
-        if (errors.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             System.out.println("error YES");
             model.addAttribute("search", new Search());
 
             return "redirect:/dashboard/gache";
         }
 
+        LocalDateTime datedebut = DateConvert.getDateTime(search.getDebut());
+        LocalDateTime datefin = DateConvert.getDateTime(search.getFin());
+        Map<String, Integer> gaches = gacheService.getSumGacheByProject(datedebut, datefin);
 
+        model.addAttribute("title", "Liste et somme des gaches en fonction des projets - du " +search.getDebut()+ " au " +search.getFin());
+        model.addAttribute("gaches", gaches);
         return "gache/periode";
     }
 
     @RequestMapping(value = "/dashboard/gache/mouvement", method = RequestMethod.POST)
-    public String gacheMouvement( @Valid Search search , Errors errors, Model model, RedirectAttributes redirectAttributes) throws ParseException {
+    public String gacheMouvement(@Valid DateSearchINPUT search , Errors errors, Model model, RedirectAttributes redirectAttributes) throws ParseException {
 
         if (errors.hasErrors()) {
             System.out.println("error YES");
-            model.addAttribute("search", new Search());
-
+            model.addAttribute("search", new DateSearchINPUT());
             return "redirect:/dashboard/gache";
         }
 
-        Date debut = new SimpleDateFormat("yyyy-MM-dd").parse(search.getDebut());
-        Date fin = new SimpleDateFormat("yyyy-MM-dd").parse(search.getFin());
+       /* Date debut = new SimpleDateFormat("yyyy-MM-dd").parse(search.getDebut());
+        Date fin = new SimpleDateFormat("yyyy-MM-dd").parse(search.getFin());*/
 
-        List<GacheDto> gacheDtos = vgacheMouvementRepository.gachesBetween(debut, fin);
+        //List<GacheDto> gacheDtos = vgacheMouvementRepository.gachesBetween(debut, fin);
 
         String s = "";
 
@@ -352,5 +373,87 @@ public class MainController {
                 .findAny()
                 .orElse(null);
         return j;
+    }
+
+    //Method who return StockBetween en fonction d'une liste de de stock et nom de projet.
+    private StockBetween getStockBetween(List<StockBetween> list, String s)
+    {
+        StockBetween j = list.stream()
+                .filter(c->s.equals(c.getProjet()))
+                .findAny()
+                .orElse(null);
+        return j;
+    }
+
+
+
+
+    private List<StockBetween> stockBeforeHaventStockBetween(List<StockBetween> betweens, List<IStockBeforeCustom> befores ){
+
+       /* List<StockBetween> stocks = new ArrayList<>();
+
+        for ( StockBetween between : betweens){
+
+            IStockBeforeCustom j = this.getIStockBeforeCustom(befores, between.getProjet());
+
+            if (j != null){
+                StockBetween stock = new StockBetween();
+                stock.setProjet(between.getProjet());
+                stock.setClient(between.getClient());
+                stock.setProduit(between.getProduit());
+                stock.setEmetteur(between.getEmetteur());
+                stock.setStockInitial(j.getStock());
+                stock.setEntreposage(0);
+                stock.setEnlevement(0);
+                *//*  a.setEnlevement(var.getEnlevement()-var.getRetour());*//*
+                stock.setRetour(0);
+                stock.setGache(0);
+                //a retire
+                stock.setLivraison(0);
+                stock.setStockFinal(j.getStock());
+                stocks.add(stock);
+            }
+        }
+*/
+        List<StockBetween> stocks = new ArrayList<>();
+
+        for ( IStockBeforeCustom before : befores){
+
+            StockBetween j = this.getStockBetween(betweens, before.getProjet());
+
+            if (j == null){
+                StockBetween stock = new StockBetween();
+                Projet projet = projetRepository.findByProjetNom(before.getProjet());
+                stock.setProjet(projet.getProjetNom());
+                stock.setClient(projet.getClient().getClient_nom());
+                stock.setProduit(projet.getProduit().getProduit_nom());
+                stock.setEmetteur(projet.getEmetteur().getEmetteurNom());
+                stock.setStockInitial(before.getStock());
+                stock.setEntreposage(0);
+                stock.setEnlevement(0);
+                /*  a.setEnlevement(var.getEnlevement()-var.getRetour());*/
+                stock.setRetour(0);
+                stock.setGache(0);
+                //a retire
+                stock.setLivraison(0);
+                stock.setStockFinal(before.getStock());
+                stocks.add(stock);
+            }
+        }
+
+        return stocks;
+
+
+    }
+
+    private Boolean checkProjectNameInList(String projetNom, List<IStockBeforeCustom> befores ){
+
+        IStockBeforeCustom j = this.getIStockBeforeCustom(befores, projetNom);
+
+        if (j == null){
+            return false;
+        }else {
+            return true;
+        }
     }
 }

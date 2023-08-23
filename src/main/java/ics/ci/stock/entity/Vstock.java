@@ -19,6 +19,9 @@ public class Vstock {
     @Column(name = "projet_nom")
     private String projetNom;
 
+ /*   @Column(name = "fournisseur_nom")
+    private String fournisseurNom;*/
+
 
     @Column(name = "emetteur_nom")
     private String emetteurNom;
