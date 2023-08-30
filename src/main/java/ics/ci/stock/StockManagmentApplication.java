@@ -14,10 +14,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.List;
 
 @SpringBootApplication
+//Ajout annotation pour gerer les methode asyncrhone
+@EnableAsync
 public class StockManagmentApplication {
 
 	@Autowired
@@ -26,6 +30,13 @@ public class StockManagmentApplication {
 
 
 		ApplicationContext ctx = SpringApplication.run(StockManagmentApplication.class, args);
+
+/*		StockService stockService = ctx.getBean(StockService.class);
+		ProjetRepository projetRepository = ctx.getBean(ProjetRepository.class);
+		Projet projet = projetRepository.getOne(270265L);
+		List<Stock> stocks = stockService.getListStockByProjet(projet);
+		int qte = stockService.totalStockByProjet(stocks);
+		String s = "";*/
 
 /*		NotificationService notificationService = ctx.getBean(NotificationService.class);
 		ProjetRepository projetRepository = ctx.getBean(ProjetRepository.class);

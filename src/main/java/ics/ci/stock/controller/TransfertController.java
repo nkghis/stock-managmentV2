@@ -283,7 +283,7 @@ public class TransfertController {
             sSource.setUser(user);
             stockRepository.save(sSource);
 
-            //Check if quantité stock est superieur à seuil de securité Si false, Envoyé message de notification
+/*            //Check if quantité stock est superieur à seuil de securité Si false, Envoyé message de notification
             Boolean checkSeuil = stockService.seuilSecuriteDisponible(sSource);
 
             if (checkSeuil == false){
@@ -301,8 +301,14 @@ public class TransfertController {
                         System.lineSeparator() +
                         "Ceci est un message generé automatiquement. Nous vous prions de ne pas repondre à ce message";
 
-                notificationService.sendEmail( sujet, message, user, sSource.getProjet());
-            }
+                try {
+                    notificationService.sendEmail( sujet, message, user, sSource.getProjet());
+                }catch (Exception exception){
+                    System.out.println(exception.getMessage());
+                }
+
+
+            }*/
 
             String message = "Transfert effectué avec succès | Quantité : " +qte + "| Entrepot Source : " + entrepotSource.getEntrepotNom() + "| Entrepot Destination : " + entrepotDestination.getEntrepotNom();
 

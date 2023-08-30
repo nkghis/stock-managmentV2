@@ -20,5 +20,11 @@ public interface StockService {
     void updateStock(Stock stock);
 
     Boolean seuilSecuriteDisponible(Stock stock);
+    Boolean seuilSecuriteDisponible(int stock, Projet projet);
+    Boolean seuilSecuriteDisponible(Projet projet);
+    int totalStockByProjet(List<Stock> stocks);
+    int totalStockByProjet(Projet projet);
+    List<Stock> getListStockByProjet(Projet projet);
+
 
 }

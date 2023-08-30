@@ -13,4 +13,5 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
     Stock findByProjetAndEntrepot(Projet projet, Entrepot entrepot);
 
     List<Stock> findByEntrepot(Entrepot entrepot);
+    List<Stock> findByProjet(Projet projet);
 }

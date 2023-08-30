@@ -175,23 +175,28 @@ public class EnlevementController {
             stockRepository.save(stock);
 
            //Check if quantité stock est superieur à seuil de securité Si false, Envoyé message de notification
-            Boolean checkSeuil = stockService.seuilSecuriteDisponible(stock);
+            Boolean checkSeuil = stockService.seuilSecuriteDisponible(stock.getProjet());
             if (checkSeuil == false){
 
                 String projetNom = projet.getProjetNom().toUpperCase();
                 String entrepotNom = entrepot.getEntrepotNom().toUpperCase();
-                String sujet = "Notification Stock | Seuil de sécurité atteint | Enlevement | Projet : " + projetNom;
-                String message = "A tous" + System.lineSeparator() +
+                int stockQuantite = stockService.totalStockByProjet(stock.getProjet());
+                String sujet = "MESSAGE TEST | Notification Stock | Seuil de sécurité atteint | Enlevement | Projet : " + projetNom;
+                String message = "A tous, " + System.lineSeparator() +
                         "Le stock relatif au projet : " + projetNom + " emmagasiné a l'entrepôt : " + entrepotNom +" a depassé le seuil de sécurité." + System.lineSeparator()+
-                        "  - Action : ENLEVEMENT" + System.lineSeparator() +
-                        "  - Quantité seuil: " + projet.getSeuilProjet() +"  - Stock disponible" +
-                        "  - Stock disponible: " +stock.getStockQuantite() + System.lineSeparator() +
+                        "  - Quantité seuil: " + stock.getProjet().getSeuilProjet() + System.lineSeparator() +
+                        "  - Stock disponible: " +stockQuantite + System.lineSeparator() +
                         System.lineSeparator() +
                         "L'Administrateur" + System.lineSeparator()+
                         System.lineSeparator() +
                         "Ceci est un message generé automatiquement. Nous vous prions de ne pas repondre à ce message";
 
-                notificationService.sendEmail( sujet, message, user, projet);
+                try {
+                    notificationService.sendEmail( sujet, message, user, projet);
+                }catch( Exception e ){
+                    System.out.println(e.getMessage());
+                }
+
             }
         }
 

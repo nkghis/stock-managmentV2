@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -30,8 +31,17 @@ public class NotificationService {
         this.configProperties = configProperties;
     }
 
+
+
+  /*  @Scheduled(fixedDelay = 5000)*/
     @Async
-    public void sendEmail( String subject, String message,  AppUser user, Projet projet){
+    public void sendEmail( String subject, String message,  AppUser user, Projet projet) throws InterruptedException{
+
+        System.out.println("Sleeping now...");
+        //Delai de 5 seconde avant execution du code ci-dessous
+        Thread.sleep(5000);
+
+        System.out.println("Sending email...");
 
 /*        String from = "notification.stockmanagement@ics.ci";
         String to = "ghislain.nkagou@ics.ci";*/

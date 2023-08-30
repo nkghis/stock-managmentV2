@@ -136,5 +136,52 @@ public class StockServiceImpl implements StockService {
 
     }
 
+    @Override
+    public Boolean seuilSecuriteDisponible(int stock, Projet projet) {
+        if (stock > projet.getSeuilProjet()){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    @Override
+    public Boolean seuilSecuriteDisponible(Projet projet) {
+
+        List<Stock> stocks = this.getListStockByProjet(projet);
+        int stock = this.totalStockByProjet(stocks);
+        if (stock > projet.getSeuilProjet()){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    @Override
+    public int totalStockByProjet(List<Stock> stocks) {
+
+        int quantiteTotal = 0;
+
+        for (Stock stock : stocks){
+            quantiteTotal = quantiteTotal + stock.getStockQuantite();
+        }
+        return quantiteTotal;
+    }
+
+    @Override
+    public int totalStockByProjet(Projet projet) {
+        List<Stock> stocks = this.getListStockByProjet(projet);
+        int quantiteTotal = 0;
+        for (Stock stock : stocks){
+            quantiteTotal = quantiteTotal + stock.getStockQuantite();
+        }
+        return quantiteTotal;
+    }
+
+    @Override
+    public List<Stock> getListStockByProjet(Projet projet) {
+        return stockRepository.findByProjet(projet);
+    }
+
 
 }
