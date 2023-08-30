@@ -18,4 +18,7 @@ public interface StockService {
     Boolean checkIfStockIsGreaterThanZero(Stock stock, int qte);
 
     void updateStock(Stock stock);
+
+    Boolean seuilSecuriteDisponible(Stock stock);
+
 }

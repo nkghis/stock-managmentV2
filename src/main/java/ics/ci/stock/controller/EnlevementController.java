@@ -2,6 +2,7 @@ package ics.ci.stock.controller;
 
 import ics.ci.stock.entity.*;
 import ics.ci.stock.repository.*;
+import ics.ci.stock.service.NotificationService;
 import ics.ci.stock.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,10 @@ import java.util.List;
 
 @Controller
 public class EnlevementController {
+
+
+
+    private final NotificationService notificationService;
 
     private final EnlevementRepository enlevementRepository;
 
@@ -46,7 +51,7 @@ public class EnlevementController {
 
     private final StockService stockService;
 
-    public EnlevementController(EnlevementRepository enlevementRepository, VentreposageTrueLivrableRepository livrableRepository, RessourceRepository ressourceRepository, MotifRepository motifRepository, EntreposerRepository entreposerRepository, UserRepository userRepository, StockRepository stockRepository, VenlevementGacheRepository venlevementGacheRepository, TypegacheRepository typegacheRepository, GacheRepository gacheRepository, StockService stockService) {
+    public EnlevementController(EnlevementRepository enlevementRepository, VentreposageTrueLivrableRepository livrableRepository, RessourceRepository ressourceRepository, MotifRepository motifRepository, EntreposerRepository entreposerRepository, UserRepository userRepository, StockRepository stockRepository, VenlevementGacheRepository venlevementGacheRepository, TypegacheRepository typegacheRepository, GacheRepository gacheRepository, StockService stockService, NotificationService notificationService) {
         this.enlevementRepository = enlevementRepository;
         this.livrableRepository = livrableRepository;
         this.ressourceRepository = ressourceRepository;
@@ -58,6 +63,7 @@ public class EnlevementController {
         this.typegacheRepository = typegacheRepository;
         this.gacheRepository = gacheRepository;
         this.stockService = stockService;
+        this.notificationService = notificationService;
     }
 
     @RequestMapping(value = "/agent/livraisons", method = RequestMethod.GET)
@@ -165,10 +171,28 @@ public class EnlevementController {
             stock.setStockDate(date);
             stock.setStockQuantite(quantite);
 
+            enlevementRepository.save(enlevement);
             stockRepository.save(stock);
 
-            enlevementRepository.save(enlevement);
+           //Check if quantité stock est superieur à seuil de securité Si false, Envoyé message de notification
+            Boolean checkSeuil = stockService.seuilSecuriteDisponible(stock);
+            if (checkSeuil == false){
 
+                String projetNom = projet.getProjetNom().toUpperCase();
+                String entrepotNom = entrepot.getEntrepotNom().toUpperCase();
+                String sujet = "Notification Stock | Seuil de sécurité atteint | Enlevement | Projet : " + projetNom;
+                String message = "A tous" + System.lineSeparator() +
+                        "Le stock relatif au projet : " + projetNom + " emmagasiné a l'entrepôt : " + entrepotNom +" a depassé le seuil de sécurité." + System.lineSeparator()+
+                        "  - Action : ENLEVEMENT" + System.lineSeparator() +
+                        "  - Quantité seuil: " + projet.getSeuilProjet() +"  - Stock disponible" +
+                        "  - Stock disponible: " +stock.getStockQuantite() + System.lineSeparator() +
+                        System.lineSeparator() +
+                        "L'Administrateur" + System.lineSeparator()+
+                        System.lineSeparator() +
+                        "Ceci est un message generé automatiquement. Nous vous prions de ne pas repondre à ce message";
+
+                notificationService.sendEmail( sujet, message, user, projet);
+            }
         }
 
 
@@ -221,7 +245,7 @@ public class EnlevementController {
 
         List<VentreposageTrueLivrable> y = livrableRepository.findAll();
         return y;
-               //return livrableRepository.findAll();
+
     }
 
 

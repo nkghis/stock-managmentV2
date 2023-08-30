@@ -123,5 +123,18 @@ public class StockServiceImpl implements StockService {
         stockRepository.save(stock);
     }
 
+    @Override
+    public Boolean seuilSecuriteDisponible(Stock stock) {
+
+        Projet projet = stock.getProjet();
+
+        if (stock.getStockQuantite() > projet.getSeuilProjet()){
+            return true;
+        }else {
+            return false;
+        }
+
+    }
+
 
 }

@@ -45,6 +45,7 @@ public interface VoperationRepository extends JpaRepository <Voperation, Long> {
     @Query(value = "SELECT\n" +
             "dbo.v_operation.projet_id,\n" +
             "dbo.v_operation.projet,\n" +
+            "dbo.v_operation.entrepot,\n" +
             "Sum(CASE WHEN v_operation.operation = 'dis' then v_operation.quantite else 0 end) AS entreposage,\n" +
             "Sum(CASE WHEN v_operation.operation = 'enl' then v_operation.quantite else 0 end) AS enlevement,\n" +
             "COALESCE(Sum(v_operation.retour),0) AS retour,\n" +
@@ -58,7 +59,8 @@ public interface VoperationRepository extends JpaRepository <Voperation, Long> {
             "dbo.v_operation.[date] < ?1\n" +
             "GROUP BY\n" +
             "dbo.v_operation.projet,\n" +
-            "dbo.v_operation.projet_id"
+            "dbo.v_operation.projet_id,\n"+
+            "dbo.v_operation.entrepot"
             ,nativeQuery = true)
     //List<StockBeforeCustom> stockBeforeCustom(LocalDateTime dateTime);
     List<IStockBeforeCustom> stockBeforeCustom(LocalDateTime dateTime);
@@ -70,6 +72,7 @@ public interface VoperationRepository extends JpaRepository <Voperation, Long> {
             "dbo.v_operation.client,\n" +
             "dbo.v_operation.produit,\n" +
             "dbo.v_operation.emetteur,\n" +
+            "dbo.v_operation.entrepot,\n" +
             "Sum(CASE WHEN v_operation.operation = 'dis' then v_operation.quantite else 0 end) AS entreposage,\n" +
             "Sum(CASE WHEN v_operation.operation = 'enl' then v_operation.quantite else 0 end) AS enlevement,\n" +
             "COALESCE(Sum(v_operation.retour),0) AS retour,\n" +
@@ -86,7 +89,8 @@ public interface VoperationRepository extends JpaRepository <Voperation, Long> {
             "dbo.v_operation.projet,\n" +
             "dbo.v_operation.client,\n" +
             "dbo.v_operation.produit,\n" +
-            "dbo.v_operation.emetteur\n"
+            "dbo.v_operation.emetteur,\n"+
+            "dbo.v_operation.entrepot\n"
             ,nativeQuery = true)
     List<IStockBetweenCustom> stockBetween(LocalDateTime start, LocalDateTime end);
 

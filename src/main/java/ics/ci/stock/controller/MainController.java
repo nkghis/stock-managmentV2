@@ -254,6 +254,9 @@ public class MainController {
             a.setStockFinal(stockFinal);
 
 
+            a.setEntrepot(var.getEntrepot());
+
+
 
             //Ajout du stock between dans la list des stock StockBetween.
             listStockBetween.add(a);
@@ -428,6 +431,7 @@ public class MainController {
                 stock.setClient(projet.getClient().getClient_nom());
                 stock.setProduit(projet.getProduit().getProduit_nom());
                 stock.setEmetteur(projet.getEmetteur().getEmetteurNom());
+                stock.setEntrepot(before.getEntrepot());
                 stock.setStockInitial(before.getStock());
                 stock.setEntreposage(0);
                 stock.setEnlevement(0);

@@ -28,21 +28,33 @@ public class StockManagmentApplication {
 		ApplicationContext ctx = SpringApplication.run(StockManagmentApplication.class, args);
 
 /*		NotificationService notificationService = ctx.getBean(NotificationService.class);
+		ProjetRepository projetRepository = ctx.getBean(ProjetRepository.class);
+		UserRepository userRepository = ctx.getBean(UserRepository.class);
+		AppUser user = userRepository.getOne(1L);
+		Projet projet = projetRepository.getOne(1L);
 
-		String toEmail = "ghislain.nkagou@ics.ci";
+
 		String subject = "Notification Stock | Seuil de disponibilité atteint";
-		String message = "Je suis content";
-		//String from = "NOTIFICATION PERSO";
 
-		notificationService.sendEmail(toEmail, subject, message*//*, from*//*);*/
+
+		String message = "A tous" + System.lineSeparator() +
+				"Le stock relatif au projet : OMIS emmagasiné a l'entrepôt : PERSO COFFRE-FORT a depassé le seuil de sécurité." + System.lineSeparator()+
+				"  - Quantité seuil: 100 "  + System.lineSeparator() +
+				"  - Stock disponible: 50 "  + System.lineSeparator() +
+				System.lineSeparator() +
+				"L'Administrateur" + System.lineSeparator() +
+				System.lineSeparator() +
+				"Ceci est un message generé automatiquement. Nous vous prions de ne pas repondre à ce message";
+
+		notificationService.sendEmail( subject, message, user, projet);*/
 
 		String d ="";
 
-		StockService stockService = ctx.getBean(StockService.class);
+	/*	StockService stockService = ctx.getBean(StockService.class);
 		ProjetRepository projetRepository = ctx.getBean(ProjetRepository.class);
 		EntrepotRepository entrepotRepository = ctx.getBean(EntrepotRepository.class);
 		GacheService gacheService = ctx.getBean(GacheService.class);
-
+*/
 
 		/*Projet projet = projetRepository.getOne(1L);
 		Entrepot entrepot = entrepotRepository.getOne(1L);

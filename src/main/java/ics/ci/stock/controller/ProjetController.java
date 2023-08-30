@@ -22,17 +22,20 @@ import java.util.List;
 
 @Controller
 public class ProjetController {
-    @Autowired
-    private ProjetRepository projetRepository;
+    private final ProjetRepository projetRepository;
 
-    @Autowired
-    private ClientRepository clientRepository;
+    private final ClientRepository clientRepository;
 
-    @Autowired
-    private EmetteurRepository emetteurRepository;
+    private final EmetteurRepository emetteurRepository;
 
-    @Autowired
-    private ProduitRepository produitRepository;
+    private final ProduitRepository produitRepository;
+
+    public ProjetController(ProjetRepository projetRepository, ClientRepository clientRepository, EmetteurRepository emetteurRepository, ProduitRepository produitRepository) {
+        this.projetRepository = projetRepository;
+        this.clientRepository = clientRepository;
+        this.emetteurRepository = emetteurRepository;
+        this.produitRepository = produitRepository;
+    }
 
     @RequestMapping(value = "/auth/projets")
     public String index(Model model){

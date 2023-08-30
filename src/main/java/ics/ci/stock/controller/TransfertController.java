@@ -4,6 +4,7 @@ package ics.ci.stock.controller;
 import ics.ci.stock.entity.*;
 import ics.ci.stock.entity.custom.EntrepotCriteria;
 import ics.ci.stock.repository.*;
+import ics.ci.stock.service.NotificationService;
 import ics.ci.stock.service.StockService;
 import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,33 +27,15 @@ import java.util.List;
 @Controller
 public class TransfertController {
 
-    @Autowired
-    private TransfertRepository transfertRepository;
-
-
-
-    @Autowired
-    private ProjetRepository projetRepository;
-
-    @Autowired
-    private EntrepotRepository entrepotRepository;
-
-    @Autowired
-    private EntreposerRepository entreposerRepository;
-
-   /* @Autowired
-    private ReceptionRepository receptionRepository;*/
-
-    @Autowired
-    private StockRepository stockRepository;
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private EntreposageController entreposageController;
-
-    @Autowired
-    private StockService stockService;
+    private final TransfertRepository transfertRepository;
+    private final ProjetRepository projetRepository;
+    private final EntrepotRepository entrepotRepository;
+    private final EntreposerRepository entreposerRepository;
+    private final StockRepository stockRepository;
+    private final UserRepository userRepository;
+    private final EntreposageController entreposageController;
+    private final StockService stockService;
+    private final NotificationService notificationService;
 
 
 
@@ -61,8 +44,18 @@ public class TransfertController {
     public  String cre = "CREAPUB";
     public  String nat = "NATHAN";
 
-    //public Entrepot creapub ;/*= entrepotRepository.findByEntrepotNom(cre);*/
-    //public Entrepot nathan ;/*= entrepotRepository.findByEntrepotNom(nat);*/
+    public TransfertController(TransfertRepository transfertRepository, ProjetRepository projetRepository, EntrepotRepository entrepotRepository, EntreposerRepository entreposerRepository, StockRepository stockRepository, UserRepository userRepository, EntreposageController entreposageController, StockService stockService, NotificationService notificationService) {
+        this.transfertRepository = transfertRepository;
+        this.projetRepository = projetRepository;
+        this.entrepotRepository = entrepotRepository;
+        this.entreposerRepository = entreposerRepository;
+        this.stockRepository = stockRepository;
+        this.userRepository = userRepository;
+        this.entreposageController = entreposageController;
+        this.stockService = stockService;
+        this.notificationService = notificationService;
+    }
+
 
     @RequestMapping(value = "/auth/transfert", method = RequestMethod.GET)
     public String indexTransfert(Model model){
@@ -289,6 +282,27 @@ public class TransfertController {
             sSource.setStockDate(date);
             sSource.setUser(user);
             stockRepository.save(sSource);
+
+            //Check if quantité stock est superieur à seuil de securité Si false, Envoyé message de notification
+            Boolean checkSeuil = stockService.seuilSecuriteDisponible(sSource);
+
+            if (checkSeuil == false){
+
+                String projetNom = sSource.getProjet().getProjetNom().toUpperCase();
+                String entrepotNom = sSource.getEntrepot().getEntrepotNom().toUpperCase();
+                String sujet = "Notification Stock | Seuil de sécurité atteint | Transfert | Projet : " + projetNom;
+                String message = "A tous" + System.lineSeparator() +
+                        "Le stock relatif au projet : " + projetNom + " emmagasiné a l'entrepôt : " + entrepotNom +" a depassé le seuil de sécurité." + System.lineSeparator()+
+                        "  - Quantité seuil: " + sSource.getProjet().getSeuilProjet() +"  - Stock disponible" +
+                        "  - Stock disponible: " +sSource.getStockQuantite() + System.lineSeparator() +
+                        "  - Action : ENLEVEMENT " + System.lineSeparator() +
+                        System.lineSeparator() +
+                        "L'Administrateur" + System.lineSeparator()+
+                        System.lineSeparator() +
+                        "Ceci est un message generé automatiquement. Nous vous prions de ne pas repondre à ce message";
+
+                notificationService.sendEmail( sujet, message, user, sSource.getProjet());
+            }
 
             String message = "Transfert effectué avec succès | Quantité : " +qte + "| Entrepot Source : " + entrepotSource.getEntrepotNom() + "| Entrepot Destination : " + entrepotDestination.getEntrepotNom();
 

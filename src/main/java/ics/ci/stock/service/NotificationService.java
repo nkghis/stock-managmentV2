@@ -1,10 +1,18 @@
 package ics.ci.stock.service;
 
+import ics.ci.stock.entity.AppUser;
+import ics.ci.stock.entity.Notification;
+import ics.ci.stock.entity.Projet;
+import ics.ci.stock.repository.NotificationRepository;
+import ics.ci.stock.utils.ConfigProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class NotificationService {
@@ -12,48 +20,46 @@ public class NotificationService {
 
     private final JavaMailSender javaMailSender;
 
-    public NotificationService(JavaMailSender javaMailSender) {
+    private final NotificationRepository notificationRepository;
+
+    private final ConfigProperties configProperties;
+
+    public NotificationService(JavaMailSender javaMailSender, NotificationRepository notificationRepository, ConfigProperties configProperties) {
         this.javaMailSender = javaMailSender;
+        this.notificationRepository = notificationRepository;
+        this.configProperties = configProperties;
     }
 
     @Async
-    public void sendEmail(String toEmail, String subject, String message/*, String from*/){
+    public void sendEmail( String subject, String message,  AppUser user, Projet projet){
+
+/*        String from = "notification.stockmanagement@ics.ci";
+        String to = "ghislain.nkagou@ics.ci";*/
+
+        String from = configProperties.getConfigValue("stock.managment.email.etatstock.from");
+        String to = configProperties.getConfigValue("stock.managment.email.etatstock.to");
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setFrom("notification.stockmanagement@ics.ci");
-        mailMessage.setTo(toEmail);
+        mailMessage.setFrom(from);
+        mailMessage.setTo(to);
         mailMessage.setSubject(subject);
         mailMessage.setText(message);
-        //String from = "NOTIFICATION PERSO";
-        //mailMessage.setFrom("");
-       /* mailMessage.setFrom(new InternetAddress("Sender Name" + "<" + "no-reply@domain.com" + ">"));*/
-       /* mailMessage.setFrom(from);*/
-
         javaMailSender.send(mailMessage);
         System.out.println("Mail envoyé avec succès");
+
+        Notification notification = new Notification();
+        notification.setDateTime(LocalDateTime.now());
+        notification.setA(to);
+        notification.setSujet(subject);
+        notification.setMessage(message);
+        notification.setProjet(projet);
+        notification.setUser(user);
+        this.addNotification(notification);
+        System.out.println("Notification ajoutée avec succès");
     }
 
-
-/*    public void sendNotificationtest() {
-        SimpleMailMessage mail = new SimpleMailMessage();
-        mail.setTo("ghislain.nkagou@gmail.com");
-        mail.setFrom("ghislain.nkagou@gmail.com");
-        mail.setSubject("First Notification");
-        mail.setText("My first email tesr");
-        javaMailSender.send(mail);
-        System.out.println("Email send");
+    public void addNotification(Notification notification){
+        notificationRepository.save(notification);
     }
-
-    public void sendNotificationStock(SimpleMailMessage simpleMailMessage) {
-        SimpleMailMessage mail = new SimpleMailMessage();
-        mail.setTo(simpleMailMessage.getTo());
-        mail.setFrom(simpleMailMessage.getFrom());
-        mail.setSubject(simpleMailMessage.getSubject());
-        mail.setText(simpleMailMessage.getText());
-        javaMailSender.send(mail);
-        System.out.println("Email send");
-    }*/
-
-
 
 }

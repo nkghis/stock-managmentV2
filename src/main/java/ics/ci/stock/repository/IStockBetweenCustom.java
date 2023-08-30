@@ -12,4 +12,5 @@ public interface IStockBetweenCustom {
     int getRetour();
     int getGache();
     int getStock();
+    String getEntrepot();
 }

@@ -10,5 +10,6 @@ public interface IStockBeforeCustom {
     int getRetour();
     int getGache();
     int getStock();
+    String getEntrepot();
 }
 
