@@ -181,7 +181,7 @@ public class EnlevementController {
                 String projetNom = projet.getProjetNom().toUpperCase();
                 String entrepotNom = entrepot.getEntrepotNom().toUpperCase();
                 int stockQuantite = stockService.totalStockByProjet(stock.getProjet());
-                String sujet = "MESSAGE TEST | Notification Stock | Seuil de sécurité atteint | Enlevement | Projet : " + projetNom;
+                String sujet = "Notification Stock | Seuil de sécurité atteint | Enlevement | Projet : " + projetNom;
                 String message = "A tous, " + System.lineSeparator() +
                         "Le stock relatif au projet : " + projetNom + " emmagasiné a l'entrepôt : " + entrepotNom +" a depassé le seuil de sécurité." + System.lineSeparator()+
                         "  - Quantité seuil: " + stock.getProjet().getSeuilProjet() + System.lineSeparator() +
