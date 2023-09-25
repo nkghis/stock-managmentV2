@@ -41,6 +41,9 @@ public class VentreposageTrueLivrable {
     @Column(name = "emetteur_nom")
     private String emetteurNom;
 
+    @Column(name = "provider_nom")
+    private String fournisseurNom;
+
 
 
     @Column(name = "operation_reference")
@@ -174,6 +177,14 @@ public class VentreposageTrueLivrable {
 
     public void setOperationDateSaisie(LocalDateTime operationDateSaisie) {
         this.operationDateSaisie = operationDateSaisie;
+    }
+
+    public String getFournisseurNom() {
+        return fournisseurNom;
+    }
+
+    public void setFournisseurNom(String fournisseurNom) {
+        this.fournisseurNom = fournisseurNom;
     }
 }
 

@@ -1,7 +1,9 @@
 package ics.ci.stock.controller;
 
 import ics.ci.stock.entity.Fournisseur;
+import ics.ci.stock.entity.Provider;
 import ics.ci.stock.repository.FournisseurRepository;
+import ics.ci.stock.repository.ProviderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,13 +19,20 @@ import java.util.List;
 @Controller
 public class FournisseurController {
 
-    @Autowired
-    private FournisseurRepository fournisseurRepository;
+    private final FournisseurRepository fournisseurRepository;
+
+    private final ProviderRepository providerRepository;
+
+    public FournisseurController(FournisseurRepository fournisseurRepository, ProviderRepository providerRepository) {
+        this.fournisseurRepository = fournisseurRepository;
+        this.providerRepository = providerRepository;
+    }
 
     @RequestMapping(value = "/access/fournisseurs")
     public String indexFournisseur(Model model){
 
-        List<Fournisseur> fournisseurs = fournisseurRepository.findAll();
+       // List<Fournisseur> fournisseurs = fournisseurRepository.findAll();
+        List<Provider> fournisseurs = providerRepository.findAll();
         model.addAttribute("listfournisseurs",fournisseurs);
         model.addAttribute("title", "Fournisseur - Liste");
         return "fournisseur/index";
@@ -32,23 +41,23 @@ public class FournisseurController {
     @RequestMapping(value = "/access/fournisseurs/new", method = RequestMethod.GET)
     public String newFournisseur(Model model){
 
-        model.addAttribute("monfournisseur",new Fournisseur());
+        model.addAttribute("monfournisseur",new Provider());
         model.addAttribute("title", "Fournisseur - Nouveau");
         return "fournisseur/new";
 
     }
 
     @RequestMapping(value = "/access/fournisseurs/save", method = RequestMethod.POST)
-    public String saveFournisseur(@Valid Fournisseur fournisseur, Errors errors, Model model, RedirectAttributes redirectAttributes){
+    public String saveFournisseur(@Valid Provider provider, Errors errors, Model model, RedirectAttributes redirectAttributes){
 
         if (errors.hasErrors()){
             System.out.println("error YES");
-            model.addAttribute("monfournisseur", new Fournisseur());
+            model.addAttribute("monfournisseur", new Provider());
             //model.addAttribute("errors", errors);
             return "fournisseur/new";
         }
-        fournisseur.setFournisseur_nom(fournisseur.getFournisseur_nom().toUpperCase());
-        fournisseurRepository.save(fournisseur);
+        provider.setProviderNom(provider.getProviderNom().toUpperCase());
+        providerRepository.save(provider);
         redirectAttributes.addFlashAttribute("messagesucces","Opération éffectée avec succès");
         return "redirect:/access/fournisseurs";
     }
@@ -56,7 +65,7 @@ public class FournisseurController {
     @RequestMapping(value = "/access/fournisseurs/edit/{id}", method = RequestMethod.GET)
     public String editFournisseur(@PathVariable Long id, Model model){
 
-        Fournisseur r = fournisseurRepository.getOne(id);
+        Provider r = providerRepository.getOne(id);
 
         model.addAttribute("fournisseur", r);
         model.addAttribute("title", "Fournisseur - Edition");
@@ -66,7 +75,7 @@ public class FournisseurController {
     @RequestMapping(value = "/access/fournisseurs/delete/{id}", method = RequestMethod.GET)
     public String deleteFournisseur(@PathVariable Long id){
 
-        fournisseurRepository.deleteById(id);
+        providerRepository.deleteById(id);
         return "redirect:/access/fournisseurs";
     }
 }

@@ -1,13 +1,7 @@
 package ics.ci.stock.controller;
 
-import ics.ci.stock.entity.Client;
-import ics.ci.stock.entity.Emetteur;
-import ics.ci.stock.entity.Produit;
-import ics.ci.stock.entity.Projet;
-import ics.ci.stock.repository.ClientRepository;
-import ics.ci.stock.repository.EmetteurRepository;
-import ics.ci.stock.repository.ProduitRepository;
-import ics.ci.stock.repository.ProjetRepository;
+import ics.ci.stock.entity.*;
+import ics.ci.stock.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,11 +24,14 @@ public class ProjetController {
 
     private final ProduitRepository produitRepository;
 
-    public ProjetController(ProjetRepository projetRepository, ClientRepository clientRepository, EmetteurRepository emetteurRepository, ProduitRepository produitRepository) {
+    private final ProviderRepository providerRepository;
+
+    public ProjetController(ProjetRepository projetRepository, ClientRepository clientRepository, EmetteurRepository emetteurRepository, ProduitRepository produitRepository, ProviderRepository providerRepository) {
         this.projetRepository = projetRepository;
         this.clientRepository = clientRepository;
         this.emetteurRepository = emetteurRepository;
         this.produitRepository = produitRepository;
+        this.providerRepository = providerRepository;
     }
 
     @RequestMapping(value = "/auth/projets")
@@ -83,10 +80,12 @@ public class ProjetController {
         List<Client> clients =clientRepository.findAll();
         List<Emetteur> emetteurs =emetteurRepository.findAll();
         List<Produit> produits =produitRepository.findAll();
+        List<Provider> providers = providerRepository.findAll();
         model.addAttribute("monprojet", new Projet());
         model.addAttribute("clients", clients);
         model.addAttribute("emetteurs", emetteurs);
         model.addAttribute("produits", produits);
+        model.addAttribute("providers", providers);
         model.addAttribute("title", "Projet - Nouveau");
         return "projet/new";
     }
@@ -98,10 +97,12 @@ public class ProjetController {
         List<Client> c = clientRepository.findAll();
         List<Produit> produits = produitRepository.findAll();
         List<Emetteur> emetteurs = emetteurRepository.findAll();
+        List<Provider> providers = providerRepository.findAll();
         model.addAttribute("projet", p);
         model.addAttribute("clients", c);
         model.addAttribute("produits", produits);
         model.addAttribute("emetteurs", emetteurs);
+        model.addAttribute("providers", providers);
         model.addAttribute("title", "Projet - Edition");
         return "projet/edit";
     }

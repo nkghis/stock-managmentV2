@@ -32,6 +32,9 @@ public class Vstock {
     @Column(name = "produit_nom")
     private String produitNom;
 
+    @Column(name = "provider_nom")
+    private String fournisseurNom;
+
     @Column(name = "stock_quantite")
     private  Integer stockQuantite;
 
@@ -40,6 +43,14 @@ public class Vstock {
 
     public Vstock() {
         super();
+    }
+
+    public String getFournisseurNom() {
+        return fournisseurNom;
+    }
+
+    public void setFournisseurNom(String fournisseurNom) {
+        this.fournisseurNom = fournisseurNom;
     }
 
     public Long getStockId() {

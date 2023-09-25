@@ -148,7 +148,8 @@ public class StockServiceImpl implements StockService {
     @Override
     public Boolean seuilSecuriteDisponible(Projet projet) {
 
-        List<Stock> stocks = this.getListStockByProjet(projet);
+        //List<Stock> stocks = this.getListStockByProjet(projet);
+        List<Stock> stocks = this.getListStockByProjetWithoutEntrepot(projet);
         int stock = this.totalStockByProjet(stocks);
         if (stock > projet.getSeuilProjet()){
             return true;
@@ -168,7 +169,7 @@ public class StockServiceImpl implements StockService {
         return quantiteTotal;
     }
 
-    @Override
+/*    @Override
     public int totalStockByProjet(Projet projet) {
         List<Stock> stocks = this.getListStockByProjet(projet);
         int quantiteTotal = 0;
@@ -177,10 +178,36 @@ public class StockServiceImpl implements StockService {
         }
         return quantiteTotal;
     }
+    */
+
+    @Override
+    public int totalStockByProjet(Projet projet) {
+        List<Stock> stocks = this.getListStockByProjetWithoutEntrepot(projet);
+        int quantiteTotal = 0;
+        for (Stock stock : stocks){
+            quantiteTotal = quantiteTotal + stock.getStockQuantite();
+        }
+        return quantiteTotal;
+    }
+
 
     @Override
     public List<Stock> getListStockByProjet(Projet projet) {
         return stockRepository.findByProjet(projet);
+    }
+
+    @Override
+    public List<Stock> getListStockByProjetWithoutEntrepot(List<Entrepot> entrepots, Projet projet) {
+        return stockRepository.findByEntrepotNotInAndProjet(entrepots, projet);
+    }
+
+    @Override
+    public List<Stock> getListStockByProjetWithoutEntrepot(Projet projet) {
+
+        Entrepot entrepot = entrepotRepository.findByEntrepotNom("CP ICS STOCK");
+        List<Entrepot> entrepots = new ArrayList<>();
+        entrepots.add(entrepot);
+        return stockRepository.findByEntrepotNotInAndProjet(entrepots, projet);
     }
 
 

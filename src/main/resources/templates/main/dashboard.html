@@ -145,6 +145,7 @@
                                         <th class="text-center">Emetteur</th>
 
                                         <th class="text-center">Entrepot</th>
+                                        <th class="text-center">Fournisseur</th>
                                         <th class="text-center">Quantité</th>
                                         <th class="text-center">Seuil</th>
 
@@ -158,6 +159,7 @@
                                         <td th:text = "${c.produitNom}" class="text-center"></td>
                                         <td th:text = "${c.emetteurNom}" class="text-center"></td>
                                         <td th:text = "${c.entrepotNom}" class="text-center"></td>
+                                        <td th:text = "${c.fournisseurNom}" class="text-center"></td>
                                         <!--  <td th:text = "${c.stockQuantite}" class="text-center" style="font-weight: bold; color: red"></td>-->
                                         <td >
                                             <span th:text="${c.stockQuantite}" class="badge badge-pill badge-success" id="1" style="font-weight: bold" th:if="${c.stockQuantite >= c.seuilProjet}"></span>
@@ -170,14 +172,14 @@
 
                                     </tr>
                                     </tbody>
-                                    <tfoot>
+                                   <!-- <tfoot>
 
                                     <th class="text-center">Id</th>
                                     <th class="text-center">Client</th>
                                     <th class="text-center">Projet</th>
                                     <th class="text-center">Entrepot</th>
                                     <th class="text-center" >Quantité</th>
-                                    </tfoot>
+                                    </tfoot>-->
                                 </table>
                             </div>
                         </div>

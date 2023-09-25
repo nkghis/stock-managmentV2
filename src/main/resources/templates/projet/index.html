@@ -49,6 +49,7 @@
                         <th class="text-center">Client</th>
                          <th class="text-center">Produit</th>
                          <th class="text-center">Emetteur</th>
+                         <th class="text-center">Fournisseur</th>
                          <th class="text-center">Editer</th>
                          <th class="text-center">Supprimer</th>
 
@@ -63,6 +64,7 @@
                         <td th:text = "${c.client.client_nom}" class="text-center"></td>
                         <td th:text = "${c.produit.produit_nom}" class="text-center"></td>
                         <td th:text = "${c.emetteur.emetteurNom}" class="text-center"></td>
+                        <td th:text = "${c.provider.providerNom}" class="text-center"></td>
                         <td class="text-center"><a th:href="@{/auth/projets/edit/} + ${c.projet_id}" class="btn btn-primary btn-sm" ><i class="material-icons">edit</i>Editer</a></td>
                         <td class="text-center"><a onclick="return confirm('Êtes vous sûre !!!')"  th:href="@{/auth/projets/delete/} + ${c.projet_id}" class="btn btn-danger btn-sm"><i class="material-icons">delete_forever</i>Supprimer</a></td>
 

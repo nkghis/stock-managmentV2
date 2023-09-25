@@ -183,13 +183,26 @@ public class EnlevementController {
                 int stockQuantite = stockService.totalStockByProjet(stock.getProjet());
                 String sujet = "Notification Stock | Seuil de sécurité atteint | Enlevement | Projet : " + projetNom;
                 String message = "A tous, " + System.lineSeparator() +
-                        "Le stock relatif au projet : " + projetNom + " emmagasiné a l'entrepôt : " + entrepotNom +" a depassé le seuil de sécurité." + System.lineSeparator()+
+                        "Le stock relatif au projet : " + projetNom + " a depassé le seuil de sécurité." + System.lineSeparator()+
                         "  - Quantité seuil: " + stock.getProjet().getSeuilProjet() + System.lineSeparator() +
-                        "  - Stock disponible: " +stockQuantite + System.lineSeparator() +
+                        "  - Stock disponible: " + stockQuantite + System.lineSeparator() +
                         System.lineSeparator() +
                         "L'Administrateur" + System.lineSeparator()+
                         System.lineSeparator() +
                         "Ceci est un message generé automatiquement. Nous vous prions de ne pas repondre à ce message";
+
+                /* String projetNom = projet.getProjetNom().toUpperCase();
+                String entrepotNom = entrepot.getEntrepotNom().toUpperCase();
+                int stockQuantite = stockService.totalStockByProjet(stock.getProjet());
+                String sujet = "Notification Stock | Seuil de sécurité atteint | Enlevement | Projet : " + projetNom;
+                String message = "A tous, " + System.lineSeparator() +
+                        "Le stock relatif au projet : " + projetNom + " emmagasiné a l'entrepôt : " + entrepotNom +" a depassé le seuil de sécurité." + System.lineSeparator()+
+                        "  - Quantité seuil: " + stock.getProjet().getSeuilProjet() + System.lineSeparator() +
+                        "  - Stock disponible: " + stockQuantite + System.lineSeparator() +
+                        System.lineSeparator() +
+                        "L'Administrateur" + System.lineSeparator()+
+                        System.lineSeparator() +
+                        "Ceci est un message generé automatiquement. Nous vous prions de ne pas repondre à ce message";*/
 
                 try {
                     notificationService.sendEmail( sujet, message, user, projet);

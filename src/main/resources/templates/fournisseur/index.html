@@ -58,9 +58,9 @@
                     <tbody>
 
                     <tr th:each = "c:${listfournisseurs}">
-                        <td th:text = "${c.fournisseur_id}" class="text-center"></td>
-                        <td th:text = "${c.fournisseur_nom}" class="text-center"></td>
-                        <td class="text-center"><a th:href="@{/access/fournisseurs/edit/} + ${c.fournisseur_id}" class="btn btn-primary btn-sm" ><i class="material-icons">edit</i>Editer</a></td>
+                        <td th:text = "${c.providerId}" class="text-center"></td>
+                        <td th:text = "${c.providerNom}" class="text-center"></td>
+                        <td class="text-center"><a th:href="@{/access/fournisseurs/edit/} + ${c.providerId}" class="btn btn-primary btn-sm" ><i class="material-icons">edit</i>Editer</a></td>
                       <!--  <td class="text-center"><a onclick="return confirm('Êtes vous sûre !!!')"  th:href="@{/access/fournisseurs/delete/} + ${c.fournisseur_id}" class="btn btn-danger btn-sm"><i class="material-icons">delete_forever</i>Supprimer</a></td>-->
                     </tr>
 

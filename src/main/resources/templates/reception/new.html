@@ -79,18 +79,18 @@
                     </div>
                 </div>
 
-                <!-- Fournisseur Form Input -->
+              <!--  &lt;!&ndash; Fournisseur Form Input &ndash;&gt;
                 <div class="form-group row">
                     <label for="idfournisseur" class="col-sm-4 col-form-label text-md-right"><strong>Fournisseur</strong></label>
 
                     <div class="col-md-6">
                         <select  id="idfournisseur" name="fournisseur" class="select-type form-control" multiple="multiple" required  >
-                            <option value="">-- Selectionner le fournisseur --</option>
+                            <option value="">&#45;&#45; Selectionner le fournisseur &#45;&#45;</option>
                             <option th:each="c:${fournisseurs}" th:value="${c.fournisseur_id}" th:text="${c.fournisseur_nom}"></option>
                         </select>
-                        <!--<span th:if="${#fields.hasErrors('produits')}" th:errors="*{produits}"></span>-->
+                        &lt;!&ndash;<span th:if="${#fields.hasErrors('produits')}" th:errors="*{produits}"></span>&ndash;&gt;
                     </div>
-                </div>
+                </div>-->
 
                 <!-- Ressource Form Input -->
                 <div class="form-group row">

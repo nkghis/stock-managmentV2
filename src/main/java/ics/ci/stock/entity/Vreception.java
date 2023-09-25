@@ -36,7 +36,7 @@ public class Vreception {
     @Column(name = "disponibilite")
     private int disponibilite;
 
-    @Column(name = "fournisseur_nom")
+    @Column(name = "provider_nom")
     private String fournisseurNom;
 
    /* @Column(name = "produit_nom")

@@ -34,6 +34,10 @@ public class Projet implements Serializable {
     @JoinColumn(name = "clientId")
     private Client client;
 
+    @ManyToOne
+    @JoinColumn(name = "providerId")
+    private Provider provider;
+
     public Projet() {
         super();
     }
@@ -52,12 +56,13 @@ public class Projet implements Serializable {
         this.seuilProjet = seuilProjet;
     }
 
-    public Projet(String projetNom, Integer seuilProjet, Client client, Emetteur emetteur, Produit produit) {
+    public Projet(String projetNom, Integer seuilProjet, Client client, Emetteur emetteur, Produit produit, Provider provider) {
         this.projetNom = projetNom;
         this.seuilProjet = seuilProjet;
         this.client = client;
         this.emetteur = emetteur;
         this.produit = produit;
+        this.provider = provider;
     }
 
 
@@ -108,6 +113,14 @@ public class Projet implements Serializable {
 
     public void setProduit(Produit produit) {
         this.produit = produit;
+    }
+
+    public Provider getProvider() {
+        return provider;
+    }
+
+    public void setProvider(Provider provider) {
+        this.provider = provider;
     }
 
     @Override

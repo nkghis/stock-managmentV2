@@ -17,6 +17,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootApplication
@@ -60,6 +61,19 @@ public class StockManagmentApplication {
 		notificationService.sendEmail( subject, message, user, projet);*/
 
 		String d ="";
+
+/*		StockService stockService = ctx.getBean(StockService.class);
+		ProjetRepository projetRepository = ctx.getBean(ProjetRepository.class);
+		EntrepotRepository entrepotRepository = ctx.getBean(EntrepotRepository.class);
+		Entrepot entrepot = entrepotRepository.findByEntrepotNom("CP ICS STOCK");
+		List<Entrepot> entrepots = new ArrayList<>();
+		entrepots.add(entrepot);
+		Projet projet = projetRepository.getOne(160133L);
+		//List<Stock> stocks = stockService.getListStockByProjetWithoutEntrepot(entrepots, projet);
+		List<Stock> stocks = stockService.getListStockByProjetWithoutEntrepot(projet);
+		int qte = stockService.totalStockByProjet(projet);
+		String n = "";*/
+
 
 	/*	StockService stockService = ctx.getBean(StockService.class);
 		ProjetRepository projetRepository = ctx.getBean(ProjetRepository.class);

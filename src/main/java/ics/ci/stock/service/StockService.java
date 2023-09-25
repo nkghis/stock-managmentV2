@@ -27,4 +27,7 @@ public interface StockService {
     List<Stock> getListStockByProjet(Projet projet);
 
 
+    List<Stock> getListStockByProjetWithoutEntrepot(List<Entrepot> entrepots, Projet projet);
+
+    List<Stock> getListStockByProjetWithoutEntrepot(Projet projet);
 }

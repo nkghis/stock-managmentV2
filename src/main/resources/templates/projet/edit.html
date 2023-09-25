@@ -106,10 +106,23 @@
                                     </div>
                                 </div>
 
+                                <!-- Emmetteur Form Input -->
+                                <div class="form-group row">
+                                    <label for="idfourniseur" class="col-sm-4 col-form-label text-md-right"><strong>Fournisseur</strong></label>
+
+                                    <div class="col-md-6">
+                                        <select th:field="${projet.provider}" id="idfourniseur" name="provider" class="select-type form-control"  >
+                                            <option value="">-- Selectionner le fournisseur --</option>
+                                            <option th:each="c:${providers}" th:value="${c.providerId}" th:text="${c.providerNom}" th:selected="${c.providerId == projet.provider}"></option>
+                                        </select>
+
+                                    </div>
+                                </div>
+
                                 <div class="form-group row">
                                     <label for="contact" class="col-sm-4 col-form-label text-md-right"><strong></strong></label>
                                     <div class="col-md-6">
-                                        <button type="submit" class="btn btn-primary">Enregister</button>
+                                        <button id="contact" type="submit" class="btn btn-primary">Enregister</button>
                                     </div>
                                 </div>
 

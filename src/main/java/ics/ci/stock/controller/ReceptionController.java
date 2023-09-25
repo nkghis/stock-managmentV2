@@ -21,25 +21,29 @@ import java.util.List;
 @Controller
 public class ReceptionController {
 
-    @Autowired
-    private ReceptionRepository receptionRepository;
+    private final ReceptionRepository receptionRepository;
 
-    @Autowired
-    private ProduitRepository produitRepository;
+    private final ProduitRepository produitRepository;
 
-    @Autowired
-    private ProjetRepository projetRepository;
+    private final ProjetRepository projetRepository;
 
-    @Autowired
-    private RessourceRepository ressourceRepository;
+    private final RessourceRepository ressourceRepository;
 
-    @Autowired
-    private FournisseurRepository fournisseurRepository;
+    private final FournisseurRepository fournisseurRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired VreceptionRepository vreceptionRepository;
+    final VreceptionRepository vreceptionRepository;
+
+    public ReceptionController(ReceptionRepository receptionRepository, ProduitRepository produitRepository, ProjetRepository projetRepository, RessourceRepository ressourceRepository, FournisseurRepository fournisseurRepository, UserRepository userRepository, VreceptionRepository vreceptionRepository) {
+        this.receptionRepository = receptionRepository;
+        this.produitRepository = produitRepository;
+        this.projetRepository = projetRepository;
+        this.ressourceRepository = ressourceRepository;
+        this.fournisseurRepository = fournisseurRepository;
+        this.userRepository = userRepository;
+        this.vreceptionRepository = vreceptionRepository;
+    }
 
     /*@RequestMapping(value = "/admin/receptions")
     @ResponseBody
@@ -106,6 +110,8 @@ public class ReceptionController {
         LocalDateTime date = LocalDateTime.now();
         AppUser user = userRepository.findByUserName(principal.getName());
 
+        Fournisseur fournisseur = fournisseurRepository.getOne(1L);
+        reception.setFournisseur(fournisseur);
         reception.setEstDisponible(true);
         reception.setOperation_date(date);
         reception.setUser(user);
