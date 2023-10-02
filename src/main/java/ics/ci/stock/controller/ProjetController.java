@@ -140,6 +140,7 @@ public class ProjetController {
            p.setClient(projet.getClient());
            p.setEmetteur(projet.getEmetteur());
            p.setProduit(projet.getProduit());
+           p.setProvider(projet.getProvider());
 
            projetRepository.save(p);
             redirectAttributes.addFlashAttribute("messagesucces","Projet [" + p.getProjetNom()+"] mis à jour avec succès");
