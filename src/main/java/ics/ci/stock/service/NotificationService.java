@@ -37,8 +37,10 @@ public class NotificationService {
     @Async
     public void sendEmail( String subject, String message,  AppUser user, Projet projet) throws InterruptedException{
 
+        //Don't forget to add annotation "@EnableAsync"  in file "StockManagmentApplication.java" under "@SpringBootApplication"
+
         System.out.println("Sleeping now...");
-        //Delai de 5 seconde avant execution du code ci-dessous
+        //Délai de 5 secondes avant execution du code ci-dessous
         Thread.sleep(5000);
 
         System.out.println("Sending email...");

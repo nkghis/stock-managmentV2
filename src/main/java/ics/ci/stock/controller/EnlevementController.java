@@ -205,6 +205,7 @@ public class EnlevementController {
                         "Ceci est un message generé automatiquement. Nous vous prions de ne pas repondre à ce message";*/
 
                 try {
+                    //Don't forget to add annotation "@EnableAsync"  in file "StockManagmentApplication.java" under "@SpringBootApplication"
                     notificationService.sendEmail( sujet, message, user, projet);
                 }catch( Exception e ){
                     System.out.println(e.getMessage());

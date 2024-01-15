@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootApplication
-//Ajout annotation pour gerer les methode asyncrhone
+//Ajout annotation pour gerer les methodes asyncrhones
 @EnableAsync
 public class StockManagmentApplication {
 
