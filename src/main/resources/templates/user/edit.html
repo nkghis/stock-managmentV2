@@ -46,13 +46,25 @@
         <form  th:action="@{/acces/users/update}"   method="post">
 
             <input th:field="${user.userId}" type="hidden"/>
-            <!-- Nom Client Form Input -->
+            <!-- Username Form Input -->
             <div  class="form-group row">
                 <label th:for="client_nom" class="col-sm-4 col-form-label text-md-right"><strong>Nom d'utilisateur</strong></label>
 
                 <div class="col-md-6">
 
-                    <input id="username" class="form-control" th:field="${user.userName}" placeholder="Nom d'utilisateur" disabled autofocus>
+                    <input id="username" class="form-control" th:field="${user.userName}" placeholder="Nom d'utilisateur" required disabled autofocus>
+
+
+                </div>
+            </div>
+
+            <!-- Email Form Input -->
+            <div  class="form-group row">
+                <label th:for="email" class="col-sm-4 col-form-label text-md-right"><strong>Email</strong></label>
+
+                <div class="col-md-6">
+
+                    <input id="email" class="form-control" th:field="${user.email}" placeholder="Email" required disabled autofocus>
 
 
                 </div>

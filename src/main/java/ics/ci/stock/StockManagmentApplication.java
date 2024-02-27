@@ -4,10 +4,9 @@ package ics.ci.stock;
 import ics.ci.stock.dto.gache.GacheProjetDTO;
 import ics.ci.stock.entity.*;
 import ics.ci.stock.repository.*;
-import ics.ci.stock.service.GacheService;
-import ics.ci.stock.service.NotificationService;
-import ics.ci.stock.service.StockService;
+import ics.ci.stock.service.*;
 import ics.ci.stock.utils.EncrytedPasswordUtils;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -27,10 +26,40 @@ public class StockManagmentApplication {
 
 	@Autowired
 	private JavaMailSender javaMailSender;
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 
 
 		ApplicationContext ctx = SpringApplication.run(StockManagmentApplication.class, args);
+
+
+	/*	ValidationTransfertService service = ctx.getBean(ValidationTransfertService.class);
+
+		String ss = service.getReference();
+
+		System.out.println("reference  : " + ss);*/
+
+
+/*		UserService userService = ctx.getBean(UserService.class);
+		NotificationService notificationService = ctx.getBean(NotificationService.class);
+		ProjetRepository projetRepository = ctx.getBean(ProjetRepository.class);
+		UserRepository userRepository = ctx.getBean(UserRepository.class);
+
+
+		AppUser user = userRepository.findByUserName("nkghis");
+		Projet projet = projetRepository.getOne(1L);
+
+		String subject = "test validation";
+		String message = "test validation";
+
+
+		String roleName = "ROLE_RESPONSABLESTOCK";
+
+		String[] emails = userService.getEmails(roleName);
+
+		notificationService.sendEmailValidation(subject, message, user, projet, emails);
+
+
+		String s = "";*/
 
 /*		StockService stockService = ctx.getBean(StockService.class);
 		ProjetRepository projetRepository = ctx.getBean(ProjetRepository.class);

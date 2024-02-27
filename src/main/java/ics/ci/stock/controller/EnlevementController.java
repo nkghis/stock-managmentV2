@@ -4,7 +4,6 @@ import ics.ci.stock.entity.*;
 import ics.ci.stock.repository.*;
 import ics.ci.stock.service.NotificationService;
 import ics.ci.stock.service.StockService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -206,7 +205,7 @@ public class EnlevementController {
 
                 try {
                     //Don't forget to add annotation "@EnableAsync"  in file "StockManagmentApplication.java" under "@SpringBootApplication"
-                    notificationService.sendEmail( sujet, message, user, projet);
+                    notificationService.sendEmailStock( sujet, message, user, projet);
                 }catch( Exception e ){
                     System.out.println(e.getMessage());
                 }

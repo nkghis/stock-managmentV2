@@ -33,6 +33,10 @@ public class Transfert extends Operation {
     @JoinColumn(name = "entrepotIdDestination")
     private Entrepot entrepotDestination;
 
+    @ManyToOne
+    @JoinColumn(name="validationId")
+    private ValidationTransfert validationTransfert;
+
     public Transfert(){
         super();
     }

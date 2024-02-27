@@ -1,0 +1,95 @@
+
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Authentification Bootstrap 4 Spring Boot.">
+    <meta name="author" content="Ghislain Nkagou">
+    <title th:utext="${title}"></title>
+
+    <!-- Include CSS block -->
+    <th:block th:include="main/layout/block_css"></th:block>
+
+</head>
+<body>
+
+<!-- Include MENU block -->
+<th:block th:include="main/_menu"></th:block>
+
+
+<!-- page content -->
+<br>
+
+<div class="card mx-auto" style="width: 30rem">
+
+
+    <div class="card-body">
+        <div>
+            <table class="table table-borderless">
+                <tbody>
+                <tr>
+                    <th class="text-right" scope="row">Entrepôt Source:</th>
+                    <td class="text-left" th:text = "${validationTransfertResponse.entrepotSource}"></td>
+                </tr>
+                <tr>
+                    <th class="text-right" scope="row">Entrepôt Destination:</th>
+                    <td class="text-left" th:text = "${validationTransfertResponse.entrepotDestination}"></td>
+                </tr>
+                <tr>
+                    <th class="text-right" scope="row">Quantité:</th>
+                    <td class="text-left" th:text = "${validationTransfertResponse.qte}"></td>
+                </tr>
+                <tr>
+                    <th class="text-right" scope="row">Projet:</th>
+                    <td class="text-left" th:text = "${validationTransfertResponse.projet}"></td>
+                </tr>
+                <tr>
+                    <th class="text-right" scope="row">Nom Utilisateur:</th>
+                    <td class="text-left" th:text = "${validationTransfertResponse.userName}"></td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm text-right">
+                    <a th:href="@{/responsablestock/validations/refuse/} + ${validationTransfertResponse.id}" class="btn btn-danger btn-sm " ><i class="material-icons">clear</i>Refuser</a>
+                </div>
+
+
+                <div class="col-sm text-left">
+                    <a th:href="@{/responsablestock/validations/accept/} + ${validationTransfertResponse.id}" class="btn btn-success btn-sm" ><i class="material-icons">check_circle</i>Valider</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+<!-- page content -->
+
+
+<!-- Include END MENU block -->
+<th:block th:include="main/_end_menu"></th:block>
+
+
+
+<br/><br/>
+
+
+
+<!-- Include SCRIPT block -->
+<th:block th:include="main/layout/block_script"></th:block>
+
+</body>
+</html>

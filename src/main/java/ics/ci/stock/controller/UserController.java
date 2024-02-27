@@ -29,13 +29,16 @@ import java.util.stream.Collectors;
 @Controller
 public class UserController {
 
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private RoleRepository roleRepository;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
-    @Autowired
-    private UserRoleRepository userRoleRepository;
+    private final UserRoleRepository userRoleRepository;
+
+    public UserController(UserRepository userRepository, RoleRepository roleRepository, UserRoleRepository userRoleRepository) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.userRoleRepository = userRoleRepository;
+    }
 
     @RequestMapping(value = "/acces/users")
     public String indexUser(Model model, HttpServletRequest request/*, Principal principal*/){
@@ -258,6 +261,7 @@ public class UserController {
         }
 
         user.setUserName(myuser.getUserName());
+        user.setEmail(myuser.getEmail());
         user.setEnabled(true);
         user.setEncrytedPassword(password);
         userRepository.save(user);

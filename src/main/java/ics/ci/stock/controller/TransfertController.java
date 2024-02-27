@@ -1,14 +1,15 @@
 package ics.ci.stock.controller;
 
 
+import ics.ci.stock.dto.historiquevalidation.HistoriqueValidationRequest;
+import ics.ci.stock.dto.historiquevalidation.HistoriqueValidationResponse;
+import ics.ci.stock.dto.validationtransfert.ValidationTransfertResponse;
 import ics.ci.stock.entity.*;
 import ics.ci.stock.entity.custom.EntrepotCriteria;
+import ics.ci.stock.enums.Statut;
 import ics.ci.stock.repository.*;
-import ics.ci.stock.service.NotificationService;
-import ics.ci.stock.service.StockService;
-import org.apache.xmlbeans.impl.xb.xsdschema.Public;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
+import ics.ci.stock.service.*;
+import ics.ci.stock.utils.WebUtils;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,7 +36,12 @@ public class TransfertController {
     private final UserRepository userRepository;
     private final EntreposageController entreposageController;
     private final StockService stockService;
+
+    private final ValidationTransfertService validationTransfertService;
+
+    private final HistoriqueValidationService historiqueValidationService;
     private final NotificationService notificationService;
+    private final UserService userService;
 
 
 
@@ -44,7 +50,7 @@ public class TransfertController {
     public  String cre = "CREAPUB";
     public  String nat = "NATHAN";
 
-    public TransfertController(TransfertRepository transfertRepository, ProjetRepository projetRepository, EntrepotRepository entrepotRepository, EntreposerRepository entreposerRepository, StockRepository stockRepository, UserRepository userRepository, EntreposageController entreposageController, StockService stockService, NotificationService notificationService) {
+    public TransfertController(TransfertRepository transfertRepository, ProjetRepository projetRepository, EntrepotRepository entrepotRepository, EntreposerRepository entreposerRepository, StockRepository stockRepository, UserRepository userRepository, EntreposageController entreposageController, StockService stockService, NotificationService notificationService, ValidationTransfertService validationTransfertService, HistoriqueValidationService historiqueValidationService, UserService userService) {
         this.transfertRepository = transfertRepository;
         this.projetRepository = projetRepository;
         this.entrepotRepository = entrepotRepository;
@@ -54,6 +60,9 @@ public class TransfertController {
         this.entreposageController = entreposageController;
         this.stockService = stockService;
         this.notificationService = notificationService;
+        this.validationTransfertService = validationTransfertService;
+        this.historiqueValidationService = historiqueValidationService;
+        this.userService = userService;
     }
 
 
@@ -62,6 +71,19 @@ public class TransfertController {
 
         model.addAttribute("title", "Transfert de stocks  - Liste");
         return "transfert/index";
+    }
+
+
+    @RequestMapping(value = "/auth/transfert/demande")
+    public String indexDemandeTransfert(Model model){
+
+
+        //List<ValidationTransfertResponse> demandes = validationTransfertService.all();
+
+        List<ValidationTransfertResponse> demandes = validationTransfertService.allByStatut(Statut.EN_COURS);
+        model.addAttribute("demandes", demandes);
+        model.addAttribute("title", "Demande de transfert en attente de validation - Liste");
+        return "transfert/demande";
     }
 
 
@@ -123,7 +145,7 @@ public class TransfertController {
     }
 
     @RequestMapping(value = "/auth/transferts/save", method = RequestMethod.POST)
-    public String saveTransfert( @Valid Transfert transfert, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes, Principal principal, HttpServletRequest request) {
+    public String saveTransfert( @Valid Transfert transfert, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes, Principal principal, HttpServletRequest request) throws InterruptedException {
 
 
         if(bindingResult.hasErrors()) {
@@ -131,6 +153,9 @@ public class TransfertController {
             model.addAttribute("montransfert", transfert);
             return "redirect:auth/transferts/edit/"+transfert.getOperationId();
         }
+
+
+
 
         ////Get id number of operation 'dis' from form
         String s = request.getParameter("id");
@@ -143,6 +168,9 @@ public class TransfertController {
 
         ////Get qte operation from form
         int qte = transfert.getOperationQte();
+
+
+
 
         ////Parse String to Long
         Long eDestination = Long.parseLong(ss);
@@ -177,140 +205,67 @@ public class TransfertController {
             ////Get entrepot by id
             Entrepot entrepotDestination = entrepotRepository.getOne(eDestination);
 
-            //Init Stock
-            Stock stock;
-
-            ////Get Stock by entrepot and Projet
-            Stock sSource = stockRepository.findByProjetAndEntrepot(entreposer.getProjet(),entreposer.getEntrepot());
-            Stock sDestination = stockRepository.findByProjetAndEntrepot(entreposer.getProjet(),entrepotDestination);
-
-
-            ////Get Transfert reference
-            String reference = this.getReference();
-
-            ////Get DateTime at now
-            LocalDateTime date = LocalDateTime.now();
-
             //Get User
             AppUser user = userRepository.findByUserName(principal.getName());
 
-            ////Get Qte Stock Source & Destination
-            //Source
-            int stockInitialSource = sSource.getStockQuantite();
-            int stockFinalSource = sSource.getStockQuantite() - qte ;
-
-            //Initialisation
-            int stockInitialDestination;
-            int stockFinalDestination;
-            // Check if Destination stock exist if exist use it or create one new
-            if (sDestination == null)
-            {
-                //Init Initial & final Destination
-                stockInitialDestination = 0;
-                stockFinalDestination = qte;
-
-                //Creaete new stock
-                stock = new Stock();
-                stock.setProjet(projet);
-                stock.setEntrepot(entrepotDestination);
-
-
-            }
-            else {
-                stockInitialDestination = sDestination.getStockQuantite();
-                stockFinalDestination = sDestination.getStockQuantite() + qte;
-                stock = sDestination;
-            }
-            //Destination
-
-            int dispoTransfert = entreposer.getTransfertDispo() - qte;
-
-
-            ////Intitialise new transfert and create.
             Transfert t = new Transfert();
 
-            t.setOperationReference(reference);
-            t.setOperationQte(qte);
-            t.setOperation_date(date);
-            t.setEstDisponible(false);
-            t.setProjet(entreposer.getProjet());
-            t.setUser(user);
-            t.setStockInitialSource(stockInitialSource);
-            t.setStockFinalSource(stockFinalSource);
-            t.setStockInitialDestination(stockInitialDestination);
-            t.setStockFinalDestination(stockFinalDestination);
+            t.setOperationDateSaisie(transfert.getOperationDateSaisie());
             t.setEntreposer(entreposer);
             t.setEntrepotSource(entrepotSource);
             t.setEntrepotDestination(entrepotDestination);
-            t.setOperationDateSaisie(transfert.getOperationDateSaisie());
-            transfertRepository.save(t);
+            t.setProjet(entreposer.getProjet());
+            t.setOperationQte(qte);
 
-            ////Mettre à jour dispoTransfert et entreproser.
-            entreposer.setTransfertDispo(dispoTransfert);
-            entreposerRepository.save(entreposer);
+            //Create validation Transfert
+            ValidationTransfert responseValidation = validationTransfertService.createValidationTransfert(t, user);
 
-
-            ////Create new Entreposage
-            //Get entreposage reference
-            String eReference = entreposageController.getReference();
-            //Initialise
-            Entreposer e = new Entreposer();
-            //Set
-            e.setOperationReference(eReference);
-            e.setOperationQte(qte);
-            e.setOperation_date(date);
-            e.setEstDisponible(false);
-            e.setProjet(entreposer.getProjet());
-            e.setUser(user);
-            e.setQteVerse(qte);
-            e.setQteRestante(qte);
-            e.setEstLivrable(true);
-            e.setTransfertDispo(qte);
-            e.setReception(entreposer.getReception());
-            e.setEntrepot(entrepotDestination);
-            //Persist
-            entreposerRepository.save(e);
-
-            // Create or Update Stock de destination if exist or not exist
-            stock.setStockQuantite(stockFinalDestination);
-            stock.setStockDate(date);
-            stock.setUser(user);
-            stockRepository.save(stock);
-
-            // Update Stock Source
-            sSource.setStockQuantite(stockFinalSource);
-            sSource.setStockDate(date);
-            sSource.setUser(user);
-            stockRepository.save(sSource);
-
-/*            //Check if quantité stock est superieur à seuil de securité Si false, Envoyé message de notification
-            Boolean checkSeuil = stockService.seuilSecuriteDisponible(sSource);
-
-            if (checkSeuil == false){
-
-                String projetNom = sSource.getProjet().getProjetNom().toUpperCase();
-                String entrepotNom = sSource.getEntrepot().getEntrepotNom().toUpperCase();
-                String sujet = "Notification Stock | Seuil de sécurité atteint | Transfert | Projet : " + projetNom;
-                String message = "A tous" + System.lineSeparator() +
-                        "Le stock relatif au projet : " + projetNom + " emmagasiné a l'entrepôt : " + entrepotNom +" a depassé le seuil de sécurité." + System.lineSeparator()+
-                        "  - Quantité seuil: " + sSource.getProjet().getSeuilProjet() +"  - Stock disponible" +
-                        "  - Stock disponible: " +sSource.getStockQuantite() + System.lineSeparator() +
-                        "  - Action : ENLEVEMENT " + System.lineSeparator() +
-                        System.lineSeparator() +
-                        "L'Administrateur" + System.lineSeparator()+
-                        System.lineSeparator() +
-                        "Ceci est un message generé automatiquement. Nous vous prions de ne pas repondre à ce message";
-
-                try {
-                    notificationService.sendEmail( sujet, message, user, sSource.getProjet());
-                }catch (Exception exception){
-                    System.out.println(exception.getMessage());
-                }
+            //Create Historique validation transfert
+            HistoriqueValidationRequest historiqueValidationRequest = new HistoriqueValidationRequest();
+            historiqueValidationRequest.setValidationTransfert(responseValidation);
+            historiqueValidationRequest.setCommentaires("");
+            historiqueValidationRequest.setStatut(Statut.EN_COURS);
+            historiqueValidationRequest.setUser(user);
+            HistoriqueValidationResponse historiqueValidationResponse = historiqueValidationService.createHistoriqueValidation(historiqueValidationRequest);
 
 
-            }*/
+            //Send email
 
-            String message = "Transfert effectué avec succès | Quantité : " +qte + "| Entrepot Source : " + entrepotSource.getEntrepotNom() + "| Entrepot Destination : " + entrepotDestination.getEntrepotNom();
+            String roleName = "ROLE_RESPONSABLESTOCK";
+
+            //Get users emails have roleName;
+            String[] emails = userService.getEmails(roleName);
+
+            //String subject = "test notification email";
+
+            //String messageEmail = "test notification email";
+
+
+            String subject ="[Ref :" + responseValidation.getReference()+ "] Notification demande de transfert | Demande de transfert en attente de validation";
+
+            String baseUrl = WebUtils.getBaseUrl(request);
+
+            String url = baseUrl + "/responsablestock/validations/"+ responseValidation.getId();
+
+            String messageEmail = "Hello Teams, " +  System.lineSeparator() +
+                    "Nous vous informons qu'une demande de transfert du projet : " + projet.getProjetNom()+ " vous a été soumis par l'utilisateur :  " + user.getUserName() + "." + System.lineSeparator() +
+                    "La demande concerne un transfert qui se fera depuis l'entrepot : " + entrepotSource.getEntrepotNom() + " vers : " + entrepotDestination.getEntrepotNom()+ "."+ System.lineSeparator()+
+                    "La quantité est : " + qte + "."+ System.lineSeparator() +
+                    "Nous vous prions de cliquer sur le lien ci-dessous pour Valider ou Refuser la demande" + System.lineSeparator()+
+                    url + System.lineSeparator()+
+
+                    "Merci." + System.lineSeparator() +
+                    "L'administrateur." + System.lineSeparator()+
+                    System.lineSeparator() +
+                    "Ceci est un message generé automatiquement. Nous vous prions de ne pas repondre à ce message";
+
+
+            notificationService.sendEmailValidation(subject, messageEmail, user, projet, emails);
+
+
+
+
+            String message = "Demande de Transfert effectué avec succès | Quantité : " +qte + "| Entrepot Source : " + entrepotSource.getEntrepotNom() + "| Entrepot Destination : " + entrepotDestination.getEntrepotNom();
 
             messageVariable = "messagesucces";
             messageValue = message;
@@ -440,6 +395,324 @@ public class TransfertController {
         return qteStock;
 
     }
+
+
+    @RequestMapping(value = "/responsablestock/validations/{id}", method = RequestMethod.GET)
+    public String viewValidation(@PathVariable Long id, Model model){
+
+
+        String s = "";
+        String message = "";
+
+        if (!validationTransfertService.isPresent(id)){
+
+            message = "Désolé cette validation est introuvable ";
+
+            model.addAttribute("message", message);
+
+            s = "error/validation";
+
+        } else {
+
+            ValidationTransfert validationTransfert = validationTransfertService.byId(id);
+
+            if (validationTransfert.getStatut().equals(Statut.EN_COURS)){
+
+                ValidationTransfertResponse validationTransfertResponse = validationTransfertService.toDTO(validationTransfert);
+                model.addAttribute("validationTransfertResponse", validationTransfertResponse);
+                s = "transfert/validation";
+
+
+
+            } else {
+                message = "Désolé cette validation ne dispose pas de statut autorisant à faire valider la demande";
+                model.addAttribute("message", message);
+                s = "error/validation";
+
+            }
+
+        }
+
+
+
+
+
+
+        model.addAttribute("title", "Validation de transfert");
+        return s;
+    }
+
+    @RequestMapping(value = "/responsablestock/validations/accept/{id}", method = RequestMethod.GET)
+    public String acceptValidation( @PathVariable Long id, Model model, RedirectAttributes redirectAttributes, Principal principal) throws InterruptedException {
+
+        ValidationTransfert validationTransfert = validationTransfertService.byId(id);
+        Entreposer entreposer = validationTransfert.getEntreposer();
+        Projet projet = entreposer.getProjet();
+        Entrepot entrepotSource = entreposer.getEntrepot();
+        //Transfert transfert = new Transfert();
+        int qte = validationTransfert.getTransfertQte();
+
+        // Check if Stock quantite is available
+        Boolean result = stockService.checkIfStockAvailable(projet, entrepotSource, qte);
+
+        String messageValue = null;
+        String messageVariable = null;
+
+        if (!result){
+
+            //stock unavailable
+            messageVariable = "messagestock";
+            messageValue = "Le stock du project : " + projet.getProjetNom()  +" ayant pour entrepot " + entrepotSource.getEntrepotNom()+" ne dispose pas assez de stock pour effectué cette opération";
+
+        }else {
+
+            //stock available
+
+            ////Get entrepot by id
+            //Entrepot entrepotDestination = entrepotRepository.getOne(eDestination);
+
+            Entrepot entrepotDestination = validationTransfert.getEntrepotDestination();
+
+            //Init Stock
+            Stock stock;
+
+            ////Get Stock by entrepot and Projet
+            Stock sSource = stockRepository.findByProjetAndEntrepot(entreposer.getProjet(), entreposer.getEntrepot());
+            Stock sDestination = stockRepository.findByProjetAndEntrepot(entreposer.getProjet(), entrepotDestination);
+
+            ////Get Transfert reference
+            String reference = this.getReference();
+
+            ////Get DateTime at now
+            LocalDateTime date = LocalDateTime.now();
+
+            //Get User
+            AppUser user = userRepository.findByUserName(principal.getName());
+
+            ////Get Qte Stock Source & Destination
+            //Source
+            int stockInitialSource = sSource.getStockQuantite();
+            int stockFinalSource = sSource.getStockQuantite() - qte ;
+
+            //Initialisation
+            int stockInitialDestination;
+            int stockFinalDestination;
+            // Check if Destination stock exist if exist use it or create one new
+            if (sDestination == null)
+            {
+                //Init Initial & final Destination
+                stockInitialDestination = 0;
+                stockFinalDestination = qte;
+
+                //Create new stock
+                stock = new Stock();
+                stock.setProjet(projet);
+                stock.setEntrepot(entrepotDestination);
+
+
+            }
+            else {
+                stockInitialDestination = sDestination.getStockQuantite();
+                stockFinalDestination = sDestination.getStockQuantite() + qte;
+                stock = sDestination;
+            }
+            //Destination
+
+            int dispoTransfert = entreposer.getTransfertDispo() - qte;
+
+
+            //Intitialise new transfert and create.
+            Transfert t = new Transfert();
+
+            t.setOperationReference(reference);
+            t.setOperationQte(qte);
+            t.setOperation_date(date);
+            t.setEstDisponible(false);
+            t.setProjet(entreposer.getProjet());
+            t.setUser(user);
+            t.setStockInitialSource(stockInitialSource);
+            t.setStockFinalSource(stockFinalSource);
+            t.setStockInitialDestination(stockInitialDestination);
+            t.setStockFinalDestination(stockFinalDestination);
+            t.setEntreposer(entreposer);
+            t.setEntrepotSource(entrepotSource);
+            t.setEntrepotDestination(entrepotDestination);
+            t.setOperationDateSaisie(validationTransfert.getDateSaisie());
+
+            //Creer le transfert
+            transfertRepository.save(t);
+
+            ////Mettre à jour dispoTransfert et entreproser.
+            entreposer.setTransfertDispo(dispoTransfert);
+            entreposerRepository.save(entreposer);
+
+            ////Create new Entreposage
+            //Get entreposage reference
+            String eReference = entreposageController.getReference();
+            //Initialise
+            Entreposer e = new Entreposer();
+            //Set
+            e.setOperationReference(eReference);
+            e.setOperationQte(qte);
+            e.setOperation_date(date);
+            e.setEstDisponible(false);
+            e.setProjet(entreposer.getProjet());
+            e.setUser(user);
+            e.setQteVerse(qte);
+            e.setQteRestante(qte);
+            e.setEstLivrable(true);
+            e.setTransfertDispo(qte);
+            e.setReception(entreposer.getReception());
+            e.setEntrepot(entrepotDestination);
+            //Persist
+            entreposerRepository.save(e);
+
+            // Create or Update Stock de destination if exist or not exist
+            stock.setStockQuantite(stockFinalDestination);
+            stock.setStockDate(date);
+            stock.setUser(user);
+            stockRepository.save(stock);
+
+            // Update Stock Source
+            sSource.setStockQuantite(stockFinalSource);
+            sSource.setStockDate(date);
+            sSource.setUser(user);
+            stockRepository.save(sSource);
+
+
+            /*            //Check if quantité stock est superieur à seuil de securité Si false, Envoyé message de notification
+            Boolean checkSeuil = stockService.seuilSecuriteDisponible(sSource);
+
+            if (checkSeuil == false){
+
+                String projetNom = sSource.getProjet().getProjetNom().toUpperCase();
+                String entrepotNom = sSource.getEntrepot().getEntrepotNom().toUpperCase();
+                String sujet = "Notification Stock | Seuil de sécurité atteint | Transfert | Projet : " + projetNom;
+                String message = "A tous" + System.lineSeparator() +
+                        "Le stock relatif au projet : " + projetNom + " emmagasiné a l'entrepôt : " + entrepotNom +" a depassé le seuil de sécurité." + System.lineSeparator()+
+                        "  - Quantité seuil: " + sSource.getProjet().getSeuilProjet() +"  - Stock disponible" +
+                        "  - Stock disponible: " +sSource.getStockQuantite() + System.lineSeparator() +
+                        "  - Action : ENLEVEMENT " + System.lineSeparator() +
+                        System.lineSeparator() +
+                        "L'Administrateur" + System.lineSeparator()+
+                        System.lineSeparator() +
+                        "Ceci est un message generé automatiquement. Nous vous prions de ne pas repondre à ce message";
+
+                try {
+                    notificationService.sendEmail( sujet, message, user, sSource.getProjet());
+                }catch (Exception exception){
+                    System.out.println(exception.getMessage());
+                }
+
+
+            }*/
+
+
+
+            //Mettre a jour le validation de  transfert
+
+            validationTransfertService.updateStatutValidationTransfert(validationTransfert, Statut.VALIDER);
+
+            //Enregistrer le transfert dans avec statut accepter
+
+            //Mettre a jour  le stock
+
+
+            //Creer l'historique
+            String commentaire = "";
+            HistoriqueValidationRequest request = new HistoriqueValidationRequest();
+            request.setValidationTransfert(validationTransfert);
+            request.setStatut(Statut.VALIDER);
+            request.setCommentaires(commentaire);
+            request.setUser(user);
+            historiqueValidationService.createHistoriqueValidation(request);
+
+            //Notifier l'utilisateur qui a emis la demande
+
+            String subject ="[Ref :" + validationTransfert.getReference()+ "] Notification Transfert | Votre demande de transfert a été validée";
+            String messageEmail = "Hello " + validationTransfert.getUser().getUserName()+ ","+System.lineSeparator() +
+                    "Nous vous informons que votre demande de transfert du projet : " + projet.getProjetNom()+ " a été validée par :  " + user.getUserName() + "." + System.lineSeparator() +
+                    "Le transfert se fera depuis l'entrepot : " + entrepotSource.getEntrepotNom() + " vers : " + entrepotDestination.getEntrepotNom()+ "."+ System.lineSeparator()+
+                    "La quantité est : " + qte + "."+ System.lineSeparator() +
+                    "Merci." + System.lineSeparator() +
+                    "L'administrateur." + System.lineSeparator()+
+                    System.lineSeparator() +
+                    "Ceci est un message generé automatiquement. Nous vous prions de ne pas repondre à ce message";
+
+            String to = validationTransfert.getUser().getEmail();
+
+
+            notificationService.sendEmailValidation(subject, messageEmail, user, projet, to);
+
+            String message = "Transfert effectué avec succès | Quantité : " +qte + "| Entrepot Source : " + entrepotSource.getEntrepotNom() + "| Entrepot Destination : " + entrepotDestination.getEntrepotNom();
+
+            messageVariable = "messagesucces";
+            messageValue = message;
+        }
+
+
+        redirectAttributes.addFlashAttribute(messageVariable,messageValue);
+
+        return "redirect:/auth/transfert";
+    }
+
+    @RequestMapping(value = "/responsablestock/validations/refuse/{id}", method = RequestMethod.GET)
+    public String refuseValidation( @PathVariable Long id,  Model model, RedirectAttributes redirectAttributes, Principal principal) throws InterruptedException {
+
+
+        //Mettre à jour le statut de la demande
+
+        ValidationTransfert validationTransfert = validationTransfertService.byId(id);
+
+        validationTransfertService.updateStatutValidationTransfert(validationTransfert, Statut.REFUSER);
+
+        //Get User
+        AppUser user = userRepository.findByUserName(principal.getName());
+
+        //Creer l'historique
+        String commentaire = "";
+        HistoriqueValidationRequest request = new HistoriqueValidationRequest();
+        request.setValidationTransfert(validationTransfert);
+        request.setStatut(Statut.REFUSER);
+        request.setCommentaires(commentaire);
+        request.setUser(user);
+        historiqueValidationService.createHistoriqueValidation(request);
+
+
+
+
+        //Notifier l'utilisateur qui a emis la demande
+
+        String subject ="[Ref :" + validationTransfert.getReference()+ "] Notification Transfert | Votre demande de transfert a été refusée";
+        String messageEmail = "Hello " + validationTransfert.getUser().getUserName()+ ","+System.lineSeparator() +
+                "Nous vous informons que votre demande de transfert du projet : " + validationTransfert.getProjet().getProjetNom()+ " a été refusée par :  " + user.getUserName() + "." + System.lineSeparator() +
+                "Le transfert devait se faire depuis l'entrepot : " + validationTransfert.getEntrepotSource().getEntrepotNom() + " vers : " + validationTransfert.getEntrepotDestination().getEntrepotNom()+ "."+ System.lineSeparator()+
+                "La quantité est : " + validationTransfert.getTransfertQte() + "."+ System.lineSeparator() +
+                "Merci." + System.lineSeparator() +
+                "L'administrateur." + System.lineSeparator()+
+                System.lineSeparator() +
+                "Ceci est un message generé automatiquement. Nous vous prions de ne pas repondre à ce message";
+
+        String to = validationTransfert.getUser().getEmail();
+
+        notificationService.sendEmailValidation(subject, messageEmail, user, validationTransfert.getProjet(), to);
+
+        String message = "Demande de transfert refusée avec succès | Quantité : " +validationTransfert.getTransfertQte() + "| Entrepot Source : " + validationTransfert.getEntrepotSource().getEntrepotNom() + "| Entrepot Destination : " + validationTransfert.getEntrepotDestination().getEntrepotNom();
+
+        redirectAttributes.addFlashAttribute("messagesucces",message);
+        return "redirect:/auth/transfert";
+    }
+
+
+    @RequestMapping(value = "/auth/historiquevalidationtransferts/all")
+    @ResponseBody
+    public List<HistoriqueValidationResponse> allHistoriqueValidationTransfertJson() {
+
+        return historiqueValidationService.all();
+
+    }
+
+
 
 
 

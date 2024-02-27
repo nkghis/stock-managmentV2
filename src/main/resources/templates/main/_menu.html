@@ -110,13 +110,23 @@
                     </li>
                 </div>
 
-                <div sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_SUPERVISOR')">
+                <div sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_SUPERVISOR') or hasRole('ROLE_RESPONSABLESTOCK')">
                     <li class="nav-item">
                         <a th:href="@{/auth/transfert}" class="nav-link">
                             <i class="ni ni-ui-04 text-pink"></i> Transfert
                         </a>
                     </li>
                 </div>
+
+                <div sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_SUPERVISOR') or hasRole('ROLE_RESPONSABLESTOCK')">
+                    <li class="nav-item">
+                        <a th:href="@{/auth/transfert/demande}" class="nav-link">
+                            <i class="ni ni-curved-next text-cyan"></i> Demande de transfert
+                        </a>
+                    </li>
+                </div>
+
+
 
                 <div sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_AGENT')">
                     <li class="nav-item">

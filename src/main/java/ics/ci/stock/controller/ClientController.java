@@ -2,6 +2,7 @@ package ics.ci.stock.controller;
 
 import ics.ci.stock.entity.Client;
 import ics.ci.stock.repository.ClientRepository;
+import ics.ci.stock.utils.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -24,9 +26,10 @@ public class ClientController {
     }
 
     @RequestMapping(value = "/auth/clients")
-    public String index(Model model){
+    public String index(Model model, HttpServletRequest request){
 
 
+       // String baseUrl = WebUtils.getBaseUrl(request);
 
         List<Client> clients = clientRepository.findAll();
         model.addAttribute("listClients", clients);

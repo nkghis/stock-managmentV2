@@ -5,15 +5,14 @@ import ics.ci.stock.entity.Notification;
 import ics.ci.stock.entity.Projet;
 import ics.ci.stock.repository.NotificationRepository;
 import ics.ci.stock.utils.ConfigProperties;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Arrays;
 
 @Service
 public class NotificationService {
@@ -35,7 +34,7 @@ public class NotificationService {
 
   /*  @Scheduled(fixedDelay = 5000)*/
     @Async
-    public void sendEmail( String subject, String message,  AppUser user, Projet projet) throws InterruptedException{
+    public void sendEmailStock (String subject, String message, AppUser user, Projet projet) throws InterruptedException{
 
         //Don't forget to add annotation "@EnableAsync"  in file "StockManagmentApplication.java" under "@SpringBootApplication"
 
@@ -72,6 +71,70 @@ public class NotificationService {
 
     public void addNotification(Notification notification){
         notificationRepository.save(notification);
+    }
+
+    @Async
+    public void sendEmailValidation(String subject, String message, AppUser user, Projet projet, String[] to) throws InterruptedException {
+
+        //Don't forget to add annotation "@EnableAsync"  in file "StockManagmentApplication.java" under "@SpringBootApplication"
+
+        System.out.println("Sleeping now Demande...");
+        //Délai de 5 secondes avant execution du code ci-dessous
+        Thread.sleep(5000);
+
+        System.out.println("Demande de validation Transfert  - Sending email...");
+
+
+        String from = configProperties.getConfigValue("stock.managment.email.etatstock.from");
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setFrom(from);
+        mailMessage.setTo(to);
+        mailMessage.setSubject(subject);
+        mailMessage.setText(message);
+        javaMailSender.send(mailMessage);
+        System.out.println("Notification - Demande de validation Transfert  envoyé avec succès");
+
+        Notification notification = new Notification();
+        notification.setDateTime(LocalDateTime.now());
+        notification.setA(Arrays.toString(to));
+        notification.setSujet(subject);
+        notification.setMessage(message);
+        notification.setProjet(projet);
+        notification.setUser(user);
+        this.addNotification(notification);
+        System.out.println("Notification Demande ajoutée avec succès");
+    }
+
+    @Async
+    public void sendEmailValidation(String subject, String message, AppUser user, Projet projet, String to) throws InterruptedException {
+
+        //Don't forget to add annotation "@EnableAsync"  in file "StockManagmentApplication.java" under "@SpringBootApplication"
+
+        System.out.println("Sleeping now Validation...");
+        //Délai de 5 secondes avant execution du code ci-dessous
+        Thread.sleep(5000);
+
+        System.out.println("Sending email Validation...");
+
+
+        String from = configProperties.getConfigValue("stock.managment.email.etatstock.from");
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setFrom(from);
+        mailMessage.setTo(to);
+        mailMessage.setSubject(subject);
+        mailMessage.setText(message);
+        javaMailSender.send(mailMessage);
+        System.out.println("Mail Validation transfert envoyé avec succès");
+
+        Notification notification = new Notification();
+        notification.setDateTime(LocalDateTime.now());
+        notification.setA(to);
+        notification.setSujet(subject);
+        notification.setMessage(message);
+        notification.setProjet(projet);
+        notification.setUser(user);
+        this.addNotification(notification);
+        System.out.println("Notification Validation ajoutée avec succès");
     }
 
 }

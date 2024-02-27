@@ -2,7 +2,9 @@ package ics.ci.stock.utils;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 
 public class WebUtils {
@@ -28,4 +30,13 @@ public class WebUtils {
         }
         return sb.toString();
     }
-}
+
+    public static String getBaseUrl(HttpServletRequest request) {
+        return  ServletUriComponentsBuilder
+                .fromRequestUri(request)
+                .replacePath(null)
+                .build()
+                .toUriString();
+        }
+
+    }

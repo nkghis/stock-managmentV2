@@ -18,11 +18,14 @@ import java.util.List;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
-    private AppUserDAO appUserDAO;
+    private final AppUserDAO appUserDAO;
 
-    @Autowired
-    private AppRoleDAO appRoleDAO;
+    private final AppRoleDAO appRoleDAO;
+
+    public UserDetailsServiceImpl(AppUserDAO appUserDAO, AppRoleDAO appRoleDAO) {
+        this.appUserDAO = appUserDAO;
+        this.appRoleDAO = appRoleDAO;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {

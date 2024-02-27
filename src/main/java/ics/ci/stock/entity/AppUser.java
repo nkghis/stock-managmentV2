@@ -8,7 +8,9 @@ import java.util.Set;
 @Entity
 @Table(name = "App_User", //
         uniqueConstraints = { //
-                @UniqueConstraint(name = "APP_USER_UK", columnNames = "User_Name") })
+                @UniqueConstraint(name = "APP_USER_UK", columnNames = "User_Name"),
+                @UniqueConstraint(name = "APP_USER_UK_EMAIL", columnNames = "email"),
+                })
 public class AppUser {
 
     @Id
@@ -18,6 +20,10 @@ public class AppUser {
 
     @Column(name = "User_Name", length = 36, nullable = false)
     private String userName;
+
+    @Column(name = "email",  nullable = false)
+    //@Column(name = "email")
+    private String email;
 
     @Column(name = "Encryted_Password", length = 128, nullable = false)
     private String encrytedPassword;
@@ -55,6 +61,21 @@ public class AppUser {
         this.userName = userName;
         this.encrytedPassword = encrytedPassword;
         this.enabled = enabled;
+    }
+
+    public AppUser(String userName, String email, String encrytedPassword, boolean enabled) {
+        this.userName = userName;
+        this.email = email;
+        this.encrytedPassword = encrytedPassword;
+        this.enabled = enabled;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Long getUserId() {
