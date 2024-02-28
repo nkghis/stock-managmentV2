@@ -21,9 +21,18 @@ public class AppUser {
     @Column(name = "User_Name", length = 36, nullable = false)
     private String userName;
 
-    @Column(name = "email",  nullable = false)
-    //@Column(name = "email")
+    //@Column(name = "email",  nullable = false)
+    @Column(name = "email")
     private String email;
+
+
+    //@Column(name = "nom",  nullable = false)
+    @Column(name = "nom")
+    private String nom;
+
+    //@Column(name = "prenom",  nullable = false)
+    @Column(name = "prenom")
+    private String prenom;
 
     @Column(name = "Encryted_Password", length = 128, nullable = false)
     private String encrytedPassword;
@@ -64,6 +73,15 @@ public class AppUser {
     }
 
     public AppUser(String userName, String email, String encrytedPassword, boolean enabled) {
+        this.userName = userName;
+        this.email = email;
+        this.encrytedPassword = encrytedPassword;
+        this.enabled = enabled;
+    }
+
+    public AppUser(String nom, String prenom, String userName, String email, String encrytedPassword, boolean enabled) {
+        this.nom = nom;
+        this.prenom = prenom;
         this.userName = userName;
         this.email = email;
         this.encrytedPassword = encrytedPassword;
@@ -132,6 +150,26 @@ public class AppUser {
 
     public String getMesroles() {
         return mesroles;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    public String toNomComplet(){
+        return this.prenom + " " + this.nom;
     }
 
     /*public ArrayList<String> getRoleName ()

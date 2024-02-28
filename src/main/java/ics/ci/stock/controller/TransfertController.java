@@ -248,7 +248,7 @@ public class TransfertController {
             String url = baseUrl + "/responsablestock/validations/"+ responseValidation.getId();
 
             String messageEmail = "Hello Teams, " +  System.lineSeparator() +
-                    "Nous vous informons qu'une demande de transfert du projet : " + projet.getProjetNom()+ " vous a été soumis par l'utilisateur :  " + user.getUserName() + "." + System.lineSeparator() +
+                    "Nous vous informons qu'une demande de transfert du projet : " + projet.getProjetNom()+ " vous a été soumis par l'utilisateur :  " + user.toNomComplet() + "." + System.lineSeparator() +
                     "La demande concerne un transfert qui se fera depuis l'entrepot : " + entrepotSource.getEntrepotNom() + " vers : " + entrepotDestination.getEntrepotNom()+ "."+ System.lineSeparator()+
                     "La quantité est : " + qte + "."+ System.lineSeparator() +
                     "Nous vous prions de cliquer sur le lien ci-dessous pour Valider ou Refuser la demande" + System.lineSeparator()+
@@ -631,7 +631,7 @@ public class TransfertController {
 
             String subject ="[Ref :" + validationTransfert.getReference()+ "] Notification Transfert | Votre demande de transfert a été validée";
             String messageEmail = "Hello " + validationTransfert.getUser().getUserName()+ ","+System.lineSeparator() +
-                    "Nous vous informons que votre demande de transfert du projet : " + projet.getProjetNom()+ " a été validée par :  " + user.getUserName() + "." + System.lineSeparator() +
+                    "Nous vous informons que votre demande de transfert du projet : " + projet.getProjetNom()+ " a été validée par :  " + user.toNomComplet() + "." + System.lineSeparator() +
                     "Le transfert se fera depuis l'entrepot : " + entrepotSource.getEntrepotNom() + " vers : " + entrepotDestination.getEntrepotNom()+ "."+ System.lineSeparator()+
                     "La quantité est : " + qte + "."+ System.lineSeparator() +
                     "Merci." + System.lineSeparator() +
@@ -684,8 +684,8 @@ public class TransfertController {
         //Notifier l'utilisateur qui a emis la demande
 
         String subject ="[Ref :" + validationTransfert.getReference()+ "] Notification Transfert | Votre demande de transfert a été refusée";
-        String messageEmail = "Hello " + validationTransfert.getUser().getUserName()+ ","+System.lineSeparator() +
-                "Nous vous informons que votre demande de transfert du projet : " + validationTransfert.getProjet().getProjetNom()+ " a été refusée par :  " + user.getUserName() + "." + System.lineSeparator() +
+        String messageEmail = "Hello " + validationTransfert.getUser().toNomComplet()+ ","+System.lineSeparator() +
+                "Nous vous informons que votre demande de transfert du projet : " + validationTransfert.getProjet().getProjetNom()+ " a été refusée par :  " + user.toNomComplet()+ "." + System.lineSeparator() +
                 "Le transfert devait se faire depuis l'entrepot : " + validationTransfert.getEntrepotSource().getEntrepotNom() + " vers : " + validationTransfert.getEntrepotDestination().getEntrepotNom()+ "."+ System.lineSeparator()+
                 "La quantité est : " + validationTransfert.getTransfertQte() + "."+ System.lineSeparator() +
                 "Merci." + System.lineSeparator() +

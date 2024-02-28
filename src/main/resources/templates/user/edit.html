@@ -58,6 +58,30 @@
                 </div>
             </div>
 
+
+            <!-- Nom Form Input -->
+            <div  class="form-group row">
+                <label th:for="nom" class="col-sm-4 col-form-label text-md-right"><strong>Nom</strong></label>
+
+                <div class="col-md-6">
+
+                    <input id="nom" class="form-control" th:field="${user.nom}" placeholder="Nom" required disabled autofocus>
+
+
+                </div>
+            </div>
+
+            <!-- Prenom Form Input -->
+            <div  class="form-group row">
+                <label th:for="prenom" class="col-sm-4 col-form-label text-md-right"><strong>Prenom</strong></label>
+
+                <div class="col-md-6">
+
+                    <input id="prenom" class="form-control" th:field="${user.prenom}" placeholder="Prenom" required disabled autofocus>
+
+
+                </div>
+            </div>
             <!-- Email Form Input -->
             <div  class="form-group row">
                 <label th:for="email" class="col-sm-4 col-form-label text-md-right"><strong>Email</strong></label>

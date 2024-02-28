@@ -141,6 +141,9 @@ public class UserController {
         String password = EncrytedPasswordUtils.encrytePassword(user.getEncrytedPassword());
         user.setEncrytedPassword(password);;
         user.setEnabled(true);
+        String prenom = user.getPrenom().substring(0,1).toUpperCase() + user.getPrenom().substring(1);
+        user.setPrenom(prenom);
+        user.setNom(user.getNom().toUpperCase());
 
         // Save User
         AppUser u = userRepository.save(user);

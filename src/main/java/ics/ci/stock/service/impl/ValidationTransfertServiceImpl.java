@@ -52,7 +52,7 @@ public class ValidationTransfertServiceImpl implements ValidationTransfertServic
         v.setStockFinalSource(validationTransfert.getStockFinalSource());
         v.setStockFinalDestination(validationTransfert.getStockFinalDestination());*/
         v.setStatut(validationTransfert.getStatut().name());
-        v.setUserName(validationTransfert.getUser().getUserName());
+        v.setUserName(validationTransfert.getUser().toNomComplet());
         return v;
     }
 

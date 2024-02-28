@@ -55,6 +55,34 @@
                 </div>
             </div>
 
+
+            <!-- Nom  Form Input -->
+            <div  class="form-group row">
+                <label th:for="nom" class="col-sm-4 col-form-label text-md-right"><strong>Nom</strong></label>
+
+                <div class="col-md-6">
+
+                    <input id="nom" class="form-control" th:field="*{nom}" placeholder="Nom" REQUIRED >
+                    <span th:errors="*{nom}"></span>
+                    <div id="msg"></div>
+                    <!--<span>test</span>-->
+                </div>
+            </div>
+
+
+            <!-- Prenom Form Input -->
+            <div  class="form-group row">
+                <label th:for="prenom" class="col-sm-4 col-form-label text-md-right"><strong>Prenom</strong></label>
+
+                <div class="col-md-6">
+
+                    <input id="prenom" class="form-control" th:field="*{prenom}" placeholder="Prenom" REQUIRED >
+                    <span th:errors="*{prenom}"></span>
+                    <div id="msg"></div>
+                    <!--<span>test</span>-->
+                </div>
+            </div>
+
             <!-- email Form Input -->
             <div  class="form-group row">
                 <label th:for="email" class="col-sm-4 col-form-label text-md-right"><strong>Email</strong></label>
