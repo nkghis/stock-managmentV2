@@ -57,6 +57,9 @@ public class Vreception {
     @Column(name = "emetteur_nom")
     private String emetteurNom;
 
+    @Column(name = "provider_nom", insertable = false, updatable = false)
+    private String providerNom;
+
     @Column(name = "operation_date_saisie", nullable = true)
     private Date operationDateSaisie;
 
@@ -191,5 +194,13 @@ public class Vreception {
 
     public void setOperationDateSaisie(Date operationDateSaisie) {
         this.operationDateSaisie = operationDateSaisie;
+    }
+
+    public String getProviderNom() {
+        return providerNom;
+    }
+
+    public void setProviderNom(String providerNom) {
+        this.providerNom = providerNom;
     }
 }

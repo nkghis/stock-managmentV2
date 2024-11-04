@@ -16,6 +16,8 @@ public interface UserService {
     String[] getEmails (List<AppUser> users);
     String[] getEmails (String roleName);
 
+    AppUser getUserByPrincipalName(String principalName);
+
 
 
 

@@ -1,8 +1,13 @@
 package ics.ci.stock;
 
 
+import ics.ci.stock.dto.demandeappro.DemandeApproRequest;
+import ics.ci.stock.dto.demandeappro.DemandeApproResponse;
+import ics.ci.stock.dto.demandeappro.DetailDemandeApproRequest;
+import ics.ci.stock.dto.demandeappro.DetailDemandeApproResponse;
 import ics.ci.stock.dto.gache.GacheProjetDTO;
 import ics.ci.stock.entity.*;
+import ics.ci.stock.enums.Statut;
 import ics.ci.stock.repository.*;
 import ics.ci.stock.service.*;
 import ics.ci.stock.utils.EncrytedPasswordUtils;
@@ -31,6 +36,42 @@ public class StockManagmentApplication {
 
 		ApplicationContext ctx = SpringApplication.run(StockManagmentApplication.class, args);
 
+
+
+		//String s = "Hi, I am Sponge Bob.\nI just signed up at Code Gym.\nI love the Java learning experience here so far!";
+
+		//System.out.println(s);
+/*		DemandeApproService service = ctx.getBean(DemandeApproService.class);
+
+
+
+		List<DetailDemandeApproRequest> requests = new ArrayList<>();
+		DetailDemandeApproRequest detail1 = new DetailDemandeApproRequest();
+		detail1.setProjet(1L);
+		detail1.setQte(1000);
+		requests.add(detail1);
+		DetailDemandeApproRequest detail2 = new DetailDemandeApproRequest();
+		detail2.setProjet(2L);
+		detail2.setQte(5000);
+		requests.add(detail2);
+
+		DemandeApproRequest request = new DemandeApproRequest();
+		request.setEntrepotSource(1L);
+		request.setUserPrincipalName("nkghis");
+		request.setDetailDemandeAppro(requests);
+
+		service.createDemandeAppro(request);
+		DemandeApproRepository demandeApproRepository = ctx.getBean(DemandeApproRepository.class);
+
+		//DemandeAppro appro = service.byId(3L);
+		//DemandeAppro appro = demandeApproRepository.getOne(3L);
+		DemandeAppro appro = demandeApproRepository.findById(1L).orElse(null);
+		DemandeApproResponse response = service.toDTO(appro);
+
+		List<DemandeApproResponse> responses = service.findByStatut(Statut.EN_COURS);
+		List<DemandeApproResponse> res = service.findByStatut(Statut.REFUSER);
+
+		List<DetailDemandeApproResponse> details = service.allDetails(appro);*/
 
 	/*	ValidationTransfertService service = ctx.getBean(ValidationTransfertService.class);
 
@@ -89,7 +130,7 @@ public class StockManagmentApplication {
 
 		notificationService.sendEmail( subject, message, user, projet);*/
 
-		String d ="";
+
 
 /*		StockService stockService = ctx.getBean(StockService.class);
 		ProjetRepository projetRepository = ctx.getBean(ProjetRepository.class);
@@ -136,8 +177,11 @@ public class StockManagmentApplication {
 		UserRoleRepository userRoleRepository = ctx.getBean(UserRoleRepository.class);
 		userRoleRepository.save(new UserRole(userInventaire,roleInventaire));*/
 
-
+		//PRODUCTION
 		String server ="Server start on http://localhost:8089";
+
+		//TEST
+		//String server ="Server start on http://localhost:8066";
 		System.out.println(server);
 		/*String p = "123";
 		String password = EncrytedPasswordUtils.encrytePassword(p);
@@ -388,6 +432,9 @@ public class StockManagmentApplication {
 		/*System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 		System.out.println(r1.getOperationId());
 		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++");*/
+
+
+//		System.out.println("test");
 
 
 	}

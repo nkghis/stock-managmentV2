@@ -73,7 +73,7 @@
                     <div class="col-md-6">
                         <select  id="idprojet" name="projet" class="select-type form-control" multiple="multiple" required >
                             <option value="">-- Selectionner le projet --</option>
-                            <option th:each="c:${projets}" th:value="${c.projet_id}" th:text="${c.projetNom}"></option>
+                            <option th:each="c:${projets}" th:value="${c.projet_id}" th:text="${c.projetNom} + ' - Fss : '+ ${c.getProvider().getProviderNom()} "></option>
                         </select>
                         <!--<span th:if="${#fields.hasErrors('projets')}" th:errors="*{projets}"></span>-->
                     </div>

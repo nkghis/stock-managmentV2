@@ -91,4 +91,9 @@ public class UserServiceImpl implements UserService {
         List<AppUser> users = this.getUsersByRoleName(roleName);
         return this.getEmails(users);
     }
+
+    @Override
+    public AppUser getUserByPrincipalName(String principalName) {
+        return userRepository.findByUserName(principalName);
+    }
 }
