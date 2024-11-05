@@ -41,6 +41,17 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -Dmaven.test.skip=true package --file pom.xml
+    - name: rename jar
+      run: mv target/*.jar target/stock.jar
+    - name: copy file via ssh password
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        source: "target/stock.jar"
+        target: /opt/apps/stock
 
 #    # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
 #    - name: Update dependency graph
