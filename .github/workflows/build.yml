@@ -27,7 +27,8 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
-          script: whoami
+          script: mkdir -p /opt/apps/stock
+#          script: whoami
   build-project:
     runs-on: ubuntu-latest
     steps:
