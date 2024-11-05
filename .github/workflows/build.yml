@@ -25,7 +25,7 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.KEY }}
+          key: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: whoami
   build-project:
