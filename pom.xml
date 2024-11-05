@@ -119,6 +119,10 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<!--For java exe on linux-->
+					<executable>true</executable>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -126,6 +130,7 @@
 				<version>2.22.2</version>
 				<configuration>
 					<skip>true</skip>
+
 				</configuration>
 			</plugin>
 		</plugins>
