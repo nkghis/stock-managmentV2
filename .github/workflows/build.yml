@@ -56,7 +56,7 @@ jobs:
   run-script:
     name: run-script
     runs-on: ubuntu-latest
-    needs: build
+    needs: build-project
     steps:
       - name: create java app has service
         uses: appleboy/ssh-action@v1.1.0
