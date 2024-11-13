@@ -66,10 +66,8 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            cd /opt/apps/stock/target/
-            java -jar stock.jar
-#            ln -sf /opt/apps/stock/target/stock.jar /etc/init.d/stock
-#            /etc/init.d/stock start
+            ln -sf /opt/apps/stock/target/stock.jar /etc/init.d/stock
+            /etc/init.d/stock start
   #          script: whoami
 
 #    # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
