@@ -66,9 +66,9 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            cd /opt/apps/stock/target/
-            java -jar stock.jar
-#            ln -sf /opt/apps/stock/target/stock.jar /etc/init.d/stock
+#            cd /opt/apps/stock/target/
+#            java -jar stock.jar
+            ln -sf /opt/apps/stock/target/stock.jar /etc/init.d/stock
 #            /etc/init.d/stock start
   #          script: whoami
 
