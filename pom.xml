@@ -134,6 +134,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>stock</finalName>
 	</build>
 
 </project>
