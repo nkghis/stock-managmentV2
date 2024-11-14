@@ -36,7 +36,7 @@ jobs:
           context: .
           dockerfile: Dockerfile
           push: false
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/spring-boot-for-stock:$(date-'%Y-%m-%d%H-%M-%S')
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/spring-boot-for-stock:$(date-'%Y-%m-%d-%H-%M-%S')
       - name: Login to docker Hub
         uses: docker/login-action@v1
         with:
