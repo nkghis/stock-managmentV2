@@ -51,7 +51,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
-          source: "target/stock.jar"
+          source: "target/stockapps.jar"
           target: /opt/apps/stock
   run-script:
     name: run-script
