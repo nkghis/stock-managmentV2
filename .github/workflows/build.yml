@@ -29,6 +29,7 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             mkdir -p /opt/apps/stock
+            systemctl stop stock.service
             rm -r /opt/apps/stock/target/stockapps.jar
   #          script: whoami
   build-project:
