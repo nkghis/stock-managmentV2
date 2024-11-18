@@ -39,7 +39,7 @@
 <body class="text-center">
 <form name='f' th:action="@{/j_spring_security_check}" method='POST' class="form-signin">
     <img class="mb-4" src="../asset/brand/lo.png" alt="" width="192" height="114">
-    <h1 class="h3 mb-3 font-weight-normal">Veuillez vous identifierXXX</h1>
+    <h1 class="h3 mb-3 font-weight-normal">Veuillez vous identifier</h1>
     <!-- /login?error=true -->
     <div th:if="${#request.getParameter('error') == 'true'}"
          style="color:red;margin:10px 0px;">
