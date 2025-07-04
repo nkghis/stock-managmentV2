@@ -42,15 +42,17 @@ public interface VoperationRepository extends JpaRepository <Voperation, Long> {
     @Query("select a from Voperation  a where a.date < :date")
     List<Voperation> dateQuery (@Param("date") LocalDateTime localDateTime);
 
+    //Ajouter en faveur ajustement (ligne ajustement et calcul ajustement)
     @Query(value = "SELECT\n" +
             "dbo.v_operation.projet_id,\n" +
             "dbo.v_operation.projet,\n" +
             "dbo.v_operation.entrepot,\n" +
             "Sum(CASE WHEN v_operation.operation = 'dis' then v_operation.quantite else 0 end) AS entreposage,\n" +
             "Sum(CASE WHEN v_operation.operation = 'enl' then v_operation.quantite else 0 end) AS enlevement,\n" +
+            "Sum(CASE WHEN v_operation.operation = 'inv' then v_operation.quantite else 0 end) AS ajustement,\n" +
             "COALESCE(Sum(v_operation.retour),0) AS retour,\n" +
             "COALESCE(Sum(v_operation.gache),0) AS gache,\n" +
-            "Sum(CASE WHEN v_operation.operation = 'dis' then v_operation.quantite else 0 end) + COALESCE(Sum(v_operation.retour),0)  - Sum(CASE WHEN v_operation.operation = 'enl' then v_operation.quantite else 0 end) AS stock\n" +
+            "Sum(CASE WHEN v_operation.operation = 'dis' then v_operation.quantite else 0 end) + COALESCE(Sum(v_operation.retour),0)  - Sum(CASE WHEN v_operation.operation = 'enl' then v_operation.quantite else 0 end) + Sum(CASE WHEN v_operation.operation = 'inv' then v_operation.quantite else 0 end)AS stock\n" +
             "\n" +
             "\n" +
             "FROM\n" +
@@ -65,6 +67,7 @@ public interface VoperationRepository extends JpaRepository <Voperation, Long> {
     //List<StockBeforeCustom> stockBeforeCustom(LocalDateTime dateTime);
     List<IStockBeforeCustom> stockBeforeCustom(LocalDateTime dateTime);
 
+    //Ajouter en faveur ajustement (ligne ajustement et calcul ajustement)
 
     @Query(value = "SELECT\n" +
             "dbo.v_operation.projet_id,\n" +
@@ -75,9 +78,10 @@ public interface VoperationRepository extends JpaRepository <Voperation, Long> {
             "dbo.v_operation.entrepot,\n" +
             "Sum(CASE WHEN v_operation.operation = 'dis' then v_operation.quantite else 0 end) AS entreposage,\n" +
             "Sum(CASE WHEN v_operation.operation = 'enl' then v_operation.quantite else 0 end) AS enlevement,\n" +
+            "Sum(CASE WHEN v_operation.operation = 'inv' then v_operation.quantite else 0 end) AS ajustement,\n" +
             "COALESCE(Sum(v_operation.retour),0) AS retour,\n" +
             "COALESCE(Sum(v_operation.gache),0) AS gache,\n" +
-            "Sum(CASE WHEN v_operation.operation = 'dis' then v_operation.quantite else 0 end) + COALESCE(Sum(v_operation.retour),0)  - Sum(CASE WHEN v_operation.operation = 'enl' then v_operation.quantite else 0 end) AS stock\n" +
+            "Sum(CASE WHEN v_operation.operation = 'dis' then v_operation.quantite else 0 end) + COALESCE(Sum(v_operation.retour),0)  - Sum(CASE WHEN v_operation.operation = 'enl' then v_operation.quantite else 0 end) + Sum(CASE WHEN v_operation.operation = 'inv' then v_operation.quantite else 0 end) AS stock\n" +
             "\n" +
             "\n" +
             "FROM\n" +

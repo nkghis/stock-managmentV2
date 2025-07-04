@@ -16,12 +16,14 @@ public class StockBetween {
     private int gache;
     private int stockFinal;
     private int livraison;
+    private int ajustement;
+
 
     public StockBetween() {
         super();
     }
 
-    public StockBetween(String projet, String client, String produit, String emetteur, String entrepot,int stockInitial, int entreposage, int enlevement, int retour, int gache, int stockFinal) {
+    public StockBetween(String projet, String client, String produit, String emetteur, String entrepot,int stockInitial, int entreposage, int enlevement, int retour, int gache, int stockFinal, int ajustement) {
         this.projet = projet;
         this.client = client;
         this.produit = produit;
@@ -33,6 +35,7 @@ public class StockBetween {
         this.retour = retour;
         this.gache = gache;
         this.stockFinal = stockFinal;
+        this.ajustement = ajustement;
     }
 
     public String getProjet() {
@@ -129,6 +132,14 @@ public class StockBetween {
 
     public void setEntrepot(String entrepot) {
         this.entrepot = entrepot;
+    }
+
+    public int getAjustement() {
+        return ajustement;
+    }
+
+    public void setAjustement(int ajustement) {
+        this.ajustement = ajustement;
     }
 
     @Override

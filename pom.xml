@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>ics.ci</groupId>
-	<artifactId>authentification</artifactId>
+	<artifactId>stockmanagment</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>authentification</name>
 	<description>Authentification User + Role project for Spring Boot</description>

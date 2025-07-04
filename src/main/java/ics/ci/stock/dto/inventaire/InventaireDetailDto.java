@@ -5,16 +5,18 @@ public class InventaireDetailDto {
     private Long projet;
     private int stockInitial;
     private int stockFinal;
+    private int qte;
 
 
     public InventaireDetailDto() {
         super();
     }
 
-    public InventaireDetailDto(Long projet, int stockInitial, int stockFinal) {
+    public InventaireDetailDto(Long projet, int stockInitial, int stockFinal, int qte) {
         this.projet = projet;
         this.stockInitial = stockInitial;
         this.stockFinal = stockFinal;
+        this.qte = qte;
     }
 
     public Long getProjet() {
@@ -39,5 +41,13 @@ public class InventaireDetailDto {
 
     public void setStockFinal(int stockFinal) {
         this.stockFinal = stockFinal;
+    }
+
+    public int getQte() {
+        return qte;
+    }
+
+    public void setQte(int qte) {
+        this.qte = qte;
     }
 }

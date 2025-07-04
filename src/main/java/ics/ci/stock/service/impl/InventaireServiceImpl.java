@@ -97,6 +97,9 @@ private final EntrepotRepository entrepotRepository;
              int stockInitial = detailDto.getStockInitial();
              int stockFinal = detailDto.getStockFinal();
 
+
+             int qte = detailDto.getQte();
+
              //Get Reference
              String reference = this.getReference();
 
@@ -106,7 +109,8 @@ private final EntrepotRepository entrepotRepository;
 
              //Set Inventaire detail
              inventairedetail.setOperationReference(reference);
-             inventairedetail.setOperation_qte(stockFinal);
+             //inventairedetail.setOperation_qte(stockFinal);
+             inventairedetail.setOperation_qte(qte);
              inventairedetail.setOperation_date(date);
              inventairedetail.setProjet(projet);
              inventairedetail.setUser(user);
@@ -120,6 +124,7 @@ private final EntrepotRepository entrepotRepository;
 
              //update stock
              Stock stock = stockService.getStockByProjetAndEntrepot(projet, entrepot);
+             //stock.setStockQuantite(qte);
              stock.setStockQuantite(stockFinal);
              stockService.updateStock(stock);
 

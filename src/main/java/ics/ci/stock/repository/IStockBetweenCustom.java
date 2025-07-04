@@ -13,4 +13,6 @@ public interface IStockBetweenCustom {
     int getGache();
     int getStock();
     String getEntrepot();
+    //Ajouter en faveur ajustement
+    int getAjustement();
 }

@@ -29,7 +29,7 @@
 <br>
 
 
-<div class="card mx-auto" style="width: 50rem">
+<div class="card mx-auto" style="width: 80rem">
 
     <div>
         <input type="hidden" id="intitule" th:value="${dto.intitule}"/>
@@ -56,25 +56,155 @@
        <!-- <form id="ajaxform"  th:action="@{/inventaire/inventaires/save}"  method="post">-->
 
             <div id="inventaire_option" >
+               <!-- <form >
+                    <div class="d-flex gap-3 align-items-end flex-wrap">
+                        <div class="col-sm-5">
+                            <div class="d-flex flex-column mr-1">
+                                <label for="0" class="form-label"><strong>Projet</strong></label>
+                                <select  id="0" name="projects"  class="select-type projet  form-control col-sm-12" required  >
+                                    <option value="">&#45;&#45;SELECTIONNER LE PROJET &#45;&#45;</option>
+                                </select>
+                            </div>
+                        </div>
 
-                <div  class="form-group row">
-                    <label for="0" class="col-sm-2 col-form-label text-md-right"><strong>Projet</strong></label>
-                    <select  id="0" name="projects"  class="select-type projet  form-control col-sm-4" required  >
-                        <option value="">--SELECTIONNER LE PROJET --</option>
-                    </select>
-                    <!--  <label for="idlabel" class="col-sm-2 col-form-label text-md-right"><strong>Projet</strong></label>-->
-                    <div class="col-sm-2">
-                        <input type="number" min="0" class="form-control stockInitial" id="stockInitial0"  readonly>
-                    </div>
-                    <!--  <label for="idlabel" class="col-sm-2 col-form-label text-md-right"><strong>Projet</strong></label>-->
-                    <div class="col-sm-2">
-                        <input type="number" onkeyup="if(this.value<0){this.value= this.value * -1}" min="0" class="form-control stockFinal" id="stockFinal0" name="stockFinal0" required>
+                        <div class="col-sm-2">
+                            <div class="d-flex flex-column mr-1">
+                                <label for="stockInitial0" class="form-label"><strong>Stock Actuel </strong></label>
+                                <input type="number" min="0" class="form-control stockInitial" id="stockInitial0" oninput="document.getElementById('stockFinal0').value = (parseInt(this.value ) + parseInt(document.getElementById('qte0').value))" readonly>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="d-flex flex-column mr-2">
+                                <label for="qte0" class="form-label"><strong>Quantité</strong></label>
+                                <input type="number"  class="form-control qte" id="qte0" name="qte" oninput="document.getElementById('stockFinal0').value = (parseInt(this.value ) + parseInt(document.getElementById('stockInitial0').value ))" required>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="d-flex flex-column mr-1">
+                                <label for="stockFinal0" class="form-label"><strong>Stock Corrigé</strong></label>
+                                <input type="number"  class="form-control stockFinal" id="stockFinal0" name="stockFinal0" readonly required>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-1">
+                            <button type="button" class="btn btn-danger btn_remove" name ="remove0" id="remove0" > <i class="fa fa-trash"></i></button>
+                        </div>
                     </div>
 
+                    <div class="d-flex gap-3 align-items-end flex-wrap">
+                        <div class="col-sm-5">
+                            <div class="d-flex flex-column mr-1">
+                                <label for="0" class="form-label"><strong>Projet</strong></label>
+                                <select  id="0" name="projects"  class="select-type projet  form-control col-sm-12" required  >
+                                    <option value="">&#45;&#45;SELECTIONNER LE PROJET &#45;&#45;</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="d-flex flex-column mr-1">
+                                <label for="stockInitial0" class="form-label"><strong>Stock Actuel </strong></label>
+                                <input type="number" min="0" class="form-control stockInitial" id="stockInitial0" oninput="document.getElementById('stockFinal0').value = (parseInt(this.value ) + parseInt(document.getElementById('qte0').value))" readonly>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="d-flex flex-column mr-2">
+                                <label for="qte0" class="form-label"><strong>Quantité</strong></label>
+                                <input type="number"  class="form-control qte" id="qte0" name="qte" oninput="document.getElementById('stockFinal0').value = (parseInt(this.value ) + parseInt(document.getElementById('stockInitial0').value ))" required>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="d-flex flex-column mr-1">
+                                <label for="stockFinal0" class="form-label"><strong>Stock Corrigé</strong></label>
+                                <input type="number"  class="form-control stockFinal" id="stockFinal0" name="stockFinal0" readonly required>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-1">
+                            <button type="button" class="btn btn-danger btn_remove" name ="remove0" id="remove0" > <i class="fa fa-trash"></i></button>
+                        </div>
+                    </div>
+
+                </form>-->
+               <!-- <form class="d-flex gap-3 align-items-end flex-wrap">
+
+                        <div class="col-sm-5">
+                            <div class="d-flex flex-column mr-1">
+                                <label for="0" class="form-label"><strong>Projet</strong></label>
+                                <select  id="0" name="projects"  class="select-type projet  form-control col-sm-12" required  >
+                                    <option value="">&#45;&#45;SELECTIONNER LE PROJET &#45;&#45;</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="d-flex flex-column mr-1">
+                                <label for="stockInitial0" class="form-label"><strong>Stock Actuel </strong></label>
+                                <input type="number" min="0" class="form-control stockInitial" id="stockInitial0" oninput="document.getElementById('stockFinal0').value = (parseInt(this.value ) + parseInt(document.getElementById('qte0').value))" readonly>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="d-flex flex-column mr-2">
+                                <label for="qte0" class="form-label"><strong>Quantité</strong></label>
+                                <input type="number"  class="form-control qte" id="qte0" name="qte" oninput="document.getElementById('stockFinal0').value = (parseInt(this.value ) + parseInt(document.getElementById('stockInitial0').value ))" required>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="d-flex flex-column mr-1">
+                                <label for="stockFinal0" class="form-label"><strong>Stock Corrigé</strong></label>
+                                <input type="number"  class="form-control stockFinal" id="stockFinal0" name="stockFinal0" readonly required>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-1">
+                            <button type="button" class="btn btn-danger btn_remove" name ="remove0" id="remove0" > <i class="fa fa-trash"></i></button>
+                        </div>
+
+
+
+                </form>-->
+
+                <div  class="form-group row ">
+                    <div class="col-sm-4">
+                        <label for="0" class=" text-sm-right"><strong>Projet</strong></label>
+                        <select  id="0" name="projects"  class="select-type projet  form-control " required  >
+                            <option value="">--SELECTIONNER LE PROJET --</option>
+                        </select>
+                    </div>
+
+
+                    <div class="col-sm-2">
+                          <label for="stockInitial0" class="text-sm-right"><strong>Stock initial</strong></label>
+                        <input type="number" min="0" class="form-control stockInitial" id="stockInitial0" oninput="document.getElementById('stockFinal0').value = (parseInt(this.value ) + parseInt(document.getElementById('qte0').value))" readonly>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <label for="qte0" class="text-sm-right"><strong>Quantité</strong></label>
+                        <input type="number"  class="form-control qte" id="qte0" name="qte" oninput="document.getElementById('stockFinal0').value = (parseInt(this.value ) + parseInt(document.getElementById('stockInitial0').value ))" required>
+                    </div>
+
+
+
+
+                    <div class="col-sm-2">
+                        <label for="stockFinal0" class="text-sm-right"><strong>Stock corrigé</strong></label>
+                        <input type="number"  class="form-control stockFinal" id="stockFinal0" name="stockFinal0" readonly required>
+                    </div>
+
+                    <div class="col-sm-1 ">
+                        <label for="remove0" class="text-sm-right " style="color: white">Bouton</label>
+                        <button type="button" class="btn btn-danger btn_remove" name ="remove0" id="remove0" > <i class="fa fa-trash"></i></button>
+                    </div>
                 </div>
             </div>
 
-            <button id="enregistrer" type="submit" class="btn btn-success float-right">Enregistrer</button>
+            <button id="enregistrer" type="submit" class="btn btn-success float-right ">Enregistrer</button>
 
 
     <!--    </form>-->
@@ -83,7 +213,7 @@
 
         <!--<div id="newinput"></div>-->
 
-        <div class="controls">
+        <div class="controls ">
             <button  class="btn btn-dark" type="button" id="ajouter_champ"><i class="fa fa-plus"></i> </button>
         </div>
 
@@ -121,6 +251,14 @@
 
 <th:block th:include="main/layout/block_script"></th:block>
 <!--<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>-->
+
+<!--<script>
+    $(document).ready(function() {
+        $('.select-type').select2({
+
+        });
+    } );
+</script>-->
 
 <script type="text/javascript" th:inline="javascript">
     //init
@@ -166,21 +304,31 @@
 
         //create form group on form to add on form
         $("#ajouter_champ").click(function () {
-            newRowAdd = '  <div class="form-group row newLine">\n' +
-                '                    <label for="' + i + '" class="col-sm-2 col-form-label text-md-right"><strong>Projet</strong></label>\n' +
-                '                    <select id="' + i + '" name="projects" class="select-type projet form-control col-sm-4" required>\n' +
+            newRowAdd =
+                '  <div class="form-group row newLine">\n' +
+                '            <div class="col-sm-4">\n' +
+                '                    <label for="' + i + '" class="text-sm-right"><strong>Projet</strong></label>\n' +
+                '                    <select id="' + i + '" name="projects" class="select-type projet form-control" required>\n' +
                 '                        <option value="">--SELECTIONNER LE PROJET --</option>\n' +
                 '                    </select>\n' +
+                '             </div>\n' +
+                '             <div class="col-sm-2">\n' +
+                '                    <label for="stockInitial' + i + '" class="text-sm-right"><strong>Stock initial</strong></label>\n' +
+                '                    <input type="number" min="0" class="form-control stockInitial"  oninput="document.getElementById(\'stockFinal' + i + '\').value = (parseInt(this.value) + parseInt(document.getElementById(\'qte' + i + '\').value))"      id="stockInitial' + i + '"  readOnly>\n' +
+                '             </div>\n' +
                 '                  \n' +
-                '                    <div class="col-sm-2">\n' +
-                '                        <input type="number" min="0" class="form-control stockInitial" id="stockInitial' + i + '" th:value="10" readOnly>\n' +
-                '                    </div>\n' +
-                '                  \n' +
-                '                    <div class="col-sm-2">\n' +
-                '                        <input type="number" onkeyup="if(this.value<0){this.value= this.value * -1}" min="0" class="form-control stockFinal" id="stockFinal' + i + '" name="stockFinal" required>\n' +
-                '                    </div>\n' +
-                '                        <button type="button" class="btn btn-danger btn_remove" name ="remove' + i + '" id="' + i + '" > <i class="fa fa-trash"></i></button>\n' +
-                '                    </div>\n' +
+                '            <div class="col-sm-2">\n' +
+                '                     <label for="qte' + i + '" class="text-sm-right"><strong>Quantité</strong></label>\n' +
+                '                      <input type="number" oninput="document.getElementById(\'stockFinal' + i + '\').value = (parseInt(this.value) + parseInt(document.getElementById(\'stockInitial' + i + '\').value))"    class="form-control qte" id="qte' + i + '"  required>\n' +
+                '            </div>\n' +
+                '            <div class="col-sm-2">\n' +
+                '                      <label for="stockFinal' + i + '" class="text-sm-right"><strong>Stock corrigé</strong></label>\n' +
+                '                      <input type="number"  class="form-control stockFinal" id="stockFinal' + i + '"  readOnly>\n' +
+                '            </div>\n' +
+                '            <div class="col-sm-1">\n' +
+                '                            <label for="remove' + i + '" class="text-sm-right " style="color: white">Bouton</label>'+
+                '                           <button type="button" class="btn btn-danger btn_remove" name ="remove' + i + '" id="' + i + '" > <i class="fa fa-trash"></i></button>\n' +
+                '           </div>\n' +
                 '                </div>';
 
             // Increase index
@@ -189,7 +337,7 @@
 
             // Add form group to form
             $('#inventaire_option').append(newRowAdd);
-            $('.select-type').select2();
+            /*$('.select-type').select2();*/
             populateDropdownSelect();
 
         });
@@ -220,6 +368,7 @@
                 //Get value of tag which are class named stock
                 let stockFinal = row.find(".stockFinal").val();
                 let stockInitial = row.find(".stockInitial").val();
+                let qte = row.find(".qte").val();
 
 
 
@@ -229,7 +378,8 @@
                 //Set json object
                 InventaireDetailDto.projet = projets;
                 InventaireDetailDto.stockInitial = stockInitial;
-                InventaireDetailDto.stockFinal =stockFinal;
+                InventaireDetailDto.stockFinal = stockFinal;
+                InventaireDetailDto.qte = qte;
 
                 //add json objet on array object
                // inventaires.push(InventaireDetailDto);
@@ -318,7 +468,13 @@
 
                //let id = "stockInitial";
                let stockInit = "stockInitial" + id;
+               //let stockFinal = "stockFinal" + id;
+               let qte = "qte" + id;
+
+
                document.getElementById(stockInit).value = output;
+               let stockFinal = parseInt(output) + parseInt(document.getElementById(qte).value);
+               document.getElementById("stockFinal" + id).value = stockFinal;
 
                //console.log(i);
                //alert('la quantite est ' + output );
@@ -359,12 +515,6 @@
     });*/
 
 </script>
-<script>
-    $(document).ready(function() {
-        $('.select-type').select2({
 
-        });
-    } );
-</script>
 </body>
 </html>

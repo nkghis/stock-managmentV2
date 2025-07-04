@@ -235,8 +235,8 @@ public class MainController {
                 stockInitial = before.getStock();
             }
 
-            //Calcul du stock final
-            int stockFinal = stockInitial + var.getEntreposage() + var.getRetour() - var.getEnlevement();
+            //Calcul du stock final                                                                         //Ajouter en faveur ajustement
+            int stockFinal = stockInitial + var.getEntreposage() + var.getRetour() - var.getEnlevement() + var.getAjustement();
 
             //Creation du Stock between.
             StockBetween a = new StockBetween();
@@ -249,6 +249,8 @@ public class MainController {
             a.setEnlevement(var.getEnlevement());
             a.setRetour(var.getRetour());
             a.setGache(var.getGache());
+            //Ajouter en faveur ajustement
+            a.setAjustement(var.getAjustement());
             //a retire
             a.setLivraison(a.getEnlevement()-a.getRetour()-a.getGache());
             a.setStockFinal(stockFinal);
